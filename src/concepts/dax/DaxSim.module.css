@@ -1,0 +1,201 @@
+.slicer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.slicerLabel {
+  margin-right: var(--s-1);
+  font-weight: 800;
+}
+
+.slice {
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.slice[aria-pressed='true'] {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.slicerNote {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+/* The matrix and its inspector side by side when the simulator has room, so a click shows its
+   working beside the cell instead of below the fold. The matrix stays in view as the inspector
+   scrolls. Sized by the simulator's width, not the viewport's. */
+.root {
+  container-type: inline-size;
+}
+
+.bench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: start;
+}
+
+@container (min-width: 860px) {
+  .bench {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+
+  .bench > :first-child {
+    position: sticky;
+    top: var(--s-4);
+  }
+}
+
+/* ---------- The matrix: like a Power BI matrix visual ---------- */
+
+.matrixWrap {
+  overflow-x: auto;
+  border: 1px solid var(--exhibit-line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.matrixCaption {
+  padding: var(--s-3);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: left;
+}
+
+.matrix th,
+.matrix td {
+  padding: 4px;
+  border-top: 1px solid var(--line);
+  text-align: right;
+}
+
+.matrix thead th {
+  padding: 8px 12px;
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.matrix th:first-child {
+  padding-left: 12px;
+  text-align: left;
+}
+
+/* Text columns read from the left; numbers stay right-aligned. */
+.matrix [data-text] {
+  padding-inline: 12px;
+  text-align: left;
+}
+
+.matrix tr[data-total] th,
+.matrix tr[data-total] .cell {
+  font-weight: 800;
+}
+
+.matrix tr[data-total] td,
+.matrix tr[data-total] th {
+  border-top: 2px solid var(--line-strong);
+}
+
+.cell {
+  width: 100%;
+  min-width: 72px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font-weight: 600;
+  text-align: right;
+}
+
+.cell:hover {
+  border-color: var(--line-strong);
+}
+
+.cell[aria-pressed='true'] {
+  border-color: var(--indigo);
+  background: var(--indigo-wash);
+  color: var(--indigo-strong);
+  font-weight: 800;
+}
+
+.blank {
+  color: var(--ink-3);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* ---------- Inspector ---------- */
+
+.label {
+  margin: 0 0 var(--s-2);
+  font-weight: 800;
+}
+
+.where {
+  margin: var(--s-2) 0 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.chip[data-kind='set'] {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
+}
+
+.chip[data-kind='any'] {
+  color: var(--ink-2);
+  border-style: dashed;
+}
+
+.chip[data-changed] {
+  border-color: var(--partial);
+  background: var(--partial-wash);
+  color: var(--partial);
+}
+
+.changedTag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+}

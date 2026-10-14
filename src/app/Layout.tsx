@@ -4,20 +4,37 @@
  * reaches the bottom anyway). Settings is the gear in the header.
  */
 import { Suspense, type ComponentType, type SVGProps } from 'react';
-import { Link, NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { ChartIcon, ClockIcon, GearIcon, NoteIcon, StepsIcon, TargetIcon } from '@/ui/icons';
 import styles from './Layout.module.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
-const SECTIONS: { to: string; label: string; icon: Icon; end?: boolean }[] = [
-  { to: '/', label: 'Learn', icon: StepsIcon, end: true },
+interface Section {
+  to: string;
+  label: string;
+  icon: Icon;
+  /** Only the exact path counts (Learn is "/", which every path starts with). */
+  end?: boolean;
+  /** Other pages that belong to this section. */
+  also?: string[];
+}
+const SECTIONS: Section[] = [
+  { to: '/', label: 'Learn', icon: StepsIcon, end: true, also: ['/concepts'] },
   { to: '/practice', label: 'Practice', icon: TargetIcon },
   { to: '/mock', label: 'Mock', icon: ClockIcon },
   { to: '/progress', label: 'Progress', icon: ChartIcon },
   { to: '/workings', label: 'Workings', icon: NoteIcon },
 ];
 
+const under = (pathname: string, base: string) =>
+  pathname === base || pathname.startsWith(`${base}/`);
+
+const inSection = (pathname: string, s: Section) =>
+  (s.end ? pathname === s.to : under(pathname, s.to)) ||
+  (s.also ?? []).some((p) => under(pathname, p));
+
 export function Layout() {
+  const { pathname } = useLocation();
   return (
     <>
       <a className={styles.skip} href="#main">
@@ -29,11 +46,16 @@ export function Layout() {
             PL-300 Prep
           </NavLink>
           <nav aria-label="Main" className={styles.nav}>
-            {SECTIONS.map(({ to, label, icon: Icon, end }) => (
-              <NavLink key={to} to={to} end={end ?? false} className={styles.navLink ?? ''}>
-                <Icon className={styles.navIcon} aria-hidden="true" />
-                <span>{label}</span>
-              </NavLink>
+            {SECTIONS.map((s) => (
+              <Link
+                key={s.to}
+                to={s.to}
+                className={styles.navLink}
+                aria-current={inSection(pathname, s) ? 'page' : undefined}
+              >
+                <s.icon className={styles.navIcon} aria-hidden="true" />
+                <span>{s.label}</span>
+              </Link>
             ))}
           </nav>
           <NavLink to="/settings" className={styles.settings ?? ''} aria-label="Settings">

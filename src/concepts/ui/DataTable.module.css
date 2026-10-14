@@ -1,0 +1,156 @@
+/* Sized by its own width, not the viewport: the same table sits full-width on a phone and in a
+   half-width pair on a desktop. */
+.figure {
+  margin: 0;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+}
+
+.scroll:focus-visible {
+  outline-offset: 2px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  padding: var(--s-3) var(--s-3) var(--s-2);
+  font-size: var(--text-base);
+  font-weight: 800;
+  text-align: left;
+}
+
+.note {
+  display: block;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.table th,
+.table td {
+  padding: 8px 12px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th {
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-weight: 800;
+}
+
+[data-compact] .table th,
+[data-compact] .table td {
+  padding: 6px 10px;
+}
+
+@container (max-width: 420px) {
+  .figure .table th,
+  .figure .table td {
+    padding-inline: 8px;
+  }
+}
+
+@container (max-width: 340px) {
+  .figure .table th,
+  .figure .table td {
+    padding-inline: 6px;
+  }
+}
+
+/* A column the operation created: indigo rule above it and a "new" tag. */
+.table th[data-tone='added'] {
+  box-shadow: inset 0 3px 0 var(--indigo);
+  color: var(--indigo-strong);
+}
+
+.table td[data-tone='added'] {
+  background: color-mix(in srgb, var(--indigo-wash) 55%, transparent);
+}
+
+.tag {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Power Query shows empty cells as "null". */
+.null {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-style: italic;
+}
+
+td[data-null] {
+  background: repeating-linear-gradient(135deg, transparent 0 6px, var(--surface-sunk) 6px 8px);
+}
+
+/* Row states: a tint plus the badge's words. */
+tr[data-state='out'] td,
+tr[data-state='skipped'] td {
+  color: var(--ink-2);
+}
+
+tr[data-state='out'] td:not(.badgeCol) {
+  text-decoration: line-through;
+  text-decoration-color: var(--line-strong);
+}
+
+tr[data-state='in'] td,
+tr[data-state='both'] td,
+tr[data-state='counted'] td {
+  background-color: color-mix(in srgb, var(--ok-wash) 70%, transparent);
+}
+
+tr[data-state='left'] td,
+tr[data-state='right'] td {
+  background-color: color-mix(in srgb, var(--partial-wash) 70%, transparent);
+}
+
+.badgeCol {
+  width: 1%;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.badge[data-state='in'],
+.badge[data-state='both'],
+.badge[data-state='counted'] {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.badge[data-state='left'],
+.badge[data-state='right'] {
+  border-color: var(--partial);
+  color: var(--partial);
+}
+
+.badge[data-state='out'],
+.badge[data-state='skipped'] {
+  color: var(--ink-2);
+}

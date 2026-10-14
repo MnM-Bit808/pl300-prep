@@ -4,6 +4,9 @@
   display: grid;
   place-items: center;
   min-height: 52px;
+  /* Long labels wrap: keep them off the edges and centred line by line. */
+  padding: var(--s-2) var(--s-4);
+  text-align: center;
   border-radius: var(--r-control);
   font-weight: 800;
   font-size: 1.0625rem;

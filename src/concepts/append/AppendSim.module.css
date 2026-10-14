@@ -1,0 +1,45 @@
+.fix {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 44px;
+  font-weight: 700;
+}
+
+.fix input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--indigo);
+}
+
+.fix code,
+.shape code {
+  font-family: var(--font-mono);
+}
+
+/* Before → after, the point of the exercise. */
+.shape {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-left: 4px solid var(--indigo);
+  border-radius: 0 var(--r-control) var(--r-control) 0;
+  background: var(--indigo-wash);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.becomes {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.delta {
+  flex-basis: 100%;
+  color: var(--indigo-strong);
+  font-weight: 800;
+}

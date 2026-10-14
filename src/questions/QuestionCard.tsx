@@ -13,6 +13,7 @@ import { progressText, verdictText } from './labels';
 import { QuestionBody } from './QuestionBody';
 import { scoreAnswer, verdictOf, type Score } from './scoring';
 import { QuestionTools } from '@/workings/QuestionTools';
+import { ConceptLink } from '@/concepts/ConceptLink';
 import { useAttempt } from './useAttempt';
 import styles from './QuestionCard.module.css';
 
@@ -96,6 +97,7 @@ export function QuestionCard({
 
       {revealed && score && <Feedback ref={feedbackRef} question={question} score={score} />}
       {revealed && <QuestionTools questionId={question.id} />}
+      {revealed && <ConceptLink subtopic={question.subtopic} />}
 
       <p className="sr-only" role="status" aria-live="polite">
         {status}

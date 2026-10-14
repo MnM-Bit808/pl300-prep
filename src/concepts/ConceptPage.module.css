@@ -1,0 +1,70 @@
+/* Simulators get the wide stage (like exhibits), not the 720px reading column. */
+.page {
+  --stage: min(1000px, calc(100vw - 2 * var(--gutter)));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  width: var(--stage);
+  margin-left: calc(50% - var(--stage) / 2);
+  padding-bottom: var(--s-6);
+}
+
+.crumbs a {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.head {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 0;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.h2 {
+  margin: 0 0 var(--s-2);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.keep {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rule {
+  line-height: 1.7;
+}
+
+/* The same highlighter as a question's takeaway: the one thing to remember. */
+.mark {
+  padding: 0.1em 0.15em;
+  color: var(--mark-ink);
+  background: linear-gradient(transparent 12%, var(--mark) 12%, var(--mark) 88%, transparent 88%)
+    no-repeat 0 0 / 100% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.actions {
+  display: grid;
+  gap: var(--s-2);
+}
+
+@media (min-width: 640px) {
+  .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

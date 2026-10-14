@@ -173,6 +173,14 @@ export function LearnPage() {
 
       <ReviewStrip />
 
+      <Link to="/concepts" className={styles.concepts}>
+        <span className={styles.conceptsTitle}>Concept simulators</span>
+        <span className={styles.conceptsText}>
+          Join kinds, Append vs Merge, filter context, star vs snowflake: change the inputs and
+          watch what happens.
+        </span>
+      </Link>
+
       <div className={styles.units}>
         {course.units.map((u) => (
           <UnitSection

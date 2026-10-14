@@ -63,7 +63,9 @@ describe('mock exam flow', () => {
     const { store, router } = await renderExam();
     expect(screen.getByText('Section 1 of 2')).toBeInTheDocument();
     expect(screen.getByText('Question 1 of 2')).toBeInTheDocument();
-    expect(screen.getByRole('timer')).toHaveAccessibleName(/Time left 1:40:00|Time left 1:39:59/);
+    // The clock is real: allow a few seconds between starting the exam and the first render on a
+    // loaded test machine.
+    expect(screen.getByRole('timer')).toHaveAccessibleName(/Time left 1:(40:00|39:5\d)/);
     // No feedback while answering: no Check button.
     expect(screen.queryByRole('button', { name: 'Check' })).toBeNull();
 

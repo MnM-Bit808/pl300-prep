@@ -1,0 +1,13 @@
+.link {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border: 1px dashed var(--indigo);
+  border-radius: var(--r-control);
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.link a {
+  color: var(--indigo-strong);
+  font-weight: 800;
+}

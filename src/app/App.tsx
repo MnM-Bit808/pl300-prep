@@ -1,5 +1,7 @@
 import { Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
+import { ConceptPage } from '@/concepts/ConceptPage';
+import { ConceptsPage } from '@/concepts/ConceptsPage';
 import { BankReport } from '@/dev/BankReport';
 import { LearnPage } from '@/learn/LearnPage';
 import { LessonScreen } from '@/learn/LessonScreen';
@@ -24,6 +26,8 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <LearnPage /> },
+      { path: 'concepts', element: <ConceptsPage /> },
+      { path: 'concepts/:id', element: <ConceptPage /> },
       { path: 'practice', element: <PracticePage /> },
       { path: 'mock', element: <MockPage /> },
       { path: 'mock/results/:id', element: <ResultsPage /> },

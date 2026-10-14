@@ -1,0 +1,68 @@
+.page {
+  display: grid;
+  gap: var(--s-4);
+  padding-bottom: var(--s-6);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 0;
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  gap: var(--s-2);
+  height: 100%;
+  padding: var(--s-5);
+  border: 2px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+  transition:
+    border-color 120ms,
+    transform 120ms var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--indigo);
+}
+
+.card:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.cardText {
+  color: var(--ink-2);
+}
+
+.cardMeta {
+  align-self: end;
+  color: var(--indigo-strong);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}

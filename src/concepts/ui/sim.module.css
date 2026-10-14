@@ -1,0 +1,118 @@
+/* Shared layout for the concept simulators. */
+
+.sim {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+/* Inputs side by side when there's room. */
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: start;
+}
+
+@media (min-width: 720px) {
+  .pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* The live readout of what the operation produced. */
+.summary {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-left: 4px solid var(--indigo);
+  border-radius: 0 var(--r-control) var(--r-control) 0;
+  background: var(--indigo-wash);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.callout {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface-sunk);
+}
+
+.callout strong {
+  font-weight: 800;
+}
+
+/* DAX or M as a formula bar. */
+.formula {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.fx {
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  border-right: 1px solid var(--line-strong);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.formula code {
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.muted {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+/* Entrance for a freshly computed result: one short move, answering the reader's action. */
+.result {
+  animation: settle 260ms var(--ease-out);
+}
+
+@keyframes settle {
+  from {
+    opacity: 0.35;
+    translate: 0 6px;
+  }
+}
+
+.selectCell {
+  min-height: 32px;
+  padding: 0 28px 0 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}

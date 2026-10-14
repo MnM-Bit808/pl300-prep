@@ -68,7 +68,7 @@ Each step ends with a review before the next starts.
 7. Mock exam mode. ✅
 8. Progress dashboard. ✅
 9. My workings, export/import, settings. ✅
-10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake).
+10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake). ✅
 11. Offline/PWA install, accessibility pass, end-to-end tests, CI, deploy.
 
 ## Decisions log
@@ -152,3 +152,15 @@ Each step ends with a review before the next starts.
 - **Settings** cover theme, text size (the root font size, since every type token is in rem) and an app-level Reduce motion that applies on top of the device setting. All are stored in localStorage and applied before the first paint. There's no sound setting because the app (like Paath) makes no sound. Storage status shows, with an option to ask the browser to keep data (`navigator.storage.persist()`).
 - **Phone navigation is a bottom tab bar** below 760px (five sections with icon and label); wide screens keep it in the header. Settings is a gear in the header.
 - **Accessibility fix found by tests:** count badges sat flush against button labels, so names read as "Notes2" (also in the lab's format buttons since Step 3). They now read "Notes 2".
+
+### Concept simulators (Step 10)
+
+- **Each simulator is a pure engine plus a view.** `joins`, `append`, `dax` and `schema` each have an `engine.ts` with no React in it, unit-tested against the rules the exam checks: all six join kinds (null keys never match, a repeated key multiplies rows), Append matching columns by name, CALCULATE replacing a filter while KEEPFILTERS intersects, context transition in a calculated column, and the hops a filter takes from the one side to the many side.
+- **Small, hand-made data,** so every number can be checked by eye: four orders and three customers, ten sales rows totalling 1,380. Nothing comes from the question bank, so the simulators can't drift from it or leak an answer.
+- **The view always says what happened in words:** a live summary ("Left outer join: 4 rows: 3 matched, 1 from Orders only"), Kept / Left out badges on every input row, Came from on every result row, and "changed" tags on filters that CALCULATE rewrote. Tint is never the only signal.
+- **The filter context matrix is a set of buttons.** Clicking a cell opens an inspector with the cell's filters, what CALCULATE did to them, and the exact Sales rows counted with the sum written out. Each cell's name reads like a sentence ("Blue, Total: 100"). On wide screens the matrix and inspector sit side by side, the matrix sticky, so the working stays next to the cell.
+- **The schema diagram is SVG with two layouts,** chosen by the simulator's own width (narrow below 600px). It's labelled by its `<title>` and a `<desc>` that spells out the filter's path, so the picture isn't the only place the answer lives. "Flatten into a star" lists the three Power Query steps and moves focus to them, because the button disappears once used.
+- **Loaded on demand.** `concepts/registry.ts` holds each simulator's title, rule and subtopics, and lazy-imports the component, so the four simulators (5–11 kB each) stay out of the main bundle. A concept page links to a 10-question practice run on its subtopic and on to the next simulator.
+- **Questions link to them.** After a question is answered, a "See it working" link appears when its subtopic has a simulator (Merge queries, Append queries, CALCULATE and filter context, calculated columns vs measures, star schema design, relationships). The Learn page has an entry card, and the Learn tab stays current on concept pages.
+- **Tables size to their own box, not the viewport.** Found on a phone: a wide table inside nested `display: grid` blocks set each track to the table's min-content width, and because the stage width uses `100vw`, the page then grew to 732px and held itself there. Every grid in the simulators now uses `minmax(0, 1fr)` tracks; tables scroll inside their own box and tighten their padding with container queries (below 420px and 340px).
+- **Fixed while checking:** shared action buttons had no padding, so a two-line label ran to the edges (now padded and centred everywhere). A checkbox label whose inline `<code>` became separate flex items now wraps as one sentence. Text columns in the matrix align left with their header. An exam-flow test allowed only one second of clock drift and failed once under load; it now allows a few.

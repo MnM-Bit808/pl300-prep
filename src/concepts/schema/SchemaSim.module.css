@@ -1,0 +1,188 @@
+.diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px solid var(--exhibit-line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Relationships ---------- */
+
+.edge {
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+
+/* The filter's path: thick, and one flowing dash run each time the question changes. */
+.edgeHot {
+  stroke: var(--indigo);
+  stroke-width: 4;
+  stroke-dasharray: 10 6;
+  animation: flow 900ms linear 2;
+}
+
+@keyframes flow {
+  from {
+    stroke-dashoffset: 32;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.dirStub {
+  stroke: none;
+}
+
+.arrowHead {
+  fill: var(--ink-3);
+}
+
+.arrowHot {
+  fill: var(--indigo);
+}
+
+.card {
+  fill: var(--ink-2);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* ---------- Tables ---------- */
+
+.box {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+.head {
+  fill: var(--surface-sunk);
+}
+
+.name {
+  fill: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.col {
+  fill: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.col[data-filtered] {
+  fill: var(--indigo-strong);
+  font-weight: 800;
+}
+
+.table[data-state='start'] .box {
+  stroke: var(--indigo);
+  stroke-width: 3;
+}
+
+.table[data-state='start'] .head {
+  fill: var(--indigo);
+}
+
+.table[data-state='start'] .name {
+  fill: var(--on-indigo);
+}
+
+.table[data-state='via'] .box,
+.table[data-state='fact'] .box {
+  stroke: var(--indigo);
+  stroke-width: 2;
+}
+
+.table[data-state='via'] .head,
+.table[data-state='fact'] .head {
+  fill: var(--indigo-wash);
+}
+
+.table[data-state='idle'] {
+  opacity: 0.7;
+}
+
+/* ---------- Key, lists, button ---------- */
+
+.key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.key li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.keyStart,
+.keyVia {
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.keyStart {
+  background: var(--indigo);
+}
+
+.keyVia {
+  border: 2px solid var(--indigo);
+  background: var(--indigo-wash);
+}
+
+.keyEdge {
+  display: inline-block;
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--indigo);
+}
+
+.hops,
+.points {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding-left: 1.3em;
+}
+
+.hops code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.flatten {
+  justify-self: start;
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-weight: 800;
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.flatten:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
