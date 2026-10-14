@@ -24,6 +24,16 @@
   scrollbar-width: none;
 }
 
+/* A swipeable row on phones; with room to spare, every format shows at once. */
+@media (min-width: 760px) {
+  .formats {
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 2px 0 var(--s-2);
+    overflow-x: visible;
+  }
+}
+
 .format {
   display: inline-flex;
   align-items: center;

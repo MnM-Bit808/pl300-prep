@@ -30,7 +30,7 @@ export function ChipGroup<T extends string>({
       <legend className={quietLegend ? 'sr-only' : styles.legend}>{legend}</legend>
       <div className={styles.chips}>
         {options.map((o) => (
-          <label key={o.value} className={styles.chip}>
+          <label key={o.value} className={styles.chip} data-choice>
             <input
               type="radio"
               name={name}

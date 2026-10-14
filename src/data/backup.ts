@@ -5,7 +5,7 @@
  *
  * Problem reports also export on their own, with enough of each question to fix it from.
  */
-import { z } from 'zod';
+import { z } from '@/lib/zod';
 import type { PrefName, Prefs } from '@/app/prefs';
 import type { Bank } from '@/bank/load';
 import type { ExamState } from '@/mock/exam';

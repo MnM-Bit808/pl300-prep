@@ -100,6 +100,12 @@
   font-weight: 700;
 }
 
+/* Looks like the label it was; it's the page's heading for assistive tech. */
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
 .second {
   padding: 2px 10px;
   border: 1px solid var(--partial);

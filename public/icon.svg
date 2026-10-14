@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>PL-300 Prep</title>
+  <!-- Three applied steps rising to a check: the Learn path, as a mark. Kept inside the
+       maskable safe zone (a 205px circle around the centre). -->
+  <rect width="512" height="512" rx="112" fill="#3a3fb0"/>
+  <path d="M160 352 L352 160" stroke="#ffffff" stroke-opacity="0.5" stroke-width="28"
+        stroke-linecap="round" fill="none"/>
+  <circle cx="160" cy="352" r="42" fill="#ffffff"/>
+  <circle cx="256" cy="256" r="42" fill="#ffffff"/>
+  <circle cx="352" cy="160" r="66" fill="#e6f36b"/>
+  <path d="M322 162 L343 183 L382 140" stroke="#2b2f8c" stroke-width="22"
+        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

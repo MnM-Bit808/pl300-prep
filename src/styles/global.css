@@ -195,6 +195,12 @@ button {
   outline-offset: 3px;
 }
 
+/* A page heading takes focus after navigation so screen readers announce it; it isn't a
+   control, so it shows no ring. */
+[data-route-focus]:focus {
+  outline: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -205,6 +211,45 @@ button {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/* ---------- Windows High Contrast (forced colours) ----------
+   Forced colours drop backgrounds and shadows, and those are how this app draws a selection and a
+   progress fill, so both would vanish. Redraw them in the system's own selection colour.
+   [data-choice] marks a label that is the visible control for a hidden input. */
+@media (forced-colors: active) {
+  /* Opt the selected control out of forced mode (otherwise text gets a Canvas backplate and turns
+     into a dark box on Highlight) and paint it, and everything inside it, in the selection pair. */
+  :is(
+    [data-choice]:has(input:checked),
+    [data-chosen],
+    [aria-pressed='true'],
+    [aria-selected='true'],
+    [aria-current='page']
+  ) {
+    forced-color-adjust: none;
+    border-color: Highlight !important;
+    background: Highlight !important;
+    color: HighlightText !important;
+  }
+
+  :is(
+      [data-choice]:has(input:checked),
+      [data-chosen],
+      [aria-pressed='true'],
+      [aria-selected='true'],
+      [aria-current='page']
+    )
+    * {
+    border-color: HighlightText !important;
+    background-color: transparent !important;
+    color: HighlightText !important;
+  }
+
+  [data-fill] {
+    forced-color-adjust: none;
+    background: Highlight !important;
+  }
 }
 
 .loading {

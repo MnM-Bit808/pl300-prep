@@ -53,7 +53,7 @@ export function StatsStrip() {
           aria-valuemax={xp.goal}
           aria-valuenow={Math.min(xp.daily.xp, xp.goal)}
         >
-          <span style={{ width: `${goalPct * 100}%` }} />
+          <span data-fill style={{ width: `${goalPct * 100}%` }} />
         </div>
       </div>
     </section>

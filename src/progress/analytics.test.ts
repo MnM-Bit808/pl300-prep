@@ -1,5 +1,5 @@
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import type { AttemptRecord } from '@/storage/db';
 import { analyse, bandFor, HALF_LIFE_DAYS, recencyWeight } from './analytics';
 import { emptyProgress, type MockRecord, type ProgressDoc } from './store';

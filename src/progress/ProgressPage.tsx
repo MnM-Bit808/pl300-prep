@@ -21,6 +21,7 @@ import { useAttemptLog, useProgress } from './hooks';
 import { ScoreTrend } from './ScoreTrend';
 import { localDay, rollDay } from './xp';
 import styles from './ProgressPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 const BAND_TEXT: Record<Band, string> = {
   'on-track': 'On track to pass',
@@ -31,6 +32,7 @@ const BAND_TEXT: Record<Band, string> = {
 const pct = (n: number) => `${Math.round(n * 100)}%`;
 
 export function ProgressPage() {
+  useDocumentTitle('Progress');
   const bank = useBank();
   const doc = useProgress();
   const log = useAttemptLog();
@@ -120,7 +122,7 @@ export function ProgressPage() {
           </p>
           <p className={styles.tileLabel}>questions answered at least once</p>
           <span className={styles.meter} aria-hidden="true">
-            <span style={{ width: pct(a.seen / a.total) }} />
+            <span data-fill style={{ width: pct(a.seen / a.total) }} />
           </span>
         </div>
         <div className={styles.tile}>
@@ -164,6 +166,7 @@ export function ProgressPage() {
                 >
                   <span
                     className={styles.fill}
+                    data-fill
                     style={{ width: t.mastery === null ? 0 : pct(t.mastery) }}
                   />
                   <span className={styles.passLine} style={{ left: `${PASS_MARK / 10}%` }} />

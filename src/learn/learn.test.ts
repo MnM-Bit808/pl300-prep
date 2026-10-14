@@ -1,5 +1,5 @@
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import { emptyProgress, type ProgressDoc } from '@/progress/store';
 import { buildCourse, cutPoints, lessonTitle } from './course';
 import { lessonState, upNext } from './rules';

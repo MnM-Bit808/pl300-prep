@@ -2,6 +2,7 @@ import { use, useEffect, useMemo, useState } from 'react';
 import { bankAssetUrl, loadBank } from '@/bank/load';
 import { bankStats } from '@/bank/stats';
 import styles from './BankReport.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 type ImageState = 'loading' | 'ok' | 'failed';
 
@@ -40,6 +41,7 @@ function CountTable({ title, rows }: { title: string; rows: Record<string, numbe
 }
 
 export function BankReport() {
+  useDocumentTitle('Bank check');
   const bank = use(loadBank());
   const stats = useMemo(() => bankStats(bank.questions, bank.cases), [bank]);
 
@@ -61,7 +63,7 @@ export function BankReport() {
   const done = ok + failed.length === srcs.length;
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <header className={styles.header}>
         <p className={styles.eyebrow}>Developer check</p>
         <h1>Question bank</h1>
@@ -107,6 +109,6 @@ export function BankReport() {
           ))}
         </ul>
       </section>
-    </main>
+    </div>
   );
 }

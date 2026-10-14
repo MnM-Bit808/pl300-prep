@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import { QuestionCard } from './QuestionCard';
 
 const bank = buildBank(rawBank);

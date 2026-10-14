@@ -9,16 +9,16 @@
 
 ## Stack
 
-| Concern         | Choice                                                                          | Why                                                                                               |
-| --------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| UI              | React 19 + TypeScript (strict)                                                  | Component model fits five renderers, case panel and simulators; types catch answer-shape mistakes |
-| Build           | Vite                                                                            | Fast dev loop, static output for Cloudflare Pages                                                 |
-| Bank validation | Zod schemas + pure rule checks                                                  | One validator for both the build-time CLI and the browser                                         |
-| Styling         | CSS Modules over design tokens (`src/styles/global.css`)                        | Scoped styles, theming through custom properties, no runtime cost                                 |
-| Tests           | Vitest + Testing Library (unit, component); Playwright (end-to-end, later step) |                                                                                                   |
-| Storage         | IndexedDB for history, notes and reports; localStorage for settings             | History grows; settings must be readable synchronously before first paint                         |
-| Offline         | Service worker via vite-plugin-pwa (polish step)                                | Precache shell, bank and exhibits                                                                 |
-| Hosting         | Cloudflare Pages via wrangler                                                   | Same as Paath                                                                                     |
+| Concern         | Choice                                                                         | Why                                                                                               |
+| --------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| UI              | React 19 + TypeScript (strict)                                                 | Component model fits five renderers, case panel and simulators; types catch answer-shape mistakes |
+| Build           | Vite                                                                           | Fast dev loop, static output for Cloudflare Pages                                                 |
+| Bank validation | Zod schemas + pure rule checks                                                 | One validator for both the build-time CLI and the browser                                         |
+| Styling         | CSS Modules over design tokens (`src/styles/global.css`)                       | Scoped styles, theming through custom properties, no runtime cost                                 |
+| Tests           | Vitest + Testing Library (unit, component); Playwright + axe-core (end-to-end) | Engines and components in jsdom; real browsers for flows, offline, keyboard and accessibility     |
+| Storage         | IndexedDB for history, notes and reports; localStorage for settings            | History grows; settings must be readable synchronously before first paint                         |
+| Offline         | Service worker via vite-plugin-pwa (Workbox)                                   | Precache shell, bank and exhibits                                                                 |
+| Hosting         | Cloudflare Pages via wrangler                                                  | Same as Paath                                                                                     |
 
 ## Content pipeline
 
@@ -28,31 +28,41 @@ pl300-bank/questions/all_questions.json ──► src/bank/schema.ts   (structur
                                                  │
                     ┌────────────────────────────┴───────────────────┐
          npm run check:bank (build gate)                 src/bank/load.ts (runtime)
-         + image files exist on disk                     dynamic import, separate chunk;
-         exits 1 on any error                            invalid questions skipped and logged
+         + image files exist on disk                     dynamic import of the JSON and of
+         exits 1 on any error                            build.ts (Zod) together, off the main
+                                                         bundle; invalid questions skipped, logged
 
 pl300-bank/images/**  ──► vite/bank-assets.ts ──► /bank/images/** (dev middleware, copied into dist)
 ```
 
 Validation policy: a question that breaks a rule is dropped and logged as an error; everything else still loads. Unknown fields and header-count mismatches are warnings.
 
-## Planned source layout
+## Source layout
 
 ```
 src/
-  app/          shell, routing, providers
-  bank/         schema, validation, loading, stats
+  app/          routes, site frame, page titles, focus on navigation, fallbacks, display prefs
+  bank/         constants, schema (Zod), validation, building, loading, stats
   questions/    one renderer per type, shared answer model and scoring
+  quiz/         the focus-mode runner shared by lessons and practice
   exhibits/     image thumbnail + zoom/pan viewer
-  case/         case-study panel
-  learn/        units, lessons, XP, streaks
-  practice/     practice, mistakes, spaced repetition, flashcards
-  mock/         timed exam, sections, results, history
-  progress/     dashboard, mastery, readiness
-  workings/     notes, flags, reports, export/import
-  simulators/   interactive concept simulators
-  storage/      IndexedDB access, migrations
+  case/         case-study panel and tabs
+  learn/        course, lessons, Learn page
+  practice/     practice, review queues, spaced repetition, flashcards
+  mock/         exam builder and reducer, timed exam, results
+  progress/     progress store, XP and streaks, analytics, dashboard
+  workings/     notes, flags, reports
+  data/         backup and restore
+  settings/     settings page
+  concepts/     the four simulators: engines, views, pages
+  pwa/          service worker registration, update prompt, install
+  storage/      IndexedDB access with an in-memory fallback
+  lab/ dev/     question lab and bank check (developer pages)
+  lib/ ui/      shared helpers and components
   styles/       tokens and global styles
+e2e/            Playwright specs (phone and desktop)
+scripts/        check-bank, publish
+vite/           bank assets plugin, security headers
 ```
 
 ## Build order
@@ -69,7 +79,7 @@ Each step ends with a review before the next starts.
 8. Progress dashboard. ✅
 9. My workings, export/import, settings. ✅
 10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake). ✅
-11. Offline/PWA install, accessibility pass, end-to-end tests, CI, deploy.
+11. Offline/PWA install, accessibility pass, end-to-end tests, CI, deploy. ✅ (deploy tooling ready; the first upload waits for approval)
 
 ## Decisions log
 
@@ -164,3 +174,16 @@ Each step ends with a review before the next starts.
 - **Questions link to them.** After a question is answered, a "See it working" link appears when its subtopic has a simulator (Merge queries, Append queries, CALCULATE and filter context, calculated columns vs measures, star schema design, relationships). The Learn page has an entry card, and the Learn tab stays current on concept pages.
 - **Tables size to their own box, not the viewport.** Found on a phone: a wide table inside nested `display: grid` blocks set each track to the table's min-content width, and because the stage width uses `100vw`, the page then grew to 732px and held itself there. Every grid in the simulators now uses `minmax(0, 1fr)` tracks; tables scroll inside their own box and tighten their padding with container queries (below 420px and 340px).
 - **Fixed while checking:** shared action buttons had no padding, so a two-line label ran to the edges (now padded and centred everywhere). A checkbox label whose inline `<code>` became separate flex items now wraps as one sentence. Text columns in the matrix align left with their header. An exam-flow test allowed only one second of clock drift and failed once under load; it now allows a few.
+
+### Offline, accessibility, tests and deploy (Step 11)
+
+- **Every page but Learn is its own chunk**, loaded through React Router's `lazy` routes, and Zod moved off the start-up path: bank constants live in `bank/constants.ts`, and validation (`bank/build.ts`) is fetched together with the questions. React and the router sit in their own chunk, which changes far less often than the app. The start-up JavaScript went from one 612 kB file to 36 kB of app code plus 315 kB of React and the router (112 kB gzipped together).
+- **Installable and offline.** vite-plugin-pwa generates the manifest, the icons (from `public/icon.svg`, an original mark) and a Workbox service worker that precaches all 186 files (2.3 MB, every exhibit included), so a mock exam works with no connection. Updates wait for the learner: a note offers Reload, and it appears only in the site frame, never during a lesson or exam. The first install claims the open tab, so it is offline-ready straight away. Settings shows offline status and an Install button where the browser offers one, with Add to Home Screen steps for iPhone.
+- **A bug the end-to-end tests caught:** the manifest was listed twice in the precache with different revisions. Workbox rejects the whole list when that happens, inside a promise, so the worker installed and activated normally and cached nothing. The offline test now checks that the cache holds the shell and all 94 exhibits.
+- **One set of security headers** (`vite/headers.ts`) becomes `dist/_headers` for Cloudflare Pages and is also sent by `vite preview`, so the end-to-end tests run under the production CSP: `'self'` only, no inline script or style, no eval. Zod runs `jitless` for that reason, through `lib/zod.ts`; a lint rule blocks importing `zod` directly. Hashed assets are cached for a year; the service worker and manifest are always revalidated.
+- **Navigation is announced.** Each page sets its title. After moving to another page, focus goes to its `<h1>` (unless the page placed focus itself, as the exam does) and scroll resets. Focus-mode screens gained a real `<h1>`, visually unchanged. Unknown paths get a Page not found page, and a failed chunk load explains itself and offers Reload instead of React Router's developer screen.
+- **Accessibility pass, and what it found.** axe-core (WCAG 2.2 A and AA plus best practices) runs on every page in light and dark, and on the interactive states: an answered question, the exhibit viewer, the case panel, the exam and its question map, flashcards and the simulators. It found grey `null` and `blank` text under 4.5:1 on tinted cells, `aria-label` on elements with no role (the hearts count, the note preview), a `<main>` inside `<main>` on the bank page, and simulator headings that skipped a level. Keyboard specs check the skip link, focus after navigation, a visible ring on every tab stop, answering by keyboard, and Escape returning focus.
+- **Windows High Contrast.** Forced colours remove backgrounds, and selection here is drawn with backgrounds, so chosen answers, chips, settings and the current tab all looked unselected. `global.css` now redraws every selected state (`aria-pressed`, `aria-selected`, `aria-current`, `data-chosen`, and labels marked `data-choice` whose input is checked) and every progress fill in the system Highlight colours. A test fails if that is removed.
+- **End-to-end suite (Playwright):** 160 tests across a 375px phone and a 1280px desktop, against the production build. They cover the brief's acceptance checks: all 440 questions and 94 exhibits load; each type scores; case tabs and exhibit; a full mock that locks section 1, scores by domain, and submits itself when the (fast-forwarded) clock runs out; progress, notes and reports surviving a reload and a backup, wipe and restore round trip; and every page fitting a phone with no sideways scroll. Every test also fails on any console error, failed request or CSP violation.
+- **CI** (`.github/workflows/ci.yml`) runs format, lint, typecheck, unit tests, the build (which validates the bank) and the end-to-end suite on Chromium, and keeps the Playwright report.
+- **Deploy** mirrors Paath: `wrangler.toml` plus `scripts/publish.ts`, which builds, checks `dist/` (shell, worker, manifest, headers, icons and every exhibit present; no source maps, Markdown or raw bank files), then uploads with `wrangler pages deploy` to `main` or the `test` preview branch. `npm run deploy:check` does everything but upload.

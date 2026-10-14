@@ -12,6 +12,7 @@ import { lessonTitle, type Lesson, type Unit } from './course';
 import { lessonState, unitDone, upNext, type LessonState } from './rules';
 import { useCourse } from './useCourse';
 import styles from './LearnPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;
 
@@ -91,7 +92,7 @@ function UnitSection({ unit, open }: { unit: Unit; open: boolean }) {
             <span className="sr-only"> lessons done</span>
           </span>
           <span className={styles.unitBar} aria-hidden="true">
-            <span style={{ width: `${(done / total) * 100}%` }} />
+            <span data-fill style={{ width: `${(done / total) * 100}%` }} />
           </span>
         </span>
       </summary>
@@ -132,6 +133,7 @@ function ReviewStrip() {
 }
 
 export function LearnPage() {
+  useDocumentTitle('Learn');
   const { course } = useCourse();
   const doc = useProgress();
   const next = upNext(course, doc);

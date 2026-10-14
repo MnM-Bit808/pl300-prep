@@ -3,8 +3,10 @@ import { Link } from 'react-router';
 import { useBank } from '@/bank/useBank';
 import { CONCEPTS } from './registry';
 import styles from './ConceptsPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 export function ConceptsPage() {
+  useDocumentTitle('Concept simulators');
   const bank = useBank();
   return (
     <div className={styles.page}>

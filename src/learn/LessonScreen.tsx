@@ -14,11 +14,13 @@ import { lessonTitle, type Lesson } from './course';
 import { isUnlocked } from './rules';
 import { useCourse } from './useCourse';
 import styles from './LessonScreen.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 export function LessonScreen() {
   const { lessonId = '' } = useParams();
   const { course } = useCourse();
   const lesson = course.lessonById.get(lessonId);
+  useDocumentTitle(lesson ? lessonTitle(lesson) : 'Lesson not found');
   const [run, setRun] = useState(0);
 
   if (!lesson) {

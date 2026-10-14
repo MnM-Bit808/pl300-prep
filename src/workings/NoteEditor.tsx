@@ -83,7 +83,13 @@ export function NoteEditor({ label, value, onSave, autoFocus = false }: Props) {
           onBlur={save}
         />
       ) : (
-        <div id={id} className={styles.preview} tabIndex={0} aria-label={`${label}, preview`}>
+        <div
+          id={id}
+          className={styles.preview}
+          role="region"
+          tabIndex={0}
+          aria-label={`${label}, preview`}
+        >
           {text.trim() ? (
             <Markdown source={text} />
           ) : (

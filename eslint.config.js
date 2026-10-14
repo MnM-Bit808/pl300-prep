@@ -5,7 +5,17 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'dev-dist', 'coverage', 'pl300-bank'] },
+  {
+    ignores: [
+      'dist',
+      'dev-dist',
+      'coverage',
+      'pl300-bank',
+      'test-results',
+      'playwright-report',
+      'blob-report',
+    ],
+  },
   {
     files: ['**/*.{ts,tsx}'],
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
@@ -14,6 +24,18 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'zod',
+              message: "Import { z } from '@/lib/zod': it's configured to run without eval (CSP).",
+            },
+          ],
+        },
+      ],
     },
   },
+  { files: ['src/lib/zod.ts'], rules: { 'no-restricted-imports': 'off' } },
 );

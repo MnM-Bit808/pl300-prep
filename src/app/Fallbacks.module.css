@@ -1,0 +1,24 @@
+.page {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 34rem;
+  margin: 0 auto;
+  padding-block: var(--s-6);
+}
+
+/* Outside the site frame, so it brings its own gutter. */
+.standalone {
+  padding-inline: var(--gutter);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.text {
+  margin: 0;
+  color: var(--ink-2);
+}

@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { Suspense } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import { ProgressProvider } from '@/progress/ProgressProvider';
 import { ProgressStore } from '@/progress/store';
 import { QuestionCard } from '@/questions/QuestionCard';

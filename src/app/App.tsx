@@ -1,75 +1,103 @@
-import { Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router';
-import { ConceptPage } from '@/concepts/ConceptPage';
-import { ConceptsPage } from '@/concepts/ConceptsPage';
-import { BankReport } from '@/dev/BankReport';
+/**
+ * Routes. Learn (the home page) and the site frame ship in the main bundle; every other page is
+ * its own chunk, fetched when first visited and precached for offline use by the service worker.
+ */
+import { Suspense, type ReactNode } from 'react';
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  ScrollRestoration,
+  type RouteObject,
+} from 'react-router';
 import { LearnPage } from '@/learn/LearnPage';
-import { LessonScreen } from '@/learn/LessonScreen';
-import { QuestionLab } from '@/lab/QuestionLab';
-import { ExamScreen } from '@/mock/ExamScreen';
-import { MockPage } from '@/mock/MockPage';
-import { ResultsPage } from '@/mock/ResultsPage';
-import { FlashcardsPage } from '@/practice/FlashcardsPage';
-import { PracticePage } from '@/practice/PracticePage';
-import { PracticeRun } from '@/practice/PracticeRun';
-import { ProgressPage } from '@/progress/ProgressPage';
 import { ProgressProvider } from '@/progress/ProgressProvider';
-import { SettingsPage } from '@/settings/SettingsPage';
-import { WorkingsPage } from '@/workings/WorkingsPage';
+import { Loading, NotFound, RouteError } from './Fallbacks';
 import { Layout } from './Layout';
+import { RouteFocus } from './RouteFocus';
 
-const loading = <p className="loading">Loading questions…</p>;
+type Lazy = NonNullable<RouteObject['lazy']>;
+/** Every page and screen takes no props. */
+type Page = () => ReactNode;
+
+/** A page inside the site frame (the frame provides the Suspense boundary). */
+const page =
+  <K extends string>(load: () => Promise<Record<K, Page>>, name: K): Lazy =>
+  async () => ({ Component: (await load())[name] });
+
+/** A focus-mode screen, outside the frame: it brings its own Suspense for the question bank. */
+const screen =
+  <K extends string>(load: () => Promise<Record<K, Page>>, name: K): Lazy =>
+  async () => {
+    const Screen: Page = (await load())[name];
+    return {
+      Component: () => (
+        <Suspense fallback={<p className="loading">Loading questions…</p>}>
+          <Screen />
+        </Suspense>
+      ),
+    };
+  };
+
+function Root() {
+  return (
+    <>
+      <ScrollRestoration />
+      <Outlet />
+      {/* After the page, so a page that places focus itself has already done so. */}
+      <RouteFocus />
+    </>
+  );
+}
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Layout />,
+    Component: Root,
+    HydrateFallback: Loading,
+    errorElement: <RouteError />,
     children: [
-      { index: true, element: <LearnPage /> },
-      { path: 'concepts', element: <ConceptsPage /> },
-      { path: 'concepts/:id', element: <ConceptPage /> },
-      { path: 'practice', element: <PracticePage /> },
-      { path: 'mock', element: <MockPage /> },
-      { path: 'mock/results/:id', element: <ResultsPage /> },
-      { path: 'progress', element: <ProgressPage /> },
-      { path: 'workings', element: <WorkingsPage /> },
-      { path: 'settings', element: <SettingsPage /> },
-      { path: 'lab', element: <QuestionLab /> },
-      { path: 'dev/bank', element: <BankReport /> },
+      {
+        path: '/',
+        Component: Layout,
+        children: [
+          { index: true, Component: LearnPage },
+          {
+            path: 'concepts',
+            lazy: page(() => import('@/concepts/ConceptsPage'), 'ConceptsPage'),
+          },
+          {
+            path: 'concepts/:id',
+            lazy: page(() => import('@/concepts/ConceptPage'), 'ConceptPage'),
+          },
+          { path: 'practice', lazy: page(() => import('@/practice/PracticePage'), 'PracticePage') },
+          { path: 'mock', lazy: page(() => import('@/mock/MockPage'), 'MockPage') },
+          {
+            path: 'mock/results/:id',
+            lazy: page(() => import('@/mock/ResultsPage'), 'ResultsPage'),
+          },
+          { path: 'progress', lazy: page(() => import('@/progress/ProgressPage'), 'ProgressPage') },
+          { path: 'workings', lazy: page(() => import('@/workings/WorkingsPage'), 'WorkingsPage') },
+          { path: 'settings', lazy: page(() => import('@/settings/SettingsPage'), 'SettingsPage') },
+          { path: 'lab', lazy: page(() => import('@/lab/QuestionLab'), 'QuestionLab') },
+          { path: 'dev/bank', lazy: page(() => import('@/dev/BankReport'), 'BankReport') },
+          { path: '*', Component: NotFound },
+        ],
+      },
+      // Lessons, practice runs, the exam and flashcards run in focus mode, outside the frame.
+      {
+        path: '/learn/:lessonId',
+        lazy: screen(() => import('@/learn/LessonScreen'), 'LessonScreen'),
+      },
+      {
+        path: '/practice/run',
+        lazy: screen(() => import('@/practice/PracticeRun'), 'PracticeRun'),
+      },
+      { path: '/mock/exam', lazy: screen(() => import('@/mock/ExamScreen'), 'ExamScreen') },
+      {
+        path: '/practice/cards',
+        lazy: screen(() => import('@/practice/FlashcardsPage'), 'FlashcardsPage'),
+      },
     ],
-  },
-  // Lessons, practice runs and flashcards run in focus mode, outside the site layout.
-  {
-    path: '/learn/:lessonId',
-    element: (
-      <Suspense fallback={loading}>
-        <LessonScreen />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/practice/run',
-    element: (
-      <Suspense fallback={loading}>
-        <PracticeRun />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/mock/exam',
-    element: (
-      <Suspense fallback={loading}>
-        <ExamScreen />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/practice/cards',
-    element: (
-      <Suspense fallback={loading}>
-        <FlashcardsPage />
-      </Suspense>
-    ),
   },
 ]);
 

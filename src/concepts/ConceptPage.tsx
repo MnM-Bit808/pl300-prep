@@ -7,11 +7,13 @@ import buttons from '@/ui/buttons.module.css';
 import { conceptById, CONCEPTS } from './registry';
 import sim from './ui/sim.module.css';
 import styles from './ConceptPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 export function ConceptPage() {
   const { id = '' } = useParams();
   const bank = useBank();
   const concept = conceptById.get(id);
+  useDocumentTitle(concept ? `${concept.title} simulator` : 'Simulator not found');
   if (!concept) {
     return (
       <div className={styles.page}>

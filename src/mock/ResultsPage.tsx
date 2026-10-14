@@ -20,6 +20,7 @@ import { QuestionTools } from '@/workings/QuestionTools';
 import { EXAM_DOMAINS, PASS_MARK } from './build';
 import { fullyCorrect, scoreQuestions, type QuestionResult } from './score';
 import styles from './ResultsPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 type Filter = 'all' | 'missed' | 'marked';
 
@@ -27,6 +28,7 @@ export function ResultsPage() {
   const { id } = useParams();
   const doc = useProgress();
   const record = doc.mocks.find((m) => m.id === id);
+  useDocumentTitle(record ? 'Mock exam result' : 'Result not found');
   if (!record) {
     return (
       <div className={styles.page}>
@@ -119,7 +121,7 @@ function Results({ record }: { record: MockRecord }) {
                   aria-label={`${UNIT_INFO[d].title}: ${Math.round(pct * 100)}%, ${round1(marks)} of ${total} marks`}
                   title={`${round1(marks)} of ${total} marks`}
                 >
-                  <span className={styles.fill} style={{ width: `${pct * 100}%` }} />
+                  <span className={styles.fill} data-fill style={{ width: `${pct * 100}%` }} />
                   <span className={styles.passLine} style={{ left: `${PASS_MARK / 10}%` }} />
                 </span>
               </li>
@@ -192,7 +194,7 @@ const round1 = (n: number) => (Math.round(n * 10) / 10).toLocaleString();
 function ScoreScale({ value }: { value: number }) {
   return (
     <div className={styles.scale} aria-hidden="true">
-      <span className={styles.scaleFill} style={{ width: `${value / 10}%` }} />
+      <span className={styles.scaleFill} data-fill style={{ width: `${value / 10}%` }} />
       <span className={styles.scalePass} style={{ left: `${PASS_MARK / 10}%` }}>
         <span>{PASS_MARK}</span>
       </span>

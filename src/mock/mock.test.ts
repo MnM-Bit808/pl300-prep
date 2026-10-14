@@ -1,5 +1,5 @@
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import type { QuestionOf } from '@/bank/schema';
 import { seededRandom } from '@/lib/random';
 import { apportion, buildMock, examDomain, MOCK_MINUTES, MOCK_SIZE } from './build';

@@ -5,18 +5,10 @@
  * parsed on load. Structural checks live here; cross-field rules (answer ids exist, counts match,
  * case references resolve) live in validate.ts.
  */
-import { z } from 'zod';
+import { z } from '../lib/zod';
+import { DOMAINS, type QuestionType } from './constants';
 
-export const DOMAINS = ['prepare', 'model', 'visualize', 'manage', 'case'] as const;
-export const QUESTION_TYPES = ['single', 'multi', 'yesno', 'order', 'dropdown'] as const;
-
-export const ID_PREFIX = {
-  prepare: 'PRE',
-  model: 'MOD',
-  visualize: 'VIS',
-  manage: 'MAN',
-  case: 'CASE',
-} as const satisfies Record<(typeof DOMAINS)[number], string>;
+export { DOMAINS, ID_PREFIX, QUESTION_TYPES, type Domain, type QuestionType } from './constants';
 
 const nonEmpty = z.string().trim().min(1);
 
@@ -105,8 +97,6 @@ export const BankFileSchema = z.object({
   cases: z.array(z.unknown()).default([]),
 });
 
-export type Domain = (typeof DOMAINS)[number];
-export type QuestionType = (typeof QUESTION_TYPES)[number];
 export type BankImage = z.infer<typeof ImageSchema>;
 export type Question = z.infer<typeof QuestionSchema>;
 export type QuestionOf<T extends QuestionType> = Extract<Question, { type: T }>;

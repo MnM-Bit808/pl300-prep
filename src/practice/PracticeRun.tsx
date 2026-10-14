@@ -18,6 +18,7 @@ import buttons from '@/ui/buttons.module.css';
 import { parseFilter, parseLength } from './query';
 import { dueIds, filterQuestions, flaggedIds, mistakeIds, rankForPractice } from './select';
 import styles from './PracticeRun.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 /** Longest review or mistakes run; the rest wait for the next one. */
 const REVIEW_CAP = 20;
@@ -34,6 +35,7 @@ export function PracticeRun() {
   const [params] = useSearchParams();
   const raw = params.get('mode');
   const mode: Mode = raw === 'review' || raw === 'mistakes' || raw === 'flagged' ? raw : 'custom';
+  useDocumentTitle(TITLES[mode]);
   const [run, setRun] = useState(0);
   return (
     <Run

@@ -5,6 +5,7 @@
  */
 import { Suspense, type ComponentType, type SVGProps } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
+import { UpdatePrompt } from '@/pwa/UpdatePrompt';
 import { ChartIcon, ClockIcon, GearIcon, NoteIcon, StepsIcon, TargetIcon } from '@/ui/icons';
 import styles from './Layout.module.css';
 
@@ -73,6 +74,7 @@ export function Layout() {
         <Link to="/dev/bank">Bank check</Link>
         <span>Not affiliated with Microsoft. All questions are original.</span>
       </footer>
+      <UpdatePrompt />
     </>
   );
 }

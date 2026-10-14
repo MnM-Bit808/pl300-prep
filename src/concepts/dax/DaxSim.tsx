@@ -207,9 +207,9 @@ function MeasuresView() {
         </div>
 
         <section className={sim.panel} aria-labelledby="inspect">
-          <h3 id="inspect" className={sim.panelTitle}>
+          <h2 id="inspect" className={sim.panelTitle}>
             {cellName}: {fmt(evaluation.value, share) ?? 'blank'}
-          </h3>
+          </h2>
           <p className="sr-only" role="status" aria-live="polite">
             {cellName}: {fmt(evaluation.value, share) ?? 'blank'}.
           </p>
@@ -307,9 +307,9 @@ function ColumnsView() {
         </div>
 
         <section className={sim.panel} aria-labelledby="inspect-col">
-          <h3 id="inspect-col" className={sim.panelTitle}>
+          <h2 id="inspect-col" className={sim.panelTitle}>
             {product}: {columnValue(def, row).toLocaleString()}
-          </h3>
+          </h2>
           <p className="sr-only" role="status" aria-live="polite">
             {product}: {columnValue(def, row).toLocaleString()}.
           </p>

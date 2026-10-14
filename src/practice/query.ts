@@ -1,6 +1,6 @@
 /** The practice filter in the URL (?domain=&topic=&subtopic=&d=1,3&n=20), shared by the hub,
  * practice runs and flashcards so every view of a selection is linkable. */
-import { DOMAINS, type Domain } from '@/bank/schema';
+import { DOMAINS, type Domain } from '@/bank/constants';
 import type { PracticeFilter } from './select';
 
 const FILTER_KEYS = ['domain', 'topic', 'subtopic', 'd'] as const;

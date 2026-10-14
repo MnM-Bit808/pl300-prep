@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Suspense } from 'react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import type { QuestionOf } from '@/bank/schema';
 import { ProgressProvider } from '@/progress/ProgressProvider';
 import { ProgressStore } from '@/progress/store';
@@ -49,7 +49,7 @@ describe('practice runs', () => {
       s.recordAnswer(q.id, { earned: 0, possible: 1 }, 'lesson'),
     );
     expect(store.getSnapshot().srs[q.id]).toEqual({ box: 1, due: '2026-10-15' });
-    expect(screen.queryByLabelText(/hearts left/)).toBeNull(); // practice has no hearts
+    expect(screen.queryByText(/hearts left/)).toBeNull(); // practice has no hearts
 
     pickOption(q.options.find((o) => o.id === q.answer)!.text);
     fireEvent.click(screen.getByRole('button', { name: 'Check' }));

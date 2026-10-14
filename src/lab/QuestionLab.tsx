@@ -5,13 +5,14 @@
  */
 import { useMemo, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router';
-import { QUESTION_TYPES, type QuestionType } from '@/bank/schema';
+import { QUESTION_TYPES, type QuestionType } from '@/bank/constants';
 import { useBank } from '@/bank/useBank';
 import { CaseFrame } from '@/case/CaseFrame';
 import { FORMAT_LABEL } from '@/questions/labels';
 import { QuestionCard } from '@/questions/QuestionCard';
 import { ArrowLeftIcon, ArrowRightIcon } from '@/ui/icons';
 import styles from './QuestionLab.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 /** Start each format on a question that exercises the most: exhibits, code, distractors. */
 type Group = QuestionType | 'case';
@@ -30,6 +31,7 @@ const SAMPLES: Record<Group, string> = {
 const isGroup = (v: string | null): v is Group => GROUPS.includes(v as Group);
 
 export function QuestionLab() {
+  useDocumentTitle('Question lab');
   const bank = useBank();
   const [params, setParams] = useSearchParams();
   const [jump, setJump] = useState('');

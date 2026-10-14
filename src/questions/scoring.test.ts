@@ -1,5 +1,5 @@
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import type { Question, QuestionOf, QuestionType } from '@/bank/schema';
 import { emptyAnswer, isComplete, layoutFor } from './answer';
 import { scoreAnswer, verdictOf } from './scoring';

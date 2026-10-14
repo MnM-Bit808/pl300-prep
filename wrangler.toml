@@ -1,0 +1,5 @@
+# Cloudflare Pages config for PL-300 Prep. Deploy with `npm run deploy` (scripts/publish.ts).
+# Static site: no Functions, no bindings. Headers come from dist/_headers (vite/headers.ts).
+name = "pl300-prep"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-09-01"

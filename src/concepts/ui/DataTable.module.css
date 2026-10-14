@@ -93,7 +93,8 @@
 
 /* Power Query shows empty cells as "null". */
 .null {
-  color: var(--ink-3);
+  /* ink-2, not ink-3: it sits on tinted cells and still needs 4.5:1. */
+  color: var(--ink-2);
   font-family: var(--font-mono);
   font-style: italic;
 }

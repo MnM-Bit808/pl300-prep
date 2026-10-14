@@ -18,6 +18,7 @@ import buttons from '@/ui/buttons.module.css';
 import { NoteEditor } from './NoteEditor';
 import { REPORT_KIND_LABEL } from './store';
 import styles from './WorkingsPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 type Tab = 'notes' | 'topics' | 'flagged' | 'reports';
 
@@ -26,6 +27,7 @@ const matches = (query: string, ...parts: (string | undefined)[]) =>
   !query || parts.some((p) => p?.toLowerCase().includes(query));
 
 export function WorkingsPage() {
+  useDocumentTitle('My workings');
   const bank = useBank();
   const doc = useWorkings();
   const store = useWorkingsStore();

@@ -355,9 +355,9 @@ export function SchemaSim() {
 
       <div className={sim.pair}>
         <section className={sim.panel} aria-labelledby="hops">
-          <h3 id="hops" className={sim.panelTitle}>
+          <h2 id="hops" className={sim.panelTitle}>
             The filter’s path
-          </h3>
+          </h2>
           <ol className={styles.hops}>
             {path.map((r) => {
               const [from, to] = names(r);
@@ -370,9 +370,9 @@ export function SchemaSim() {
           </ol>
         </section>
         <section className={sim.panel} aria-labelledby="tradeoff">
-          <h3 id="tradeoff" className={sim.panelTitle}>
+          <h2 id="tradeoff" className={sim.panelTitle}>
             {kind === 'star' ? 'Why Power BI prefers this' : 'What the snowflake costs'}
-          </h3>
+          </h2>
           <ul className={styles.points}>
             {kind === 'star' ? (
               <>
@@ -418,9 +418,9 @@ export function SchemaSim() {
       ) : (
         flattened && (
           <section ref={flatSteps} tabIndex={-1} className={sim.callout} aria-labelledby="flat">
-            <h3 id="flat" className={sim.panelTitle}>
+            <h2 id="flat" className={sim.panelTitle}>
               Flattened with three Power Query steps
-            </h3>
+            </h2>
             <ol className={styles.hops}>
               {FLATTEN_STEPS.map((s) => (
                 <li key={s}>{s}</li>

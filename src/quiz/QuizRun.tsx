@@ -132,16 +132,15 @@ export function QuizRun({
           aria-valuenow={session.cleared.length}
           aria-valuetext={`${session.cleared.length} of ${session.total} questions done`}
         >
-          <span style={{ width: `${progress * 100}%` }} />
+          <span data-fill style={{ width: `${progress * 100}%` }} />
         </div>
         {session.hearts !== null ? (
-          <p
-            className={styles.hearts}
-            aria-label={`${session.hearts} hearts left`}
-            data-low={session.hearts <= 1 || undefined}
-          >
-            <HeartIcon />
+          <p className={styles.hearts} data-low={session.hearts <= 1 || undefined}>
+            <HeartIcon aria-hidden="true" />
             <span aria-hidden="true">{session.hearts}</span>
+            <span className="sr-only">
+              {session.hearts} {session.hearts === 1 ? 'heart' : 'hearts'} left
+            </span>
           </p>
         ) : (
           <p className={styles.count}>
@@ -152,13 +151,14 @@ export function QuizRun({
       </header>
 
       <main id="main" className={styles.main}>
-        <p className={styles.title}>
-          {/* Case questions are named by their case panel. */}
-          {!caseStudy && title}
+        <div className={styles.title}>
+          {/* The run's name is the page heading. Case questions show the case's name in its
+              panel instead, so there it's for screen readers only. */}
+          <h1 className={caseStudy ? 'sr-only' : styles.heading}>{title}</h1>
           {isReturn && (
             <span className={styles.second}>Second go: you missed this one earlier</span>
           )}
-        </p>
+        </div>
         {caseStudy ? (
           <CaseFrame key={caseStudy.id} caseStudy={caseStudy}>
             {card}

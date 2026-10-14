@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { Suspense } from 'react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import type { Question } from '@/bank/schema';
 import { ProgressProvider } from '@/progress/ProgressProvider';
 import { ProgressStore } from '@/progress/store';
@@ -130,7 +130,7 @@ describe('LessonScreen', () => {
 
     const first = onScreen(lesson.questionIds);
     answer(first, false);
-    expect(screen.getByLabelText('4 hearts left')).toBeInTheDocument();
+    expect(screen.getByText('4 hearts left')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
 

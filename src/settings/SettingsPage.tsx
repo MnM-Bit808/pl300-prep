@@ -1,5 +1,6 @@
 /**
- * Settings (BUILD_PROMPT 4.8): appearance, your data (back up, restore, reset) and about.
+ * Settings (BUILD_PROMPT 4.8): appearance, the app (install, offline), your data (back up,
+ * restore, reset) and about.
  * There's no sound setting because the app makes no sound (nor did Paath).
  */
 import { useEffect, useId, useRef, useState, type ChangeEvent } from 'react';
@@ -23,12 +24,15 @@ import {
 } from '@/data/backup';
 import { formatDate } from '@/lib/dates';
 import { useAppData } from '@/progress/hooks';
+import { promptInstall, useInstallState } from '@/pwa/install';
+import { useSwState } from '@/pwa/state';
 import { MOCK_DRAFT_KEY, PROGRESS_KEY } from '@/progress/store';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
 import { DownloadIcon, UploadIcon } from '@/ui/icons';
 import buttons from '@/ui/buttons.module.css';
 import { emptyWorkings, WORKINGS_KEY } from '@/workings/store';
 import styles from './SettingsPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 const LABELS: { [P in PrefName]: Record<PrefValue<P>, string> } = {
   theme: { system: 'Match device', light: 'Light', dark: 'Dark' },
@@ -52,7 +56,12 @@ function Choice<P extends PrefName>({
       <legend>{legend}</legend>
       <div className={styles.options}>
         {(PREFS[name].values as readonly PrefValue<P>[]).map((v) => (
-          <label key={v} className={styles.option} data-size={name === 'textSize' ? v : undefined}>
+          <label
+            key={v}
+            className={styles.option}
+            data-choice
+            data-size={name === 'textSize' ? v : undefined}
+          >
             <input
               type="radio"
               name={`${id}-${name}`}
@@ -72,7 +81,62 @@ function Choice<P extends PrefName>({
   );
 }
 
+/** Installing, and whether it works offline yet. */
+function AppSection({ say }: { say: (message: string) => void }) {
+  const install = useInstallState();
+  const { offlineReady } = useSwState();
+  const offline = !import.meta.env.PROD
+    ? 'Offline use is off in development builds.'
+    : offlineReady
+      ? 'Works offline on this device: every lesson, question and exhibit is saved.'
+      : 'Getting ready to work offline. It finishes in the background during your first visit.';
+
+  return (
+    <section className={styles.card} aria-labelledby="app">
+      <h2 id="app" className={styles.h2}>
+        App
+      </h2>
+      <p className={styles.text}>{offline}</p>
+      {install === 'installed' && (
+        <p className={styles.text}>Installed: you’re using PL-300 Prep as an app.</p>
+      )}
+      {install === 'available' && (
+        <>
+          <p className={styles.text}>
+            Install it to open it from your home screen or dock, in its own window.
+          </p>
+          <button
+            type="button"
+            className={styles.inline}
+            onClick={async () =>
+              say(
+                (await promptInstall())
+                  ? 'Installing PL-300 Prep.'
+                  : 'Not installed. You can install it from here any time.',
+              )
+            }
+          >
+            Install PL-300 Prep
+          </button>
+        </>
+      )}
+      {install === 'ios' && (
+        <p className={styles.text}>
+          To install on iPhone or iPad: in Safari, tap Share, then Add to Home Screen.
+        </p>
+      )}
+      {install === 'manual' && (
+        <p className={styles.text}>
+          To install, look for Install app or Add to Home screen in your browser’s menu. Not every
+          browser offers it.
+        </p>
+      )}
+    </section>
+  );
+}
+
 export function SettingsPage() {
+  useDocumentTitle('Settings');
   const bank = useBank();
   const { storage, progress, workings } = useAppData();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -170,6 +234,8 @@ export function SettingsPage() {
           hint="Reduce motion turns off the card flip, highlighter sweep and slide-ins, even if your device allows them."
         />
       </section>
+
+      <AppSection say={setStatus} />
 
       <section className={styles.card} aria-labelledby="data">
         <h2 id="data" className={styles.h2}>

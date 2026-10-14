@@ -3,7 +3,7 @@
  * a custom practice builder. Builder choices live in the URL, so Back restores them.
  */
 import { Link, useSearchParams } from 'react-router';
-import { DOMAINS } from '@/bank/schema';
+import { DOMAINS } from '@/bank/constants';
 import { useBank } from '@/bank/useBank';
 import { UNIT_INFO } from '@/learn/course';
 import { useProgress } from '@/progress/hooks';
@@ -13,10 +13,12 @@ import buttons from '@/ui/buttons.module.css';
 import { filterQuery, parseFilter, parseLength } from './query';
 import { dueIds, filterQuestions, isMistake, mistakeIds, outline } from './select';
 import styles from './PracticePage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 const LENGTHS = [10, 20, 0] as const; // 0 = all
 
 export function PracticePage() {
+  useDocumentTitle('Practice');
   const bank = useBank();
   const doc = useProgress();
   const [params, setParams] = useSearchParams();
@@ -155,7 +157,7 @@ export function PracticePage() {
         <fieldset className={styles.chips}>
           <legend>Difficulty</legend>
           {([1, 2, 3] as const).map((d) => (
-            <label key={d} className={styles.chip}>
+            <label key={d} className={styles.chip} data-choice>
               <input
                 type="checkbox"
                 checked={difficulties.includes(d)}
@@ -170,7 +172,7 @@ export function PracticePage() {
         <fieldset className={styles.chips}>
           <legend>Questions</legend>
           {LENGTHS.map((n) => (
-            <label key={n} className={styles.chip}>
+            <label key={n} className={styles.chip} data-choice>
               <input
                 type="radio"
                 name="length"

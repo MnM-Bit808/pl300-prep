@@ -41,10 +41,22 @@ export const readPrefs = (): Prefs => ({
   motion: readPref('motion'),
 });
 
+/** The header's --surface in each theme, for the browser and installed-app title bar. */
+const BAR_COLOR = { light: '#ffffff', dark: '#1c1f2c' } as const;
+
+/** index.html has one theme-color meta per scheme; a chosen theme sets both to its own colour. */
+function applyThemeColor(theme: Prefs['theme']) {
+  for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')) {
+    const scheme = meta.media.includes('dark') ? 'dark' : 'light';
+    meta.content = BAR_COLOR[theme === 'system' ? scheme : theme];
+  }
+}
+
 export function applyPref<P extends PrefName>(name: P, value: PrefValue<P>) {
   const root = document.documentElement;
   if (value === DEFAULTS[name]) root.removeAttribute(PREFS[name].attr);
   else root.setAttribute(PREFS[name].attr, value);
+  if (name === 'theme') applyThemeColor(value as Prefs['theme']);
 }
 
 export const applyPrefs = (p: Prefs = readPrefs()) =>

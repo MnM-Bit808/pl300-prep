@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import rawBank from '../../pl300-bank/questions/all_questions.json';
-import { buildBank } from '@/bank/load';
+import { buildBank } from '@/bank/build';
 import { MOCK_DRAFT_KEY, PROGRESS_KEY, ProgressStore } from '@/progress/store';
 import { memoryStorage } from '@/storage/db';
 import { WORKINGS_KEY, WorkingsStore } from '@/workings/store';

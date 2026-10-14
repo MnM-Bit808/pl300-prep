@@ -49,7 +49,7 @@ export function ReportDialog({ questionId, onSubmit, onClose }: Props) {
         <fieldset className={styles.kinds} aria-describedby={error ? 'report-error' : undefined}>
           <legend>What’s wrong?</legend>
           {REPORT_KINDS.map((k) => (
-            <label key={k} className={styles.kind}>
+            <label key={k} className={styles.kind} data-choice>
               <input
                 type="radio"
                 name="kind"

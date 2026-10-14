@@ -12,8 +12,10 @@ import { buildMock, MOCK_MINUTES, MOCK_SIZE, PASS_MARK } from './build';
 import { startExam } from './exam';
 import { formatClock } from './useCountdown';
 import styles from './MockPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 export function MockPage() {
+  useDocumentTitle('Mock exam');
   const bank = useBank();
   const store = useProgressStore();
   const doc = useProgress();

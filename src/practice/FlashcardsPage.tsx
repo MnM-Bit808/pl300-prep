@@ -21,12 +21,14 @@ import { InlineText, RichText } from '@/ui/RichText';
 import { parseFilter } from './query';
 import { filterQuestions } from './select';
 import styles from './FlashcardsPage.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 const DECK_SIZE = 20;
 const SWIPE_AT = 110;
 const LEAVE_MS = 260;
 
 export function FlashcardsPage() {
+  useDocumentTitle('Flashcards');
   const [params] = useSearchParams();
   const [round, setRound] = useState(0);
   return (
@@ -160,7 +162,7 @@ function Deck({ params, onAgain }: { params: URLSearchParams; onAgain: () => voi
           aria-valuenow={done}
           aria-valuetext={`${done} of ${deck.length} cards done`}
         >
-          <span style={{ width: `${(done / deck.length) * 100}%` }} />
+          <span data-fill style={{ width: `${(done / deck.length) * 100}%` }} />
         </div>
         <p className={styles.count}>
           {queue.length}

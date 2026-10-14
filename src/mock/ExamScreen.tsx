@@ -38,11 +38,13 @@ import { GridLegend, QuestionGrid } from './QuestionGrid';
 import { toRecord } from './record';
 import { formatClock, useCountdown } from './useCountdown';
 import styles from './ExamScreen.module.css';
+import { useDocumentTitle } from '@/app/title';
 
 /** Minutes left at which the time is announced to screen readers. */
 const ANNOUNCE_AT = [30, 10, 5, 1];
 
 export function ExamScreen() {
+  useDocumentTitle('Mock exam');
   const store = useProgressStore();
   const [draft] = useState(() => store.getMockDraft());
   if (!draft || draft.submitted) {
@@ -241,6 +243,12 @@ function Exam({ initial }: { initial: ExamState }) {
     <div ref={screenRef} className={styles.screen}>
       {header}
       <main id="main" className={styles.main} data-case={caseStudy ? '' : undefined}>
+        {/* The review view has its own visible heading. */}
+        {s.view !== 'review' && (
+          <h1 className="sr-only">
+            Mock exam, section {s.section + 1} of {s.sections.length}
+          </h1>
+        )}
         {body}
       </main>
 

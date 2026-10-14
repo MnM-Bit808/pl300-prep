@@ -5,10 +5,10 @@
  * Policy: a question that fails a rule is dropped and reported as an error; the rest of the bank
  * still loads. Oddities that don't affect play (unknown fields, count mismatches) are warnings.
  */
+import { ID_PREFIX } from './constants';
 import {
   BankFileSchema,
   CaseStudySchema,
-  ID_PREFIX,
   QuestionSchema,
   type BankImage,
   type CaseStudy,
