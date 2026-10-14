@@ -1,0 +1,141 @@
+{
+  "bank": "PL-300 question bank",
+  "schemaVersion": 2,
+  "totalQuestions": 440,
+  "totalWithImages": 92,
+  "batches": [
+    {
+      "file": "questions/batch01_prepare_get-data.json",
+      "batch": 1,
+      "title": "Get or connect to data",
+      "domains": [
+        "prepare"
+      ],
+      "count": 42,
+      "withImages": 9,
+      "firstId": "PRE-001",
+      "lastId": "PRE-042"
+    },
+    {
+      "file": "questions/batch02_prepare_profile-clean.json",
+      "batch": 2,
+      "title": "Profile and clean the data",
+      "domains": [
+        "prepare"
+      ],
+      "count": 45,
+      "withImages": 18,
+      "firstId": "PRE-043",
+      "lastId": "PRE-087"
+    },
+    {
+      "file": "questions/batch03_prepare_transform-load.json",
+      "batch": 3,
+      "title": "Transform and load the data",
+      "domains": [
+        "prepare"
+      ],
+      "count": 45,
+      "withImages": 13,
+      "firstId": "PRE-088",
+      "lastId": "PRE-132"
+    },
+    {
+      "file": "questions/batch04_model_design-relationships.json",
+      "batch": 4,
+      "title": "Design and implement a data model",
+      "domains": [
+        "model"
+      ],
+      "count": 39,
+      "withImages": 8,
+      "firstId": "MOD-001",
+      "lastId": "MOD-039"
+    },
+    {
+      "file": "questions/batch05_model_dax.json",
+      "batch": 5,
+      "title": "Create model calculations by using DAX",
+      "domains": [
+        "model"
+      ],
+      "count": 60,
+      "withImages": 9,
+      "firstId": "MOD-040",
+      "lastId": "MOD-099"
+    },
+    {
+      "file": "questions/batch06_optimise-and-secure.json",
+      "batch": 6,
+      "title": "Optimise model performance and secure data",
+      "domains": [
+        "manage",
+        "model"
+      ],
+      "count": 39,
+      "withImages": 6,
+      "firstId": "MOD-100",
+      "lastId": "MAN-018"
+    },
+    {
+      "file": "questions/batch07_visualize_visuals-formatting.json",
+      "batch": 7,
+      "title": "Create reports: choose, build and format visuals",
+      "domains": [
+        "visualize"
+      ],
+      "count": 45,
+      "withImages": 12,
+      "firstId": "VIS-001",
+      "lastId": "VIS-045"
+    },
+    {
+      "file": "questions/batch08_visualize_interactivity-ai.json",
+      "batch": 8,
+      "title": "Enhance reports for usability and analysis: interactivity, AI visuals and Copilot",
+      "domains": [
+        "visualize"
+      ],
+      "count": 36,
+      "withImages": 6,
+      "firstId": "VIS-046",
+      "lastId": "VIS-081"
+    },
+    {
+      "file": "questions/batch09_manage_workspaces-sharing-governance.json",
+      "batch": 9,
+      "title": "Manage and secure Power BI: workspaces, sharing, refresh and governance",
+      "domains": [
+        "manage"
+      ],
+      "count": 39,
+      "withImages": 5,
+      "firstId": "MAN-019",
+      "lastId": "MAN-057"
+    },
+    {
+      "file": "questions/batch10_case-studies.json",
+      "batch": 10,
+      "title": "Case studies",
+      "domains": [
+        "case"
+      ],
+      "count": 25,
+      "withImages": 0,
+      "firstId": "CASE-001",
+      "lastId": "CASE-025"
+    },
+    {
+      "file": "questions/batch11_visualize_top-up.json",
+      "batch": 11,
+      "title": "Visualize and analyze: mixed-format practice",
+      "domains": [
+        "visualize"
+      ],
+      "count": 25,
+      "withImages": 6,
+      "firstId": "VIS-082",
+      "lastId": "VIS-106"
+    }
+  ]
+}

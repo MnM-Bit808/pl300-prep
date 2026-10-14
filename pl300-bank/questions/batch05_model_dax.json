@@ -1,0 +1,1899 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 5,
+  "title": "Create model calculations by using DAX",
+  "domains": [
+    "model"
+  ],
+  "schemaVersion": 2,
+  "count": 60,
+  "questions": [
+    {
+      "id": "MOD-040",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales has Quantity and UnitPrice columns but no amount column. You need a Revenue measure.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`SUM ( Sales[Quantity] ) * SUM ( Sales[UnitPrice] )`"
+        },
+        {
+          "id": "B",
+          "text": "`SUMX ( Sales, Sales[Quantity] * Sales[UnitPrice] )`"
+        },
+        {
+          "id": "C",
+          "text": "`SUM ( Sales[Quantity] * Sales[UnitPrice] )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( SUM ( Sales[Quantity] ), Sales[UnitPrice] )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "SUMX goes row by row, multiplies Quantity by UnitPrice for each row, and adds the results. Multiplying two SUMs multiplies the totals, which is wrong whenever there's more than one row.",
+      "takeaway": "Row-by-row calculation, then total → an X iterator such as SUMX."
+    },
+    {
+      "id": "MOD-041",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales has one row per order line, and an order can have several lines. You need the number of orders.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`COUNTROWS ( Sales )`"
+        },
+        {
+          "id": "B",
+          "text": "`COUNT ( Sales[OrderID] )`"
+        },
+        {
+          "id": "C",
+          "text": "`DISTINCTCOUNT ( Sales[OrderID] )`"
+        },
+        {
+          "id": "D",
+          "text": "`SUM ( Sales[OrderID] )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "DISTINCTCOUNT counts each OrderID once, however many lines it has. COUNTROWS counts lines, and COUNT counts non-blank values, which also counts lines.",
+      "takeaway": "Count of entities in a line-level table → DISTINCTCOUNT of the ID."
+    },
+    {
+      "id": "MOD-042",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A Margin % measure divides profit by revenue. Some products have zero revenue, and the visual shows Infinity or errors.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`DIVIDE ( [Profit], [Revenue] )`"
+        },
+        {
+          "id": "B",
+          "text": "`[Profit] / [Revenue]`"
+        },
+        {
+          "id": "C",
+          "text": "`IFERROR ( [Profit] / [Revenue], 0 )`"
+        },
+        {
+          "id": "D",
+          "text": "`[Profit] / ( [Revenue] + 1 )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DIVIDE returns BLANK (or an alternative value you supply) when the denominator is zero or blank, and it's optimised for this. The / operator returns Infinity or an error. IFERROR works but is slower and hides other errors.",
+      "takeaway": "Division in measures → DIVIDE."
+    },
+    {
+      "id": "MOD-043",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Why should you create explicit measures instead of relying on implicit measures (dragging a numeric column into a visual)?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Implicit measures can't be formatted"
+        },
+        {
+          "id": "B",
+          "text": "Explicit measures are stored on every row"
+        },
+        {
+          "id": "C",
+          "text": "Implicit measures are slower to refresh"
+        },
+        {
+          "id": "D",
+          "text": "They're reusable, can hold logic, and are needed for features such as calculation groups"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Explicit measures have one definition reused everywhere, can hold business logic, are required by calculation groups, and are what Analyze in Excel and other tools see. Implicit measures are just default aggregations of a column.",
+      "takeaway": "Define measures explicitly; reuse them everywhere."
+    },
+    {
+      "id": "MOD-044",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Sales has one row per order line. You need the average order value, meaning the average total per order.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`AVERAGE ( Sales[Amount] )`"
+        },
+        {
+          "id": "B",
+          "text": "`AVERAGEX ( VALUES ( Sales[OrderID] ), CALCULATE ( SUM ( Sales[Amount] ) ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`AVERAGEX ( Sales, Sales[Amount] )`"
+        },
+        {
+          "id": "D",
+          "text": "`DIVIDE ( SUM ( Sales[Amount] ), COUNTROWS ( Sales ) )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "AVERAGEX over the distinct order IDs calculates each order's total (CALCULATE turns each ID into a filter) and averages those totals. AVERAGE of Amount averages lines, not orders.",
+      "takeaway": "Average per entity → AVERAGEX over VALUES of the entity's ID."
+    },
+    {
+      "id": "MOD-045",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 2,
+      "type": "multi",
+      "stem": "An employee is active when TermDate is blank. Which two measures return the number of active employees? Each correct answer presents a complete solution.",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`COUNTROWS ( FILTER ( Employees, ISBLANK ( Employees[TermDate] ) ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`COUNT ( Employees[TermDate] )`"
+        },
+        {
+          "id": "C",
+          "text": "`COUNTBLANK ( Employees[TermDate] )`"
+        },
+        {
+          "id": "D",
+          "text": "`DISTINCTCOUNT ( Employees[TermDate] )`"
+        }
+      ],
+      "selectCount": 2,
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "Both count rows where TermDate is blank: FILTER with ISBLANK keeps only those rows, and COUNTBLANK counts blank values in the column. COUNT counts non-blank values, which gives terminated employees.",
+      "takeaway": "'No end date' = blank → ISBLANK filter or COUNTBLANK."
+    },
+    {
+      "id": "MOD-046",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need a calculated column in Stores that shows the store name when Status is Open, and is blank otherwise.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`IF ( Stores[Status] = \"Open\", Stores[Store Name], BLANK () )`"
+        },
+        {
+          "id": "B",
+          "text": "`FILTER ( Stores, Stores[Status] = \"Open\" )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( Stores[Store Name], Stores[Status] = \"Open\" )`"
+        },
+        {
+          "id": "D",
+          "text": "`SWITCH ( Stores[Store Name], \"Open\" )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "IF checks the condition per row and returns the name or BLANK(). A calculated column has a row context, so Stores[Status] refers to the current row.",
+      "takeaway": "Row-by-row condition in a column → IF."
+    },
+    {
+      "id": "MOD-047",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need a calculated column that labels each customer's credit limit: Low below 1,000, Medium below 10,000, otherwise High.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`SWITCH ( Customer[Limit], 1000, \"Low\", 10000, \"Medium\", \"High\" )`"
+        },
+        {
+          "id": "B",
+          "text": "`IF ( Customer[Limit] < 1000, \"Low\", \"High\" )`"
+        },
+        {
+          "id": "C",
+          "text": "`SWITCH ( TRUE (), Customer[Limit] < 1000, \"Low\", Customer[Limit] < 10000, \"Medium\", \"High\" )`"
+        },
+        {
+          "id": "D",
+          "text": "`LOOKUPVALUE ( Customer[Limit], \"Low\", 1000 )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "SWITCH ( TRUE (), … ) checks each condition in order and returns the first match, which suits ranges. SWITCH on the column itself only matches exact values.",
+      "takeaway": "Ranges → SWITCH ( TRUE (), condition, result, … )."
+    },
+    {
+      "id": "MOD-048",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales relates many-to-one to Product. You need a calculated column in Sales that shows each sale's product category.\n\nWhich function should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`RELATEDTABLE ( Product[Category] )`"
+        },
+        {
+          "id": "B",
+          "text": "`RELATED ( Product[Category] )`"
+        },
+        {
+          "id": "C",
+          "text": "`VALUES ( Product[Category] )`"
+        },
+        {
+          "id": "D",
+          "text": "`LOOKUPVALUE ( Sales[Category] )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RELATED fetches a value from the one side of a relationship into the current row on the many side. RELATEDTABLE goes the other way, returning the many-side rows for a one-side row.",
+      "takeaway": "Many side needs a one-side value → RELATED."
+    },
+    {
+      "id": "MOD-049",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Measures and aggregation",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need a calculated column in Customer that counts each customer's rows in Sales. Customer relates one-to-many to Sales.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`COUNTROWS ( Sales )`"
+        },
+        {
+          "id": "B",
+          "text": "`COUNT ( RELATED ( Sales[OrderID] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`DISTINCTCOUNT ( Customer[CustomerKey] )`"
+        },
+        {
+          "id": "D",
+          "text": "`COUNTROWS ( RELATEDTABLE ( Sales ) )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "RELATEDTABLE returns the Sales rows related to the current customer (it performs context transition), and COUNTROWS counts them. COUNTROWS(Sales) alone would count every sale for every customer.",
+      "takeaway": "One side needs to count its many-side rows → COUNTROWS ( RELATEDTABLE ( … ) )."
+    },
+    {
+      "id": "MOD-050",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You need a Blue Sales measure. When a user selects Red in a Color slicer, Blue Sales must return blank rather than ignoring the slicer. The existing filter context must be kept.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], Product[Color] = \"Blue\" )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], ALL ( Product[Color] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], KEEPFILTERS ( Product[Color] = \"Blue\" ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], REMOVEFILTERS ( Product ) )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A plain filter argument in CALCULATE replaces any existing filter on Color, so it would return blue sales even when Red is selected. KEEPFILTERS intersects with the existing filter instead: Red and Blue together leave nothing, so the result is blank.",
+      "takeaway": "Add a filter without overriding the user's → KEEPFILTERS."
+    },
+    {
+      "id": "MOD-051",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The matrix in the exhibit uses Blue Sales = CALCULATE ( [Sales], Product[Color] = \"Blue\" ). Blue products sold 400 in total.\n\nWhat does Blue Sales show in the Red row?",
+      "image": {
+        "src": "images/model/MOD-051.svg",
+        "alt": "Matrix of Sales by Color: Blue 400, Green 250, Red 350, total 1,000, with the Blue Sales column shown as a question mark."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Blank"
+        },
+        {
+          "id": "B",
+          "text": "400"
+        },
+        {
+          "id": "C",
+          "text": "The red sales"
+        },
+        {
+          "id": "D",
+          "text": "An error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The filter argument replaces the row's Color filter (Red) with Blue, so every row, including Red and Green, shows the blue total of 400. That's why KEEPFILTERS exists.",
+      "takeaway": "A CALCULATE filter on a column overrides the existing filter on that column."
+    },
+    {
+      "id": "MOD-052",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need each product's share of total sales across all products, whatever product filters are applied.\n\nWhich denominator should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], ALL ( Product ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], ALLSELECTED ( Product ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], Product )`"
+        },
+        {
+          "id": "D",
+          "text": "`SUM ( Sales[Amount] )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "ALL(Product) removes every filter on the Product table, so the denominator is sales for all products (other tables' filters, like dates, still apply). ALLSELECTED would respect slicer selections.",
+      "takeaway": "Share of all items regardless of selections → ALL on that dimension."
+    },
+    {
+      "id": "MOD-053",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A matrix lists products under their categories. You need each product's share of its own category's sales.\n\nWhich denominator should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], ALL ( Product ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], Product[Category] )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], ALLSELECTED () )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], ALLEXCEPT ( Product, Product[Category] ) )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "ALLEXCEPT removes all filters on Product except Category, so the denominator is the total for the product's category. ALL(Product) would use all categories.",
+      "takeaway": "Share of the parent group → ALLEXCEPT, keeping the parent column."
+    },
+    {
+      "id": "MOD-054",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Which filter is generally preferred in CALCULATE for sales above 1,000, and why?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`FILTER ( Sales, Sales[Amount] > 1000 )`, because it's always faster"
+        },
+        {
+          "id": "B",
+          "text": "`Sales[Amount] > 1000`, because it filters one column instead of iterating the table"
+        },
+        {
+          "id": "C",
+          "text": "Both are identical in meaning and speed"
+        },
+        {
+          "id": "D",
+          "text": "Neither; filters can't use comparison operators"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A boolean filter on one column is evaluated over just that column's distinct values, which is efficient. FILTER(Sales, …) iterates the whole fact table. Note they're not identical: the boolean form replaces any existing filter on Amount, while FILTER(Sales, …) keeps the current context.",
+      "takeaway": "Prefer column predicates over FILTER on whole tables."
+    },
+    {
+      "id": "MOD-055",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You write CALCULATE ( [Sales], [Margin %] > 0.2 ) and Power BI rejects it.\n\nHow should you rewrite the filter?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], KEEPFILTERS ( [Margin %] > 0.2 ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], ALL ( [Margin %] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], FILTER ( VALUES ( Product[Product] ), [Margin %] > 0.2 ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`IF ( [Margin %] > 0.2, [Sales] )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Boolean filter arguments can't reference measures. Use FILTER over the items you want to test, here each product, and evaluate the measure for each: FILTER ( VALUES ( Product[Product] ), [Margin %] > 0.2 ).",
+      "takeaway": "Filtering by a measure → FILTER over a column's values."
+    },
+    {
+      "id": "MOD-056",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "yesno",
+      "stem": "For each statement about evaluation context, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "A calculated column is evaluated with a row context for each row.",
+        "A row context automatically filters related tables.",
+        "Referencing a measure inside a calculated column triggers context transition."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Calculated columns are evaluated with a row context for each row. A row context doesn't filter related tables by itself; CALCULATE (or a measure reference, which implies CALCULATE) converts it into a filter context. Measures are evaluated in the filter context of each cell of a visual.",
+      "takeaway": "Row context ≠ filter context; CALCULATE converts one into the other."
+    },
+    {
+      "id": "MOD-057",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A card's title must read 'Sales for North' when one region is selected, and 'Sales for All regions' otherwise.\n\nWhich expression should the title measure use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`\"Sales for \" & SELECTEDVALUE ( Region[Region], \"All regions\" )`"
+        },
+        {
+          "id": "B",
+          "text": "`\"Sales for \" & VALUES ( Region[Region] )`"
+        },
+        {
+          "id": "C",
+          "text": "`\"Sales for \" & MAX ( Region[Region] )`"
+        },
+        {
+          "id": "D",
+          "text": "`\"Sales for \" & ALL ( Region[Region] )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SELECTEDVALUE returns the single value in the current filter context, or the alternate result when there are none or several. VALUES would error with several regions; MAX would return one region even when several are selected.",
+      "takeaway": "Show the selected item or a fallback → SELECTEDVALUE."
+    },
+    {
+      "id": "MOD-058",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A measure must show a value on product rows of a matrix but stay blank on category subtotal rows and the grand total.\n\nWhich function tells you whether the current row is at product level?",
+      "image": {
+        "src": "images/model/MOD-058.svg",
+        "alt": "Matrix of Unit Price by Category and Product: product rows show a price, while the Footwear and Bags subtotals and the grand total show blank. Bags contains only one product, Daypack."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "HASONEFILTER"
+        },
+        {
+          "id": "B",
+          "text": "SELECTEDVALUE"
+        },
+        {
+          "id": "C",
+          "text": "ISFILTERED"
+        },
+        {
+          "id": "D",
+          "text": "ISINSCOPE"
+        }
+      ],
+      "answer": "D",
+      "explanation": "ISINSCOPE ( Product[Product] ) is TRUE when Product is the level currently being grouped, so IF ( ISINSCOPE ( … ), [Measure] ) blanks subtotals. HASONEVALUE can be TRUE at a subtotal when a category holds only one product.",
+      "takeaway": "Detect matrix level → ISINSCOPE."
+    },
+    {
+      "id": "MOD-059",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The matrix in the exhibit shows Rank = RANKX ( Product[Product], [Sales] ). Every product shows 1.\n\nHow should you fix it?",
+      "image": {
+        "src": "images/model/MOD-059.svg",
+        "alt": "Matrix with Product, Sales and Rank columns where every row, including the total, shows a rank of 1."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Use RANKX ( Sales, [Sales] )"
+        },
+        {
+          "id": "B",
+          "text": "Use RANKX ( ALL ( Product[Product] ), [Sales] )"
+        },
+        {
+          "id": "C",
+          "text": "Wrap [Sales] in DIVIDE"
+        },
+        {
+          "id": "D",
+          "text": "Sort the matrix by Sales"
+        }
+      ],
+      "answer": "B",
+      "explanation": "In each row, the filter context contains only that product, so it's ranked against itself. ALL ( Product[Product] ) gives RANKX the full list to compare against: RANKX ( ALL ( Product[Product] ), [Sales] ).",
+      "takeaway": "RANKX needs the full list → ALL on the ranked column."
+    },
+    {
+      "id": "MOD-060",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You need the total sales of the five best-selling products, whatever product filters exist.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`TOPN ( 5, [Sales] )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], RANKX ( ALL ( Product[Product] ), [Sales] ) <= 5 )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], TOPN ( 5, ALL ( Product[Product] ), [Sales] ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`MAXX ( TOPN ( 5, Product ), [Sales] )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "TOPN returns a table of the five products with the highest sales (from ALL products), and CALCULATE uses it as a filter. RANKX returns positions, not a filter table.",
+      "takeaway": "Total for the top N → CALCULATE with a TOPN table."
+    },
+    {
+      "id": "MOD-061",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "What does this measure return?\n\n`Test = VAR s = [Sales] RETURN CALCULATE ( s, ALL ( 'Date' ) )`",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The same value as [Sales] in the current filter context"
+        },
+        {
+          "id": "B",
+          "text": "Sales for all dates"
+        },
+        {
+          "id": "C",
+          "text": "An error"
+        },
+        {
+          "id": "D",
+          "text": "Blank"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A variable is evaluated once, where it's defined, and then behaves as a constant. CALCULATE can't change its value, so Test returns the same as [Sales] in the current context. To ignore date filters, put [Sales] itself inside CALCULATE.",
+      "takeaway": "Variables are constants once evaluated; CALCULATE can't change them."
+    },
+    {
+      "id": "MOD-062",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales has an active relationship to Date on OrderDate and an inactive one on DeliveryDate.\n\nWhich expression returns sales by delivery date?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], CROSSFILTER ( Sales[DeliveryDate], 'Date'[Date], BOTH ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], USERELATIONSHIP ( Sales[DeliveryDate], 'Date'[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], ALL ( Sales[OrderDate] ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], 'Date'[Date] = Sales[DeliveryDate] )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "USERELATIONSHIP activates the inactive relationship for this calculation and deactivates the active one between the same tables.",
+      "takeaway": "Use an inactive relationship → USERELATIONSHIP inside CALCULATE."
+    },
+    {
+      "id": "MOD-063",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "The Customer to Sales relationship is single-direction. One measure must count customers who bought the products selected in a Product slicer.\n\nWhat should the measure use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "USERELATIONSHIP"
+        },
+        {
+          "id": "B",
+          "text": "KEEPFILTERS"
+        },
+        {
+          "id": "C",
+          "text": "CROSSFILTER with BOTH"
+        },
+        {
+          "id": "D",
+          "text": "ALLEXCEPT"
+        }
+      ],
+      "answer": "C",
+      "explanation": "CROSSFILTER ( Sales[CustomerKey], Customer[CustomerKey], BOTH ) makes the relationship bidirectional for this measure only, so the product filter flows through Sales to Customer. Making it permanently bidirectional affects every visual.",
+      "takeaway": "Bidirectional for one measure only → CROSSFILTER."
+    },
+    {
+      "id": "MOD-064",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A Budget table has a Category column but no relationship to Product. You need Budget to respond to a Product[Category] slicer without adding a relationship.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( SUM ( Budget[Amount] ), TREATAS ( VALUES ( Product[Category] ), Budget[Category] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( SUM ( Budget[Amount] ), RELATED ( Product[Category] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`SUM ( Budget[Amount] )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( SUM ( Budget[Amount] ), USERELATIONSHIP ( Budget[Category], Product[Category] ) )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TREATAS applies the selected Product categories as a filter on Budget[Category], creating a virtual relationship for this measure.",
+      "takeaway": "Virtual relationship in a measure → TREATAS."
+    },
+    {
+      "id": "MOD-065",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need a calendar year-to-date sales measure. The Date table is marked as a date table.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], DATESMTD ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`SUM ( Sales[Amount] )`"
+        },
+        {
+          "id": "D",
+          "text": "`TOTALYTD ( [Sales], 'Date'[Date] )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "TOTALYTD ( [Sales], 'Date'[Date] ) sums sales from 1 January to the last date in the current context. SAMEPERIODLASTYEAR shifts dates back a year, and DATESMTD is month to date.",
+      "takeaway": "Year to date → TOTALYTD (or CALCULATE with DATESYTD)."
+    },
+    {
+      "id": "MOD-066",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The financial year ends on 30 June. You need fiscal year-to-date sales.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`TOTALYTD ( [Sales], 'Date'[Date] )`"
+        },
+        {
+          "id": "B",
+          "text": "`TOTALYTD ( [Sales], 'Date'[Date], \"6/30\" )`"
+        },
+        {
+          "id": "C",
+          "text": "`TOTALQTD ( [Sales], 'Date'[Date] )`"
+        },
+        {
+          "id": "D",
+          "text": "`DATEADD ( 'Date'[Date], 6, MONTH )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "TOTALYTD's optional year-end argument sets the fiscal year end, here \"6/30\", so the year-to-date restarts on 1 July.",
+      "takeaway": "Fiscal YTD → TOTALYTD with a year-end date."
+    },
+    {
+      "id": "MOD-067",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need last year's sales for the same period as the current filter context.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], PREVIOUSYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`[Sales] - 365`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], 'Date'[Year] - 1 )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "SAMEPERIODLASTYEAR shifts the dates in context back exactly one year, whether the context is a day, month or quarter. PREVIOUSYEAR returns the whole previous year.",
+      "takeaway": "Same period last year → SAMEPERIODLASTYEAR."
+    },
+    {
+      "id": "MOD-068",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The matrix in the exhibit shows Sales and Sales PY (prior year).\n\nWhat should YoY % show for 2026?",
+      "image": {
+        "src": "images/model/MOD-068.svg",
+        "alt": "Matrix of Year, Sales, Sales PY and YoY %: 2025 shows 1,200, 1,050 and 14.3%; 2026 shows 1,320 and 1,200, with YoY % unknown."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "9.1%"
+        },
+        {
+          "id": "B",
+          "text": "110%"
+        },
+        {
+          "id": "C",
+          "text": "10.0%"
+        },
+        {
+          "id": "D",
+          "text": "120"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Year-over-year % = (this year − last year) ÷ last year = (1,320 − 1,200) ÷ 1,200 = 10%. Dividing by this year's sales (9.1%) uses the wrong base.",
+      "takeaway": "YoY % = DIVIDE ( [Sales] − [Sales PY], [Sales PY] )."
+    },
+    {
+      "id": "MOD-069",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need last year's year-to-date sales, up to the same date last year. [Sales YTD] already exists.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales YTD], PREVIOUSYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales YTD], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`TOTALYTD ( [Sales], 'Date'[Date] ) - 1`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], DATESYTD ( 'Date'[Date] ) )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Shifting the dates back a year with SAMEPERIODLASTYEAR and evaluating [Sales YTD] in that context gives last year's year-to-date up to the matching date. PREVIOUSYEAR would return the full previous year.",
+      "takeaway": "Prior-year YTD → [Sales YTD] evaluated over SAMEPERIODLASTYEAR."
+    },
+    {
+      "id": "MOD-070",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A matrix shows sales by day. For each day, you need sales on the same day one month earlier.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], PREVIOUSMONTH ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], DATESMTD ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], PARALLELPERIOD ( 'Date'[Date], -1, YEAR ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], DATEADD ( 'Date'[Date], -1, MONTH ) )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "DATEADD shifts the current dates by one month, so each day maps to the same day last month. PREVIOUSMONTH returns every date of the previous month, giving the whole month's total on every row.",
+      "takeaway": "Shift the current period → DATEADD. Whole previous period → PREVIOUSMONTH."
+    },
+    {
+      "id": "MOD-071",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You need a rolling three-month sales total ending on the last date in the current context.\n\nWhich filter should CALCULATE use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`DATESINPERIOD ( 'Date'[Date], MAX ( 'Date'[Date] ), -3, MONTH )`"
+        },
+        {
+          "id": "B",
+          "text": "`DATESQTD ( 'Date'[Date] )`"
+        },
+        {
+          "id": "C",
+          "text": "`PREVIOUSQUARTER ( 'Date'[Date] )`"
+        },
+        {
+          "id": "D",
+          "text": "`DATEADD ( 'Date'[Date], -3, MONTH )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "DATESINPERIOD returns the dates from the given end date back three months, giving a rolling window. DATESQTD is calendar quarter to date, which resets every quarter.",
+      "takeaway": "Rolling window → DATESINPERIOD ( dates, MAX date, −N, unit )."
+    },
+    {
+      "id": "MOD-072",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Which expression returns month-to-date sales?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`TOTALQTD ( [Sales], 'Date'[Date] )`"
+        },
+        {
+          "id": "B",
+          "text": "`TOTALYTD ( [Sales], 'Date'[Date] )`"
+        },
+        {
+          "id": "C",
+          "text": "`TOTALMTD ( [Sales], 'Date'[Date] )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], PREVIOUSMONTH ( 'Date'[Date] ) )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "TOTALMTD sums from the first day of the month to the last date in context. TOTALQTD is quarter to date and TOTALYTD is year to date.",
+      "takeaway": "MTD / QTD / YTD → TOTALMTD / TOTALQTD / TOTALYTD."
+    },
+    {
+      "id": "MOD-073",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A measure uses SAMEPERIODLASTYEAR ( Sales[OrderDate] ) directly on the fact table. Results are wrong for periods with no sales on some days.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Wrap the measure in IFERROR"
+        },
+        {
+          "id": "B",
+          "text": "Use a contiguous Date table, related and marked, and reference its Date column"
+        },
+        {
+          "id": "C",
+          "text": "Turn on Auto date/time"
+        },
+        {
+          "id": "D",
+          "text": "Use DATEADD instead"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Time intelligence functions need a date column with every day present (no gaps), which a fact table's date column rarely has. Use a proper Date table, related to Sales and marked as a date table, and reference 'Date'[Date].",
+      "takeaway": "Time intelligence → a complete Date table, never the fact table's dates."
+    },
+    {
+      "id": "MOD-074",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A card must always show sales for March 2026, whatever the user selects in date slicers.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], 'Date'[Month] = 3 )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], KEEPFILTERS ( 'Date'[Year] = 2026 ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], DATESMTD ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2026, 'Date'[MonthNumber] = 3 )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "REMOVEFILTERS('Date') clears every date filter (including a slicer on a different Date column), then the two filters select March 2026. Filtering only Year and Month without clearing would still intersect with filters on other Date columns, such as a selected date range.",
+      "takeaway": "Fixed period regardless of slicers → clear the Date table, then filter."
+    },
+    {
+      "id": "MOD-075",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "An AccountBalances table has one row per account per day that a balance was recorded; not every account has a row every day. A matrix shows months.\n\nWhich expression returns each month's closing balance using the last date that has data?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( SUM ( AccountBalances[Balance] ), LASTNONBLANK ( 'Date'[Date], CALCULATE ( SUM ( AccountBalances[Balance] ) ) ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`SUM ( AccountBalances[Balance] )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( SUM ( AccountBalances[Balance] ), LASTDATE ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`AVERAGE ( AccountBalances[Balance] )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LASTNONBLANK finds the last date in the period where the balance expression isn't blank, then CALCULATE sums the balances on that date. LASTDATE would use the calendar's last day, which may have no rows, giving blank.",
+      "takeaway": "Closing balance when the last day may be empty → LASTNONBLANK."
+    },
+    {
+      "id": "MOD-076",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "yesno",
+      "stem": "Accounts = CALCULATE ( DISTINCTCOUNT ( Balances[AccountID] ), LASTDATE ( 'Date'[Date] ) ). For each statement, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "In a month row, the measure counts accounts that have a row on the month's last date.",
+        "If no balances were recorded on the last day of a month, that month shows blank.",
+        "The measure counts every account that had a row at any time during the month."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "LASTDATE returns the last date in the current context, so the measure counts the accounts that have a row on that day. If no rows exist on that exact day (for example a weekend), the result is blank. It does not count every account seen during the period.",
+      "takeaway": "LASTDATE = last calendar date in context, whether or not it has data."
+    },
+    {
+      "id": "MOD-077",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Headcount table holds one row per department per month, recording headcount on the last day of the month. A matrix shows quarters and years.\n\nWhy is SUM ( Headcount[Employees] ) wrong for a quarter, and what should you use?",
+      "image": {
+        "src": "images/model/MOD-077.svg",
+        "alt": "Matrix where January, February and March headcounts are about 600 each, but the 2026 Q1 row shows 1,812."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "It's correct; quarters should add the months"
+        },
+        {
+          "id": "B",
+          "text": "It counts departments, so use DISTINCTCOUNT"
+        },
+        {
+          "id": "C",
+          "text": "It adds three month-end snapshots; take the value at the period's last date instead"
+        },
+        {
+          "id": "D",
+          "text": "It needs AVERAGE over all days"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Headcount is semi-additive: it adds across departments but not across time. Summing three month-end snapshots triples the headcount. Evaluate the sum on the last date of the period instead, for example CALCULATE ( SUM ( … ), LASTDATE ( 'Date'[Date] ) ).",
+      "takeaway": "Snapshots add across categories but not over time."
+    },
+    {
+      "id": "MOD-078",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "You use a quick measure to build a three-month rolling average of Sales, including the current month.\n\nSelect the settings.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Period",
+          "options": [
+            "Days",
+            "Months",
+            "Years"
+          ]
+        },
+        {
+          "label": "Periods before",
+          "options": [
+            "3",
+            "2",
+            "1"
+          ]
+        },
+        {
+          "label": "Periods after",
+          "options": [
+            "0",
+            "1",
+            "3"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          1,
+          0
+        ]
+      },
+      "explanation": "With monthly periods, the current month plus the two before it make three months. Periods after is 0, since future months shouldn't be included.",
+      "takeaway": "N-period rolling window including the current period → N−1 before, 0 after."
+    },
+    {
+      "id": "MOD-079",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You need a running total of sales from the first date in the data to the current date in context.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], DATESYTD ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALCULATE ( [Sales], FILTER ( ALL ( 'Date'[Date] ), 'Date'[Date] <= MAX ( 'Date'[Date] ) ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( [Sales], FILTER ( ALL ( 'Date'[Date] ), 'Date'[Date] <= MIN ( 'Date'[Date] ) ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`SUMX ( 'Date', [Sales] )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "ALL('Date'[Date]) removes the current date filter, and the condition keeps every date up to the current context's last date, giving a cumulative total. Filtering on MIN would only include dates up to the period's start.",
+      "takeaway": "Running total → FILTER ( ALL ( dates ), date <= MAX ( date ) )."
+    },
+    {
+      "id": "MOD-080",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A measure returns the change in sales compared with the previous month as a ratio, such as 0.05 for 5% growth.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`[Sales] - CALCULATE ( [Sales], DATEADD ( 'Date'[Date], -1, MONTH ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`DIVIDE ( [Sales], [Sales] )`"
+        },
+        {
+          "id": "C",
+          "text": "`DIVIDE ( CALCULATE ( [Sales], DATEADD ( 'Date'[Date], -1, MONTH ) ), [Sales] )`"
+        },
+        {
+          "id": "D",
+          "text": "`VAR p = CALCULATE ( [Sales], DATEADD ( 'Date'[Date], -1, MONTH ) ) RETURN DIVIDE ( [Sales] - p, p )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Get the previous month's sales with DATEADD (or PREVIOUSMONTH at month level), then divide the difference by it. DIVIDE avoids errors when the previous month has no sales.",
+      "takeaway": "Change ratio = DIVIDE ( current − previous, previous )."
+    },
+    {
+      "id": "MOD-081",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Sales and Forecast both have date columns. You need a calculated date table covering the earliest to the latest date across both tables.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALENDAR ( MIN ( MIN ( Sales[Date] ), MIN ( Forecast[Date] ) ), MAX ( MAX ( Sales[Date] ), MAX ( Forecast[Date] ) ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALENDAR ( MIN ( Sales[Date] ), MAX ( Forecast[Date] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`UNION ( Sales[Date], Forecast[Date] )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALENDAR ( MAX ( Sales[Date] ), MIN ( Forecast[Date] ) )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "MIN and MAX each accept two values, so the inner MIN/MAX find each table's extremes and the outer ones compare them. CALENDAR then returns every date in that range. CALENDARAUTO would scan every date column in the model, not just these two.",
+      "takeaway": "CALENDAR ( earliest, latest ) across tables → nested MIN/MAX."
+    },
+    {
+      "id": "MOD-082",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need a date table with 10 full calendar years, ending with the current year.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALENDAR ( DATE ( YEAR ( TODAY () ) - 10, 1, 1 ), DATE ( YEAR ( TODAY () ), 12, 31 ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALENDARAUTO ( 10 )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALENDAR ( DATE ( YEAR ( TODAY () ) - 9, 1, 1 ), DATE ( YEAR ( TODAY () ), 12, 31 ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALENDAR ( TODAY () - 3650, TODAY () )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Start on 1 January nine years before this year and end on 31 December this year: that's ten full years including the current one. YEAR(TODAY())-10 would give eleven years.",
+      "takeaway": "N full years including this one → start at YEAR(TODAY()) − (N − 1)."
+    },
+    {
+      "id": "MOD-083",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need a calculated table named Numbers with every integer from −100 to 100.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALENDAR ( -100, 100 )`"
+        },
+        {
+          "id": "B",
+          "text": "`GENERATESERIES ( -100, 100, 1 )`"
+        },
+        {
+          "id": "C",
+          "text": "`SEQUENCE ( -100, 100 )`"
+        },
+        {
+          "id": "D",
+          "text": "`VALUES ( -100 : 100 )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "GENERATESERIES ( start, end, increment ) returns a one-column table (named Value) with the sequence. It's also what numeric range parameters use behind the scenes.",
+      "takeaway": "Sequence of numbers → GENERATESERIES."
+    },
+    {
+      "id": "MOD-084",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need a calculated table with one row per year and a column holding that year's total sales.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`VALUES ( 'Date'[Year] )`"
+        },
+        {
+          "id": "B",
+          "text": "`CALENDAR ( 'Date'[Year], [Total Sales] )`"
+        },
+        {
+          "id": "C",
+          "text": "`FILTER ( 'Date', [Total Sales] > 0 )`"
+        },
+        {
+          "id": "D",
+          "text": "`SUMMARIZECOLUMNS ( 'Date'[Year], \"Sales\", [Total Sales] )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "SUMMARIZECOLUMNS groups by the given column and adds named expressions, giving one row per year with its sales.",
+      "takeaway": "Grouped summary table in DAX → SUMMARIZECOLUMNS."
+    },
+    {
+      "id": "MOD-085",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows two single-column tables. You create ProductList = INTERSECT ( GroupA, GroupB ).\n\nWhich rows does ProductList contain?",
+      "image": {
+        "src": "images/model/MOD-085.svg",
+        "alt": "Two lists side by side: GroupA holds Bags, Hats, Shoes; GroupB holds Bags, Shoes, Socks."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Bags, Shoes"
+        },
+        {
+          "id": "B",
+          "text": "Bags, Hats, Shoes, Socks"
+        },
+        {
+          "id": "C",
+          "text": "Hats"
+        },
+        {
+          "id": "D",
+          "text": "Socks"
+        }
+      ],
+      "answer": "A",
+      "explanation": "INTERSECT returns the rows of the first table that also appear in the second: Bags and Shoes. UNION would combine both lists; EXCEPT would return GroupA rows that aren't in GroupB (Hats).",
+      "takeaway": "INTERSECT = in both. EXCEPT = in first only. UNION = combined."
+    },
+    {
+      "id": "MOD-086",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Sales has a ProductKey that sometimes doesn't exist in Product.\n\nWhat is the difference between VALUES ( Product[Category] ) and DISTINCT ( Product[Category] ) in this model?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "There's no difference"
+        },
+        {
+          "id": "B",
+          "text": "DISTINCT includes blanks, VALUES doesn't"
+        },
+        {
+          "id": "C",
+          "text": "VALUES can include the blank row for unmatched keys; DISTINCT doesn't"
+        },
+        {
+          "id": "D",
+          "text": "VALUES returns a single value, DISTINCT returns a table"
+        }
+      ],
+      "answer": "C",
+      "explanation": "VALUES can include the extra blank row Power BI adds for unmatched keys; DISTINCT doesn't. That's why the two can return different counts when referential integrity is broken.",
+      "takeaway": "VALUES may include the blank row for unmatched keys; DISTINCT doesn't."
+    },
+    {
+      "id": "MOD-087",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Employee has EmployeeID and ParentEmployeeID (the manager). You need a column that lists each employee's chain of managers up to the CEO.\n\nWhich function should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "RELATED"
+        },
+        {
+          "id": "B",
+          "text": "PATH"
+        },
+        {
+          "id": "C",
+          "text": "LOOKUPVALUE"
+        },
+        {
+          "id": "D",
+          "text": "TREATAS"
+        }
+      ],
+      "answer": "B",
+      "explanation": "PATH ( Employee[EmployeeID], Employee[ParentEmployeeID] ) returns a delimited string of IDs from the top of the hierarchy to the employee. PATHITEM and LOOKUPVALUE then extract each level, for example to build Level 1, Level 2 columns for a hierarchy.",
+      "takeaway": "Parent-child hierarchy → PATH, then PATHITEM per level."
+    },
+    {
+      "id": "MOD-088",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You need the number of product categories that had at least one sale in the selected period.\n\nWhich expression should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`DISTINCTCOUNT ( Product[Category] )`"
+        },
+        {
+          "id": "B",
+          "text": "`COUNTROWS ( Product )`"
+        },
+        {
+          "id": "C",
+          "text": "`DISTINCTCOUNT ( Sales[ProductKey] )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( DISTINCTCOUNT ( Product[Category] ), Sales )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "DISTINCTCOUNT ( Product[Category] ) alone counts every category in the Product table, because filters on Date don't reach Product. Adding Sales as a filter table restricts Product to the rows that have matching sales in the current context.",
+      "takeaway": "Count dimension items that have facts → use the fact table as a CALCULATE filter."
+    },
+    {
+      "id": "MOD-089",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculated tables",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Rates table holds Currency, Date and Rate, with no relationship to Sales. You need a calculated column in Sales that returns the rate for each sale's currency and date.\n\nWhich function should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "LOOKUPVALUE"
+        },
+        {
+          "id": "B",
+          "text": "RELATED"
+        },
+        {
+          "id": "C",
+          "text": "USERELATIONSHIP"
+        },
+        {
+          "id": "D",
+          "text": "SELECTEDVALUE"
+        }
+      ],
+      "answer": "A",
+      "explanation": "LOOKUPVALUE returns a value from a table by matching one or more columns to values, no relationship needed: LOOKUPVALUE ( Rates[Rate], Rates[Currency], Sales[Currency], Rates[Date], Sales[Date] ).",
+      "takeaway": "Look up by matching columns without a relationship → LOOKUPVALUE."
+    },
+    {
+      "id": "MOD-090",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculation groups and parameters",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You create a calculation group named Time Calc. Which expression should its Prior Year calculation item use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( [Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`SELECTEDVALUE ( 'Time Calc'[Name] )`"
+        },
+        {
+          "id": "C",
+          "text": "`CALCULATE ( SELECTEDMEASURE (), SAMEPERIODLASTYEAR ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`SAMEPERIODLASTYEAR ( SELECTEDMEASURE () )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A calculation item applies to whichever measure is in the visual, referenced through SELECTEDMEASURE (). Writing [Sales] would make every measure return prior-year sales.",
+      "takeaway": "Calculation items use SELECTEDMEASURE ()."
+    },
+    {
+      "id": "MOD-091",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculation groups and parameters",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "After you create a calculation group, report authors can no longer drag a numeric column into a visual to sum it.\n\nWhy?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Calculation groups make columns read-only"
+        },
+        {
+          "id": "B",
+          "text": "The model now discourages implicit measures"
+        },
+        {
+          "id": "C",
+          "text": "Numeric columns are converted to text"
+        },
+        {
+          "id": "D",
+          "text": "The relationship to the column's table is removed"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Creating a calculation group turns on Discourage implicit measures, because calculation groups only work with explicit measures. Authors must use measures you define.",
+      "takeaway": "Calculation groups → implicit measures discouraged; use explicit measures."
+    },
+    {
+      "id": "MOD-092",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculation groups and parameters",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Users want a slicer that switches a line chart between Sales, Profit and Units, all of which are measures.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A field parameter containing the three measures"
+        },
+        {
+          "id": "B",
+          "text": "A calculation group"
+        },
+        {
+          "id": "C",
+          "text": "Three bookmarks"
+        },
+        {
+          "id": "D",
+          "text": "A numeric range parameter"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A field parameter can contain measures as well as columns. Put it in the chart's value well and in a slicer, and the user's choice swaps the measure shown.",
+      "takeaway": "Switch measures in a visual → field parameter of measures."
+    },
+    {
+      "id": "MOD-093",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculation groups and parameters",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You want a running total of Sales across the months shown in one matrix, without adding a new measure to the semantic model.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A calculated column"
+        },
+        {
+          "id": "B",
+          "text": "A calculation group"
+        },
+        {
+          "id": "C",
+          "text": "A quick measure"
+        },
+        {
+          "id": "D",
+          "text": "A visual calculation using RUNNINGSUM"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Visual calculations are defined on a visual and operate on its data, for example RUNNINGSUM ( [Sales] ). They don't add anything to the model.",
+      "takeaway": "Calculation for one visual only → visual calculation."
+    },
+    {
+      "id": "MOD-094",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Calculation groups and parameters",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "In DAX query view, which keyword must a query begin with to return a table?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "SELECT"
+        },
+        {
+          "id": "B",
+          "text": "RETURN"
+        },
+        {
+          "id": "C",
+          "text": "EVALUATE"
+        },
+        {
+          "id": "D",
+          "text": "MEASURE"
+        }
+      ],
+      "answer": "C",
+      "explanation": "DAX queries start with EVALUATE followed by a table expression, for example EVALUATE SUMMARIZECOLUMNS ( 'Date'[Year], \"Sales\", [Sales] ). DEFINE can come before it to declare query-scoped measures.",
+      "takeaway": "DAX queries → EVALUATE (optionally after DEFINE)."
+    },
+    {
+      "id": "MOD-095",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Totals and blanks",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "The matrix in the exhibit shows Max Price per product, and the total row shows 120 instead of the 270 the finance team expects (the sum of each product's maximum).\n\nHow should you write the measure?",
+      "image": {
+        "src": "images/model/MOD-095.svg",
+        "alt": "Matrix of Max Price by Product: Daypack 60, Rain Jacket 90, Trail Shoe 120, and a total of 120."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "`MAX ( Sales[Price] )`"
+        },
+        {
+          "id": "B",
+          "text": "`SUMX ( VALUES ( Product[Product] ), CALCULATE ( MAX ( Sales[Price] ) ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`SUM ( Sales[Price] )`"
+        },
+        {
+          "id": "D",
+          "text": "`MAXX ( Sales, Sales[Price] )`"
+        }
+      ],
+      "answer": "B",
+      "explanation": "In the total row, MAX is evaluated over all products together, so it returns the single highest price. To sum each product's maximum, iterate the products: SUMX ( VALUES ( Product[Product] ), CALCULATE ( MAX ( Sales[Price] ) ) ).",
+      "takeaway": "Totals are recalculated in their own context; iterate to sum per-item results."
+    },
+    {
+      "id": "MOD-096",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Totals and blanks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A colleague adds + 0 to every measure so that blanks show as zero. Matrices now list every product, even those with no sales.\n\nWhy?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "+ 0 removes relationship filters"
+        },
+        {
+          "id": "B",
+          "text": "+ 0 turns on Show items with no data"
+        },
+        {
+          "id": "C",
+          "text": "Blanks become 0, so no row is blank and every product is shown"
+        },
+        {
+          "id": "D",
+          "text": "+ 0 converts the measure to a calculated column"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Visuals hide rows where every measure is blank. Adding 0 turns blanks into zeros, so every row of the dimension has a value and appears. It also makes visuals slower. Leave blanks as blank, or handle zeros only where needed.",
+      "takeaway": "Blank hides rows; zero shows them."
+    },
+    {
+      "id": "MOD-097",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Totals and blanks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A single card must show 0 instead of (Blank) when there are no sales. Other visuals should keep blanks.\n\nWhat should the card's measure use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`COALESCE ( [Sales], 0 )`"
+        },
+        {
+          "id": "B",
+          "text": "`ISBLANK ( [Sales] )`"
+        },
+        {
+          "id": "C",
+          "text": "`[Sales] & 0`"
+        },
+        {
+          "id": "D",
+          "text": "`BLANK () + [Sales]`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "COALESCE ( [Sales], 0 ) returns the first non-blank value, so the card shows 0. Using it only in the card's measure keeps other visuals from listing empty rows.",
+      "takeaway": "Blank to zero for one visual → COALESCE in a dedicated measure."
+    },
+    {
+      "id": "MOD-098",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "CALCULATE and filter context",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The matrix in the exhibit uses % of Category = DIVIDE ( [Sales], CALCULATE ( [Sales], ALLEXCEPT ( Product, Product[Category] ) ) ).\n\nWhat does it show for Trail Shoe?",
+      "image": {
+        "src": "images/model/MOD-098.svg",
+        "alt": "Matrix of Sales by Category and Product: Footwear 500 (Trail Shoe 300, Sandal 200 at 40%), Bags 300 (Daypack 300), total 800. Trail Shoe's percentage is unknown."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "37.5%"
+        },
+        {
+          "id": "B",
+          "text": "100%"
+        },
+        {
+          "id": "C",
+          "text": "60.0%"
+        },
+        {
+          "id": "D",
+          "text": "300"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The denominator keeps only the Category filter, so for Trail Shoe it's Footwear's total, 500. Trail Shoe's 300 ÷ 500 = 60%. Dividing by the grand total (800) would give 37.5%.",
+      "takeaway": "ALLEXCEPT keeps the parent's filter: share of the parent group."
+    },
+    {
+      "id": "MOD-099",
+      "domain": "model",
+      "topic": "Create model calculations by using DAX",
+      "subtopic": "Time intelligence",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The matrix in the exhibit uses a running total measure that adds sales from the first date in the data up to the last date in each row's context.\n\nWhat value appears for March?",
+      "image": {
+        "src": "images/model/MOD-099.svg",
+        "alt": "Matrix of Month, Sales and Running Total: January 100 and 100, February 120 and 220, March 90 with the running total unknown."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "90"
+        },
+        {
+          "id": "B",
+          "text": "310"
+        },
+        {
+          "id": "C",
+          "text": "210"
+        },
+        {
+          "id": "D",
+          "text": "103.3"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A running total adds every earlier month to the current one: 100 + 120 + 90 = 310. 90 is March alone, and 210 would stop at February.",
+      "takeaway": "Running total = everything up to and including the current period."
+    }
+  ]
+}

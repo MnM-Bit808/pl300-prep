@@ -1,0 +1,1269 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 4,
+  "title": "Design and implement a data model",
+  "domains": [
+    "model"
+  ],
+  "schemaVersion": 2,
+  "count": 39,
+  "questions": [
+    {
+      "id": "MOD-001",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a model in Model view.\n\nWhich table is the fact table?",
+      "image": {
+        "src": "images/model/MOD-001.svg",
+        "alt": "Model view with Customer, Product and Date each related one-to-many to Orders, which holds CustomerKey, ProductKey, DateKey, Quantity and Amount."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Customer"
+        },
+        {
+          "id": "B",
+          "text": "Orders"
+        },
+        {
+          "id": "C",
+          "text": "Product"
+        },
+        {
+          "id": "D",
+          "text": "Date"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Orders holds the numeric values you aggregate (Quantity, Amount) and a foreign key to each other table, and it sits on the many side of every relationship. Customer, Product and Date describe those orders, so they're dimensions.",
+      "takeaway": "Fact = numbers to aggregate + foreign keys, on the many side."
+    },
+    {
+      "id": "MOD-002",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows part of a hospital model. A patient who moves address gets a new row in Patient with new ValidFrom and ValidTo dates, keeping the same MRN (medical record number).\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/model/MOD-002.svg",
+        "alt": "Model view with Patient (PatientKey, MRN, Name, City, ValidFrom, ValidTo) related to Visits (VisitID, PatientKey, DateKey, Charge), and Date related to Visits."
+      },
+      "parts": [
+        {
+          "label": "The fact table is",
+          "options": [
+            "Patient",
+            "Visits",
+            "Date"
+          ]
+        },
+        {
+          "label": "The surrogate key in Patient is",
+          "options": [
+            "PatientKey",
+            "MRN",
+            "ValidFrom"
+          ]
+        },
+        {
+          "label": "Patient is an example of",
+          "options": [
+            "a degenerate dimension",
+            "a role-playing dimension",
+            "a type 2 slowly changing dimension"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0,
+          2
+        ]
+      },
+      "explanation": "Visits records events with a numeric Charge and keys to the dimensions, so it's the fact table. PatientKey is the surrogate key: a meaningless number unique per row, even when one MRN has several historical rows. MRN is the business key from the source system. Keeping history this way is a type 2 slowly changing dimension.",
+      "takeaway": "Surrogate key = unique per row. Business key = the source system's identifier. Type 2 = history kept as extra rows."
+    },
+    {
+      "id": "MOD-003",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A modeller says the Sales table's grain is 'one row per order line'.\n\nWhat does that tell you?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The table has one row per order"
+        },
+        {
+          "id": "B",
+          "text": "The table is a dimension"
+        },
+        {
+          "id": "C",
+          "text": "Each row represents one product on one order"
+        },
+        {
+          "id": "D",
+          "text": "The table can't be related to Date"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Grain is the level of detail one row represents. Here each row is one product on one order, so an order with three products has three rows. Totals add up correctly from that level, and you can't analyse below it.",
+      "takeaway": "Grain = what one row of a fact table represents."
+    },
+    {
+      "id": "MOD-004",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A fact table contains an InvoiceNumber column. Invoices have no other attributes in the source.\n\nHow should you model InvoiceNumber?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Leave it in the fact table as a degenerate dimension"
+        },
+        {
+          "id": "B",
+          "text": "Create an Invoice dimension table with one row per invoice"
+        },
+        {
+          "id": "C",
+          "text": "Remove it, because facts can't contain text"
+        },
+        {
+          "id": "D",
+          "text": "Move it to the Date table"
+        }
+      ],
+      "answer": "A",
+      "explanation": "An identifier with no attributes of its own can stay in the fact table as a degenerate dimension. A separate table with one column per row of the fact table would add a huge relationship for nothing.",
+      "takeaway": "Identifier with no attributes → leave it in the fact (degenerate dimension)."
+    },
+    {
+      "id": "MOD-005",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Why does Microsoft recommend a star schema over a snowflake schema for Power BI models?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Snowflakes can't be refreshed"
+        },
+        {
+          "id": "B",
+          "text": "Fewer relationship hops, simpler DAX and an easier field list, with little storage cost"
+        },
+        {
+          "id": "C",
+          "text": "Star schemas use DirectQuery automatically"
+        },
+        {
+          "id": "D",
+          "text": "Snowflakes don't support relationships"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Every dimension relates directly to the fact table, so filters travel one relationship, DAX stays simpler, and users see fewer tables. Power BI compresses repeated values well, so the storage saving a snowflake offers barely matters.",
+      "takeaway": "Star = simpler, faster, friendlier. Flatten snowflakes."
+    },
+    {
+      "id": "MOD-006",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The model has Sales and Returns fact tables. Users want to compare sales and returns by product and month in the same visual.\n\nHow should you design the model?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Relate Sales directly to Returns on ProductKey"
+        },
+        {
+          "id": "B",
+          "text": "Append Returns to Sales"
+        },
+        {
+          "id": "C",
+          "text": "Relate both fact tables to the same Product and Date dimensions"
+        },
+        {
+          "id": "D",
+          "text": "Merge Returns into Sales on OrderID"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Relate both fact tables to the same Product and Date dimensions (conformed dimensions). A filter on a product or month then reaches both facts. Relating the two facts directly creates a fact-to-fact relationship that's fragile and usually many-to-many.",
+      "takeaway": "Several facts → share dimensions; never relate fact to fact."
+    },
+    {
+      "id": "MOD-007",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Customers sometimes move city. Reports must show sales by the city the customer lived in at the time of each sale.\n\nWhat should the Customer dimension do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Overwrite City when it changes"
+        },
+        {
+          "id": "B",
+          "text": "Store City in the Date table"
+        },
+        {
+          "id": "C",
+          "text": "Delete old customers when they move"
+        },
+        {
+          "id": "D",
+          "text": "Add a new row with a new surrogate key whenever City changes, and link each sale to the row current at the time"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A type 2 slowly changing dimension adds a new row (with a new surrogate key) each time a tracked attribute changes, and each sale is linked to the row that was current when it happened. Overwriting the city (type 1) would move all history to the new city.",
+      "takeaway": "History 'as it was' → type 2 dimension with a surrogate key per version."
+    },
+    {
+      "id": "MOD-008",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users need two slicers on the same page, Order Month and Ship Month, and want both to filter every visual at the same time.\n\nHow should you model the dates?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Create a second date table for ship dates, each with its own active relationship"
+        },
+        {
+          "id": "B",
+          "text": "Make both relationships active"
+        },
+        {
+          "id": "C",
+          "text": "Use USERELATIONSHIP in every measure"
+        },
+        {
+          "id": "D",
+          "text": "Set the relationship to bidirectional"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Only one relationship between two tables can be active, so one Date table can't be filtered by both dates at once. Two date tables (for example a calculated copy named Ship Date) each with an active relationship let both slicers work together. USERELATIONSHIP only switches relationships inside specific measures.",
+      "takeaway": "Two date roles filtered at the same time → two date tables."
+    },
+    {
+      "id": "MOD-009",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A single imported table has 60 columns: order details plus customer and product attributes repeated on every row. The model is large and confusing.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Hide 40 of the columns"
+        },
+        {
+          "id": "B",
+          "text": "Split it into a fact table and dimension tables related by keys"
+        },
+        {
+          "id": "C",
+          "text": "Convert it to DirectQuery"
+        },
+        {
+          "id": "D",
+          "text": "Create a calculated table for each attribute"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Split it into a star: build Customer and Product dimensions (Reference the source, keep their columns, remove duplicates), keep only keys and numeric columns in the fact, then relate them. Repeated text moves out of the biggest table and the field list becomes clearer.",
+      "takeaway": "Wide flat table → split into a fact and dimensions."
+    },
+    {
+      "id": "MOD-010",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Star schema design",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows Sales related to Product, which is related to Subcategory, which is related to Category.\n\nWhat should you do to make the model a star schema?",
+      "image": {
+        "src": "images/model/MOD-010.svg",
+        "alt": "Model view showing a chain: Category to Subcategory to Product to Sales, each one-to-many."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Relate Category directly to Sales"
+        },
+        {
+          "id": "B",
+          "text": "Set all relationships to bidirectional"
+        },
+        {
+          "id": "C",
+          "text": "Merge Subcategory and Category into Product and stop loading them"
+        },
+        {
+          "id": "D",
+          "text": "Append Subcategory and Category to Product"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Subcategory and Category are a snowflake hanging off Product. Merge them into Product in Power Query (adding Subcategory and Category columns), turn off load for the two lookups, and keep the single Product to Sales relationship.",
+      "takeaway": "Snowflake chain → merge the outer tables into the dimension."
+    },
+    {
+      "id": "MOD-011",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a relationship's properties.\n\nIn which direction do filters flow?",
+      "image": {
+        "src": "images/model/MOD-011.svg",
+        "alt": "Edit relationship dialog: Sales ProductKey to Product ProductKey, cardinality Many to one, cross-filter direction Single, relationship active."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "From Product to Sales"
+        },
+        {
+          "id": "B",
+          "text": "From Sales to Product"
+        },
+        {
+          "id": "C",
+          "text": "Both directions"
+        },
+        {
+          "id": "D",
+          "text": "Neither, because the relationship is inactive"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Sales is on the many side (ProductKey repeats) and Product on the one side. With Single cross-filter direction, filters flow from the one side to the many side, so selecting a product filters Sales, but filtering Sales doesn't filter Product.",
+      "takeaway": "Single direction: one side filters the many side."
+    },
+    {
+      "id": "MOD-012",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You try to create a many-to-one relationship from Sales[ProductKey] to Product[ProductKey], but Power BI says the cardinality isn't valid because Product[ProductKey] doesn't contain unique values.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Change the relationship to many-to-many"
+        },
+        {
+          "id": "B",
+          "text": "Set the cross-filter direction to Both"
+        },
+        {
+          "id": "C",
+          "text": "Remove the duplicate or blank keys from Product"
+        },
+        {
+          "id": "D",
+          "text": "Make the relationship inactive"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The one side must hold each key once. Find and fix the duplicate (or blank) ProductKey rows in Product, usually in Power Query, then create the relationship. Choosing many-to-many would hide a data quality problem in a dimension.",
+      "takeaway": "'One' side must be unique and not blank; fix the dimension data."
+    },
+    {
+      "id": "MOD-013",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Customer and CustomerDetails each have exactly one row per CustomerID.\n\nWhat is usually the best design?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A one-to-one relationship with Single direction"
+        },
+        {
+          "id": "B",
+          "text": "A many-to-many relationship"
+        },
+        {
+          "id": "C",
+          "text": "Two separate unrelated tables"
+        },
+        {
+          "id": "D",
+          "text": "Merge them into a single Customer table"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A one-to-one relationship is valid, but two tables describing the same entity add a needless hop and split the fields users look for. Merging them into one Customer table is simpler and usually smaller.",
+      "takeaway": "One-to-one usually means the tables should be merged."
+    },
+    {
+      "id": "MOD-014",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You change the Sales–Customer relationship to Both. Sales is also related to Product and Date.\n\nWhat is the main risk?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Sales can no longer be filtered by Date"
+        },
+        {
+          "id": "B",
+          "text": "Ambiguous filter paths and slower, less predictable results"
+        },
+        {
+          "id": "C",
+          "text": "RLS stops working entirely"
+        },
+        {
+          "id": "D",
+          "text": "The model can't be refreshed"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Bidirectional filtering can create more than one filter path between tables (ambiguity), slows queries, and can produce unexpected results, which is why Power BI may refuse a second bidirectional relationship. Use it only for a specific need.",
+      "takeaway": "Bidirectional = risk of ambiguous paths and slower queries."
+    },
+    {
+      "id": "MOD-015",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A Product slicer must show only products that have sales in the current filter context.\n\nWhat does Microsoft's guidance recommend instead of a bidirectional relationship?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A visual-level filter on the slicer where a sales measure is not blank"
+        },
+        {
+          "id": "B",
+          "text": "A many-to-many relationship"
+        },
+        {
+          "id": "C",
+          "text": "An inactive relationship"
+        },
+        {
+          "id": "D",
+          "text": "Turning off Edit interactions on the slicer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Add a visual-level filter to the slicer, such as [Total Sales] is not blank, so only products with sales appear. Microsoft recommends this over making the relationship bidirectional just for a slicer.",
+      "takeaway": "Slicer showing only 'used' items → visual-level measure filter, not bidirectional."
+    },
+    {
+      "id": "MOD-016",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Customers can share bank accounts, and each account can have several customers. Transactions relate to Account. Users need to filter transactions by customer.\n\nWhat should you model?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge Customer into Transactions"
+        },
+        {
+          "id": "B",
+          "text": "Relate Customer directly to Transactions on CustomerName"
+        },
+        {
+          "id": "C",
+          "text": "A bridge table with one row per customer and account pair"
+        },
+        {
+          "id": "D",
+          "text": "Two inactive relationships"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A bridge table (CustomerAccount, one row per customer–account pair) sits between Customer and Account. Customer filters the bridge, and the bridge needs to filter Account, which typically means setting the bridge–Account relationship to Both so the filter reaches Transactions.",
+      "takeaway": "Many-to-many between dimensions → bridge table."
+    },
+    {
+      "id": "MOD-017",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about relationships, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Only one relationship between the same two tables can be active.",
+        "The two related columns must have the same (compatible) data type.",
+        "A many-to-many relationship always requires a bridge table."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Only one relationship between two tables can be active at a time. Related columns must have compatible data types, so a text key can't relate to a number key. Power BI supports many-to-many cardinality directly; a bridge table is a design choice, not a requirement.",
+      "takeaway": "One active relationship per pair of tables; matching types; many-to-many is native."
+    },
+    {
+      "id": "MOD-018",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows two relationships between Date and Sales. One is drawn as a dashed line.\n\nHow can a measure use the dashed relationship?",
+      "image": {
+        "src": "images/model/MOD-018.svg",
+        "alt": "Model view: Date related to Sales twice, a solid line to OrderDate and a dashed line to ShipDate."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "It filters automatically when users choose a ship date"
+        },
+        {
+          "id": "B",
+          "text": "Set it to bidirectional"
+        },
+        {
+          "id": "C",
+          "text": "Delete the solid relationship first"
+        },
+        {
+          "id": "D",
+          "text": "Use CALCULATE with USERELATIONSHIP in the measure"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A dashed line is an inactive relationship. It doesn't filter anything by default, but a measure can activate it for its own calculation with CALCULATE and USERELATIONSHIP.",
+      "takeaway": "Dashed line = inactive; use it in a measure with USERELATIONSHIP."
+    },
+    {
+      "id": "MOD-019",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The matrix in the exhibit shows a (Blank) product row with sales against it.\n\nWhat is the most likely cause?",
+      "image": {
+        "src": "images/model/MOD-019.svg",
+        "alt": "Matrix of Sales Amount by Category: Apparel, Bags, Footwear, a (Blank) row with 24,605, and a total."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The relationship is inactive"
+        },
+        {
+          "id": "B",
+          "text": "Some Sales rows have a ProductKey that doesn't exist in Product"
+        },
+        {
+          "id": "C",
+          "text": "Product contains duplicate keys"
+        },
+        {
+          "id": "D",
+          "text": "The matrix has Show items with no data turned on"
+        }
+      ],
+      "answer": "B",
+      "explanation": "When fact rows have a key that doesn't exist in the dimension, Power BI assigns them to a blank member so totals still add up. Fix it at the source or add the missing products (or an Unknown member) to the dimension.",
+      "takeaway": "(Blank) row = fact keys with no matching dimension row."
+    },
+    {
+      "id": "MOD-020",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Your DirectQuery model's Sales[ProductKey] always has a matching Product row, guaranteed by the database. You want faster queries.\n\nWhich relationship setting should you enable?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Assume referential integrity"
+        },
+        {
+          "id": "B",
+          "text": "Apply security filter in both directions"
+        },
+        {
+          "id": "C",
+          "text": "Cross-filter direction: Both"
+        },
+        {
+          "id": "D",
+          "text": "Make this relationship inactive"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Assume referential integrity tells Power BI it can use inner joins instead of outer joins when querying the source, which is faster. Only enable it when every fact key really does match, or rows will silently disappear.",
+      "takeaway": "DirectQuery + guaranteed matches → Assume referential integrity."
+    },
+    {
+      "id": "MOD-021",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "In a composite model, Sales comes from SQL Server through DirectQuery and Targets is imported from Excel. In Model view, their relationship shows bracket-like marks after the cardinality indicators.\n\nWhat do the marks indicate?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "An inactive relationship"
+        },
+        {
+          "id": "B",
+          "text": "A bidirectional relationship"
+        },
+        {
+          "id": "C",
+          "text": "A limited relationship across source groups"
+        },
+        {
+          "id": "D",
+          "text": "A relationship that has errors"
+        }
+      ],
+      "answer": "C",
+      "explanation": "They mark a limited relationship: the tables come from different source groups (or the relationship is many-to-many), so Power BI can't build the join in advance. It runs the join at query time, and no blank member is added for unmatched keys.",
+      "takeaway": "Bracket-like marks = limited relationship."
+    },
+    {
+      "id": "MOD-022",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which cross-filter direction does a one-to-one relationship use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Always single"
+        },
+        {
+          "id": "B",
+          "text": "Always both"
+        },
+        {
+          "id": "C",
+          "text": "Whatever you choose"
+        },
+        {
+          "id": "D",
+          "text": "None"
+        }
+      ],
+      "answer": "B",
+      "explanation": "One-to-one relationships always filter in both directions; you can't make them single-direction.",
+      "takeaway": "One-to-one = always both directions."
+    },
+    {
+      "id": "MOD-023",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the cardinality Power BI should use for each pair of key columns.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Sales[StoreID] repeats; Store[StoreID] is unique",
+          "options": [
+            "Many to one",
+            "One to one",
+            "Many to many"
+          ]
+        },
+        {
+          "label": "Employee[EmpID] is unique; Badge[EmpID] is unique",
+          "options": [
+            "Many to one",
+            "One to one",
+            "Many to many"
+          ]
+        },
+        {
+          "label": "Sales[Category] repeats; Budget[Category] repeats",
+          "options": [
+            "Many to one",
+            "One to one",
+            "Many to many"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "Unique on one side and repeated on the other is many-to-one. Unique on both sides is one-to-one. Repeated on both sides is many-to-many.",
+      "takeaway": "Cardinality comes from whether each side's values are unique."
+    },
+    {
+      "id": "MOD-024",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Every time you import tables, Power BI creates unwanted relationships between columns that happen to be named ID.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Rename every ID column"
+        },
+        {
+          "id": "B",
+          "text": "Turn off Auto date/time"
+        },
+        {
+          "id": "C",
+          "text": "Set all relationships to inactive"
+        },
+        {
+          "id": "D",
+          "text": "Turn off autodetecting new relationships in the Data Load options"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Under Options > Current File > Data Load, clear the Relationships option to autodetect new relationships after data is loaded. You then create the correct relationships yourself in Model view.",
+      "takeaway": "Unwanted auto relationships → turn off relationship autodetection in Data Load options."
+    },
+    {
+      "id": "MOD-025",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Budget has one row per category per month (stored as the first day of the month). Date has one row per day.\n\nWhat is a sound way to relate Budget to Date?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Relate Budget's first-of-month date to Date[Date], and avoid showing budget below month level"
+        },
+        {
+          "id": "B",
+          "text": "Merge Budget into Sales"
+        },
+        {
+          "id": "C",
+          "text": "Create a one-to-one relationship"
+        },
+        {
+          "id": "D",
+          "text": "Don't relate Budget; use a slicer for each table"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Relating Budget's first-of-month date to Date[Date] lets month, quarter and year filters reach Budget. Visuals below month level would show the whole month's budget on the 1st, so measures should hide or allocate budget at day level.",
+      "takeaway": "Monthly facts → relate on a month-level date, and guard against day-level visuals."
+    },
+    {
+      "id": "MOD-026",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Relationships",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You create a second relationship between Date and Sales, on ShipDate, while the OrderDate relationship already exists.\n\nWhat state is the new relationship created in?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Active, and the first becomes inactive"
+        },
+        {
+          "id": "B",
+          "text": "Both active"
+        },
+        {
+          "id": "C",
+          "text": "Inactive"
+        },
+        {
+          "id": "D",
+          "text": "Bidirectional"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Because only one relationship between two tables can be active, Power BI creates the second one as inactive (dashed line). You can switch which one is active, but not have both active.",
+      "takeaway": "Second relationship between the same tables → inactive."
+    },
+    {
+      "id": "MOD-027",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Date table",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "What happens when you mark a Date table as a date table?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Power BI creates a relationship to every fact table"
+        },
+        {
+          "id": "B",
+          "text": "Time intelligence uses this table, and its auto date hierarchy is removed"
+        },
+        {
+          "id": "C",
+          "text": "The table becomes DirectQuery"
+        },
+        {
+          "id": "D",
+          "text": "Every date column in the model is converted to this table"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Power BI validates the date column (unique, no blanks, no gaps) and uses that table for time intelligence. The automatic date hierarchy for that table's date column is removed. Data and relationships aren't changed.",
+      "takeaway": "Mark as date table = validated column + used for time intelligence."
+    },
+    {
+      "id": "MOD-028",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Date table",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The company's financial year starts on 1 July. Users need to analyse by fiscal year and fiscal quarter, and drill from one to the other.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn on Auto date/time"
+        },
+        {
+          "id": "B",
+          "text": "Change every date column to Text"
+        },
+        {
+          "id": "C",
+          "text": "Add fiscal year and quarter columns to the Date table and build a hierarchy"
+        },
+        {
+          "id": "D",
+          "text": "Use a calculation group"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Add FiscalYear and FiscalQuarter columns to the Date table (calculated from the month), then create a hierarchy FiscalYear → FiscalQuarter → Month. Auto date/time only knows calendar years.",
+      "takeaway": "Fiscal calendars → fiscal columns + hierarchy in your own Date table."
+    },
+    {
+      "id": "MOD-029",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The matrix in the exhibit lists months alphabetically.\n\nWhat should you do so they appear in calendar order?",
+      "image": {
+        "src": "images/model/MOD-029.svg",
+        "alt": "Matrix of Sales by Month Name listing April, August, December, February, January, July: alphabetical order."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Set Month Name's Sort by column to Month Number"
+        },
+        {
+          "id": "B",
+          "text": "Rename the months 01-Jan, 02-Feb"
+        },
+        {
+          "id": "C",
+          "text": "Sort the matrix by Sales"
+        },
+        {
+          "id": "D",
+          "text": "Change Month Name to the Date type"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Select Month Name and set Sort by column to Month Number (a column with 1 to 12). Every visual then orders months correctly. Sorting a single visual by another field doesn't fix every visual.",
+      "takeaway": "Text that has a natural order → Sort by column."
+    },
+    {
+      "id": "MOD-030",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A table visual shows a column titled Sum of Year with values such as 4,048,104.\n\nWhat should you change?",
+      "image": {
+        "src": "images/model/MOD-030.svg",
+        "alt": "Table visual with columns Region, Sum of Year and Sales, where Sum of Year shows values like 4,048,104."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Change Year to Text in every visual"
+        },
+        {
+          "id": "B",
+          "text": "Set Year's Summarization to Don't summarize"
+        },
+        {
+          "id": "C",
+          "text": "Format Year with no thousands separator"
+        },
+        {
+          "id": "D",
+          "text": "Hide the Year column"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Numeric columns like Year default to Sum. Set the column's Summarization property to Don't summarize in the model, so it's treated as a label in every visual.",
+      "takeaway": "Numbers that are labels (Year, IDs) → Summarization: Don't summarize."
+    },
+    {
+      "id": "MOD-031",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A map visual plots Paris in France and Paris in Texas at the same location.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Set the City column's Summarization to Count"
+        },
+        {
+          "id": "B",
+          "text": "Use a table visual instead"
+        },
+        {
+          "id": "C",
+          "text": "Change City to Text"
+        },
+        {
+          "id": "D",
+          "text": "Set geographic data categories and add country or state context, for example a hierarchy"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Give Bing enough context: set data categories (City, State or Province, Country) and use the fields together, for example a hierarchy or a combined 'City, Country' column categorised as a place. A single ambiguous city name can't be placed reliably.",
+      "takeaway": "Ambiguous place names → data categories + more location context."
+    },
+    {
+      "id": "MOD-032",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Users must drill a map from Country to State to City.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A hierarchy Country → State → City"
+        },
+        {
+          "id": "B",
+          "text": "Three separate map visuals"
+        },
+        {
+          "id": "C",
+          "text": "A calculated table"
+        },
+        {
+          "id": "D",
+          "text": "A field parameter"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A hierarchy Country → State → City (with each column's geographic data category set) lets users drill down level by level in the map.",
+      "takeaway": "Drill path on a map → geographic hierarchy."
+    },
+    {
+      "id": "MOD-033",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A ProductImage column holds web addresses of product photos. You want the photos to appear in a table visual.\n\nWhat should you set?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Data category: Web URL"
+        },
+        {
+          "id": "B",
+          "text": "Summarization: Count"
+        },
+        {
+          "id": "C",
+          "text": "Data category: Image URL"
+        },
+        {
+          "id": "D",
+          "text": "Format: Text"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Setting the column's data category to Image URL tells Power BI to render the address as an image in tables, matrices and slicers. Web URL would show it as a link.",
+      "takeaway": "Show pictures from URLs → data category Image URL."
+    },
+    {
+      "id": "MOD-034",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Report authors keep using foreign key columns such as Sales[ProductKey] in visuals instead of the Product table's fields.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Delete the relationship"
+        },
+        {
+          "id": "B",
+          "text": "Hide the foreign key columns in the fact table"
+        },
+        {
+          "id": "C",
+          "text": "Rename them to Do not use"
+        },
+        {
+          "id": "D",
+          "text": "Set them to Don't summarize"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Hide the foreign key columns in the fact table. They still drive relationships, but authors only see the dimension fields, which have descriptive names and the right behaviour.",
+      "takeaway": "Hide fact-table keys; use dimension attributes."
+    },
+    {
+      "id": "MOD-035",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 3,
+      "type": "dropdown",
+      "stem": "You want Excel users to look up Product information from this semantic model as an organizational data type.\n\nSelect how to configure the Product table as a featured table.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Row label",
+          "options": [
+            "ProductID",
+            "ProductName",
+            "Category"
+          ]
+        },
+        {
+          "label": "Key column",
+          "options": [
+            "ProductID",
+            "ProductName",
+            "Category"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0
+        ]
+      },
+      "explanation": "Mark Product as a featured table. Its row label is what users see in Excel (ProductName). Its key column uniquely identifies each row (ProductID).",
+      "takeaway": "Featured table: row label = friendly name; key column = unique ID."
+    },
+    {
+      "id": "MOD-036",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales Amount must appear as currency with two decimal places in every visual.\n\nWhere is the most efficient place to set this?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "On the column or measure in the model"
+        },
+        {
+          "id": "B",
+          "text": "In each visual's Format pane"
+        },
+        {
+          "id": "C",
+          "text": "In Power Query"
+        },
+        {
+          "id": "D",
+          "text": "In the report theme"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Set the format on the column or measure in the model (Column tools or Measure tools). Every visual uses it by default, and you don't repeat the setting per visual.",
+      "takeaway": "Format once in the model, not per visual."
+    },
+    {
+      "id": "MOD-037",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Model properties",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You hide 30 unused columns in report view to make the model smaller.\n\nDoes this reduce the model's size?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Yes, hidden columns are not stored"
+        },
+        {
+          "id": "B",
+          "text": "Yes, but only in DirectQuery"
+        },
+        {
+          "id": "C",
+          "text": "Only after a refresh"
+        },
+        {
+          "id": "D",
+          "text": "No, hidden columns are still loaded and stored"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Hidden columns are still loaded and stored; hiding only removes them from the field list. To shrink the model, remove the columns in Power Query.",
+      "takeaway": "Hiding ≠ removing. Remove columns to save space."
+    },
+    {
+      "id": "MOD-038",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Calculated columns vs measures",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Profit Margin % must recalculate correctly for any combination of filters users apply, including totals.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A calculated column"
+        },
+        {
+          "id": "B",
+          "text": "A measure"
+        },
+        {
+          "id": "C",
+          "text": "A Power Query custom column"
+        },
+        {
+          "id": "D",
+          "text": "A calculated table"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A measure is evaluated in the current filter context, so it gives the right ratio at every level, including totals. A calculated column computes a value per row at refresh, and summing row-level percentages gives wrong totals.",
+      "takeaway": "Ratios that respond to filters → measures."
+    },
+    {
+      "id": "MOD-039",
+      "domain": "model",
+      "topic": "Design and implement a data model",
+      "subtopic": "Calculated columns vs measures",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Users need a slicer of customer age bands (Under 25, 25–44, 45+) based on each customer's age.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A column in the Customer table"
+        },
+        {
+          "id": "B",
+          "text": "A measure"
+        },
+        {
+          "id": "C",
+          "text": "A calculation group"
+        },
+        {
+          "id": "D",
+          "text": "A visual calculation"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Slicers, rows and axes need values stored per row, so create a column: a calculated column in Customer, or better, a column added in Power Query. A measure can't be used as a slicer field.",
+      "takeaway": "Slice or group by it → column. Aggregate it → measure."
+    }
+  ]
+}

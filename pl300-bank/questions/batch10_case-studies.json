@@ -1,0 +1,954 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 10,
+  "title": "Case studies",
+  "domains": [
+    "case"
+  ],
+  "schemaVersion": 2,
+  "count": 25,
+  "questions": [
+    {
+      "id": "CASE-001",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Prepare the data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Which data sources need an on-premises data gateway for scheduled refresh?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The Azure SQL database only"
+        },
+        {
+          "id": "B",
+          "text": "The SharePoint Online workbook only"
+        },
+        {
+          "id": "C",
+          "text": "The on-premises SQL Server only"
+        },
+        {
+          "id": "D",
+          "text": "All three sources"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Only the on-premises SQL Server holding StockLevel is inside the company network. Azure SQL Database and SharePoint Online are cloud sources the service reaches directly.",
+      "takeaway": "Gateway only for sources inside the company network."
+    },
+    {
+      "id": "CASE-002",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Prepare the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "How should you configure the Sales table to meet the freshness and performance requirements while keeping refresh times practical?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "DirectQuery"
+        },
+        {
+          "id": "B",
+          "text": "Import with incremental refresh"
+        },
+        {
+          "id": "C",
+          "text": "Import with a full refresh every night"
+        },
+        {
+          "id": "D",
+          "text": "Dual"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Data only needs to be current by 7 AM, so Import gives the fastest visuals, and incremental refresh avoids reloading 900 million rows every night by refreshing only recent partitions. DirectQuery would slow every visual.",
+      "takeaway": "Daily freshness + fast visuals + huge fact → Import with incremental refresh."
+    },
+    {
+      "id": "CASE-003",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which measure meets the inventory requirement?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`CALCULATE ( SUM ( StockLevel[OnHand] ), LASTDATE ( 'Date'[Date] ) )`"
+        },
+        {
+          "id": "B",
+          "text": "`SUM ( StockLevel[OnHand] )`"
+        },
+        {
+          "id": "C",
+          "text": "`AVERAGE ( StockLevel[OnHand] )`"
+        },
+        {
+          "id": "D",
+          "text": "`TOTALYTD ( SUM ( StockLevel[OnHand] ), 'Date'[Date] )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Stock on hand is semi-additive: it adds across stores and products but not across days. Evaluating the sum on the last date of the period gives the closing stock for any month, quarter or year. StockLevel has a row every day, so LASTDATE always finds data.",
+      "takeaway": "Closing stock → sum on the period's last date."
+    },
+    {
+      "id": "CASE-004",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "How should the Targets table be related so that targets can be compared with sales by category and month?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge Targets into Sales"
+        },
+        {
+          "id": "B",
+          "text": "One-to-many from Targets to Product on Category"
+        },
+        {
+          "id": "C",
+          "text": "Append Targets to Sales"
+        },
+        {
+          "id": "D",
+          "text": "Many-to-many between Product[Category] and Targets[Category], with Product filtering Targets, plus a month-level link to Date"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Targets are at category-and-month grain, while Product is at product grain, so Category isn't unique on either side. Microsoft's pattern is a many-to-many relationship from Product[Category] to Targets[Category] with Product filtering Targets, plus a month-level link to Date, and keeping target visuals at month level or above.",
+      "takeaway": "Higher-grain facts → many-to-many on the shared attribute, single direction."
+    },
+    {
+      "id": "CASE-005",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "How should you meet the security requirements for regional directors with the least ongoing maintenance?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "One static role per region, edited whenever coverage changes"
+        },
+        {
+          "id": "B",
+          "text": "A director-region mapping table with a dynamic role using USERPRINCIPALNAME ()"
+        },
+        {
+          "id": "C",
+          "text": "Give directors the Contributor role"
+        },
+        {
+          "id": "D",
+          "text": "A separate report per region"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Directors can cover several regions and coverage changes, so a mapping table (one row per director per region) with a dynamic role using USERPRINCIPALNAME () handles it: changes are new rows, not new roles. Executives get a role with no filter; store managers use a dynamic role on ManagerEmail.",
+      "takeaway": "Many-to-many user access that changes → mapping table + dynamic role."
+    },
+    {
+      "id": "CASE-006",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you distribute reports to the store managers?",
+      "caseId": "CS1",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Give each manager the Viewer role"
+        },
+        {
+          "id": "B",
+          "text": "Publish to web"
+        },
+        {
+          "id": "C",
+          "text": "Publish a workspace app"
+        },
+        {
+          "id": "D",
+          "text": "Email PDF exports"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A workspace app gives managers a curated set of reports separate from the workspace's work in progress (audiences can tailor content). Because the workspace is on F64, free-licensed users can view it. Viewer roles would expose the workspace itself.",
+      "takeaway": "Curated content for many free-licence readers → app on F64+ capacity."
+    },
+    {
+      "id": "CASE-007",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about the store managers' access, select Yes if it is true.",
+      "caseId": "CS1",
+      "image": null,
+      "statements": [
+        "Store managers with free licences can view the app because the workspace is on F64.",
+        "Store managers see every store when they open the app, because apps bypass RLS.",
+        "Row-level security applies to store managers when they view reports in the app."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "F64 capacity lets free users view content. Store managers aren't added to the executives' role, so RLS restricts them to their store. RLS applies in apps just as in the workspace.",
+      "takeaway": "F64+ capacity: free viewers. RLS follows users into apps."
+    },
+    {
+      "id": "CASE-008",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Prepare the data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Which storage mode should the semantic model use?",
+      "caseId": "CS2",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Direct Lake"
+        },
+        {
+          "id": "B",
+          "text": "Import"
+        },
+        {
+          "id": "C",
+          "text": "DirectQuery"
+        },
+        {
+          "id": "D",
+          "text": "Dual"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The data is in Delta tables in OneLake and must be near-current with Import-like speed and no import copies. Direct Lake reads the Delta files directly into memory. Import would copy 300 million rows; DirectQuery would be slower.",
+      "takeaway": "Fabric Delta tables + no copies + fast → Direct Lake."
+    },
+    {
+      "id": "CASE-009",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which feature meets the requirement for PatientName and DateOfBirth?",
+      "caseId": "CS2",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Row-level security"
+        },
+        {
+          "id": "B",
+          "text": "Hide the columns in report view"
+        },
+        {
+          "id": "C",
+          "text": "Object-level security"
+        },
+        {
+          "id": "D",
+          "text": "A sensitivity label"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Object-level security hides those columns from analysts entirely (they can't see or query them) while clinical managers' role allows them. RLS filters rows, which isn't needed: analysts must see every appointment.",
+      "takeaway": "Hide columns from some users → object-level security."
+    },
+    {
+      "id": "CASE-010",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "What should the admin configure so that every report and semantic model has a sensitivity label before publishing?",
+      "caseId": "CS2",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Certification"
+        },
+        {
+          "id": "B",
+          "text": "A mandatory labeling policy"
+        },
+        {
+          "id": "C",
+          "text": "Row-level security"
+        },
+        {
+          "id": "D",
+          "text": "Workspace roles"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A mandatory labeling policy in Microsoft Purview, enabled for Power BI, requires a label on content. A default label alone doesn't force users to choose an appropriate one.",
+      "takeaway": "Required labels → mandatory labeling policy."
+    },
+    {
+      "id": "CASE-011",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Visualize and analyze",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Which visual best meets the analysts' no-show requirement?",
+      "caseId": "CS2",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Decomposition tree"
+        },
+        {
+          "id": "B",
+          "text": "Waterfall chart"
+        },
+        {
+          "id": "C",
+          "text": "Gauge"
+        },
+        {
+          "id": "D",
+          "text": "Key influencers, analysing NoShow"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Key influencers ranks the factors (booking channel, lead time, age band and so on) associated with NoShow being Yes, and Top segments finds combinations of them. A decomposition tree breaks totals down rather than ranking drivers.",
+      "takeaway": "What drives an outcome → Key influencers."
+    },
+    {
+      "id": "CASE-012",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Visualize and analyze",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you meet the operations managers' requirement?",
+      "caseId": "CS2",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Anomaly detection on a line chart of daily appointments"
+        },
+        {
+          "id": "B",
+          "text": "A data alert on a table visual"
+        },
+        {
+          "id": "C",
+          "text": "A Top N filter"
+        },
+        {
+          "id": "D",
+          "text": "A forecast"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Turn on anomaly detection for a line chart of daily appointments (from the Analytics pane), optionally with Explain by fields such as Clinic. Unusual days are flagged against the expected range.",
+      "takeaway": "Flag unusual points over time → anomaly detection on a line chart."
+    },
+    {
+      "id": "CASE-013",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Visualize and analyze",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about the executives' requirement, select Yes if it is true.",
+      "caseId": "CS2",
+      "image": null,
+      "statements": [
+        "A narrative visual with Copilot can provide the summary.",
+        "Copilot requires an admin tenant setting and a workspace on supported paid capacity.",
+        "Copilot lets analysts see PatientName in its answers, because it bypasses object-level security."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "A narrative visual with Copilot can write and refresh the summary. Copilot needs the tenant setting enabled and a workspace on supported paid capacity, which Contoso's Fabric capacity can provide. Copilot answers respect each user's permissions, so OLS still hides patient columns from analysts.",
+      "takeaway": "Copilot: tenant setting + capacity; respects security."
+    },
+    {
+      "id": "CASE-014",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "How should you support on-time % by delivery month alongside counts by order month?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Make both relationships active"
+        },
+        {
+          "id": "B",
+          "text": "Add an inactive DeliveredDate relationship and use USERELATIONSHIP in the on-time measure"
+        },
+        {
+          "id": "C",
+          "text": "Merge DeliveredDate into the Date table"
+        },
+        {
+          "id": "D",
+          "text": "Use Auto date/time"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Add an inactive relationship from DeliveredDate to Date and write the on-time measure with USERELATIONSHIP, keeping OrderDate as the active relationship for shipment counts. (A separate Delivery Date table would also work, but the measure-level approach meets this requirement with less change.)",
+      "takeaway": "Second date role in specific measures → inactive relationship + USERELATIONSHIP."
+    },
+    {
+      "id": "CASE-015",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Which measure returns the on-time %, counting only delivered shipments?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`DIVIDE ( COUNTROWS ( Shipments ), [Late] )`"
+        },
+        {
+          "id": "B",
+          "text": "`COUNTROWS ( FILTER ( Shipments, Shipments[DeliveredDate] <= Shipments[PromisedDate] ) )`"
+        },
+        {
+          "id": "C",
+          "text": "`DIVIDE ( COUNTROWS ( FILTER ( Shipments, NOT ISBLANK ( Shipments[DeliveredDate] ) && Shipments[DeliveredDate] <= Shipments[PromisedDate] ) ), COUNTROWS ( FILTER ( Shipments, NOT ISBLANK ( Shipments[DeliveredDate] ) ) ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`AVERAGE ( Shipments[DeliveredDate] )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Count delivered shipments whose DeliveredDate is on or before PromisedDate, divide by all delivered shipments, and use DIVIDE for safety. Undelivered shipments (null DeliveredDate, like 90013) must be excluded from both counts.",
+      "takeaway": "Ratio of qualifying rows → DIVIDE of two filtered counts."
+    },
+    {
+      "id": "CASE-016",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Visualize and analyze",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you meet the right-click requirement?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A drillthrough page with Customer in the Drill through well"
+        },
+        {
+          "id": "B",
+          "text": "A report page tooltip"
+        },
+        {
+          "id": "C",
+          "text": "A bookmark per customer"
+        },
+        {
+          "id": "D",
+          "text": "A page navigator"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Create a Customer Shipments page with Customer in its Drill through well. Users then right-click a customer in any visual and choose Drill through. Tooltips appear on hover, not on right-click.",
+      "takeaway": "Right-click to a detail page → drillthrough."
+    },
+    {
+      "id": "CASE-017",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you meet the notification requirement?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A subscription to the report"
+        },
+        {
+          "id": "B",
+          "text": "A bookmark"
+        },
+        {
+          "id": "C",
+          "text": "Conditional formatting on the report"
+        },
+        {
+          "id": "D",
+          "text": "A data alert on a dashboard card tile"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Pin a card (or KPI or gauge) showing current-month on-time % to a dashboard and set a data alert below 92%. Data alerts work only on dashboard tiles of those types.",
+      "takeaway": "Threshold notification → data alert on a card, KPI or gauge dashboard tile."
+    },
+    {
+      "id": "CASE-018",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "What should you create for the depot manifests?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A Power BI report subscription"
+        },
+        {
+          "id": "B",
+          "text": "A paginated report with a scheduled subscription"
+        },
+        {
+          "id": "C",
+          "text": "A dashboard"
+        },
+        {
+          "id": "D",
+          "text": "Publish to web"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A paginated report (built in Power BI Report Builder) with a subscription that attaches a PDF each morning. It handles long, printable documents with repeated headers; standard report subscriptions export pages, not 200-page documents.",
+      "takeaway": "Long printable documents on a schedule → paginated report + subscription."
+    },
+    {
+      "id": "CASE-019",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you meet the deployment requirement?",
+      "caseId": "CS3",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Three copies of the .pbix edited by hand"
+        },
+        {
+          "id": "B",
+          "text": "Git integration only"
+        },
+        {
+          "id": "C",
+          "text": "A deployment pipeline with deployment rules"
+        },
+        {
+          "id": "D",
+          "text": "Sensitivity labels"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A deployment pipeline with Development, Test and Production stages, using deployment rules (data source or parameter rules) so each stage connects to its own database. The workspaces must be on Premium, PPU or Fabric capacity.",
+      "takeaway": "Dev/Test/Prod with different databases → deployment pipeline + rules."
+    },
+    {
+      "id": "CASE-020",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Which calculation converts transactions to US dollars as required?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Bring each line's rate (matching currency and date) onto the row, then `SUMX ( Transactions, Transactions[LocalAmount] * Transactions[Rate] )`"
+        },
+        {
+          "id": "B",
+          "text": "`SUM ( Transactions[LocalAmount] ) * AVERAGE ( Rates[RateToUSD] )`"
+        },
+        {
+          "id": "C",
+          "text": "`SUM ( Transactions[LocalAmount] )`"
+        },
+        {
+          "id": "D",
+          "text": "`SUMX ( Rates, Rates[RateToUSD] )`"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Each line needs its own rate, so convert row by row. A calculated column (or Power Query merge) fetches the rate for the line's currency and date, for example with LOOKUPVALUE, and SUMX of LocalAmount × rate gives the USD total. Multiplying totals by an average rate is wrong whenever rates or currencies vary.",
+      "takeaway": "Per-row conversion → bring the matching rate to each row, then SUMX."
+    },
+    {
+      "id": "CASE-021",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "[Sales USD] exists. Which measure returns fiscal year-to-date sales in US dollars?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`TOTALYTD ( [Sales USD], 'Date'[Date] )`"
+        },
+        {
+          "id": "B",
+          "text": "`TOTALQTD ( [Sales USD], 'Date'[Date] )`"
+        },
+        {
+          "id": "C",
+          "text": "`TOTALYTD ( [Sales USD], 'Date'[Date], \"6/30\" )`"
+        },
+        {
+          "id": "D",
+          "text": "`CALCULATE ( [Sales USD], 'Date'[FiscalYear] )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "TOTALYTD's year-end argument sets the fiscal year end, \"6/30\", so the total restarts on 1 July.",
+      "takeaway": "Fiscal YTD → TOTALYTD with the year-end date."
+    },
+    {
+      "id": "CASE-022",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Model the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "How should Budget be related to the model so budget can be compared with actual sales by department and month?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge Budget into Transactions"
+        },
+        {
+          "id": "B",
+          "text": "Relate Budget to Department and to Date at month level"
+        },
+        {
+          "id": "C",
+          "text": "Relate Budget directly to Transactions"
+        },
+        {
+          "id": "D",
+          "text": "Leave Budget unrelated and use slicers"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Budget is at department-and-month grain. Relate it to the Department dimension and to Date at month level (for example a first-of-month date related to Date[Date]), and keep budget comparisons at month level or above in visuals.",
+      "takeaway": "Monthly budget → relate at month level and avoid day-level visuals."
+    },
+    {
+      "id": "CASE-023",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "How should you meet the department heads' email requirement?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "One subscription per department head"
+        },
+        {
+          "id": "B",
+          "text": "A data alert"
+        },
+        {
+          "id": "C",
+          "text": "Publish to web"
+        },
+        {
+          "id": "D",
+          "text": "A dynamic per-recipient subscription"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A dynamic per-recipient subscription reads each recipient's email and their department filter from a table, sending each head a filtered version from one subscription.",
+      "takeaway": "One subscription, filtered per person → dynamic per-recipient subscription."
+    },
+    {
+      "id": "CASE-024",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you give finance analysts access to build PivotTables in Excel?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Grant Build permission on the semantic model"
+        },
+        {
+          "id": "B",
+          "text": "Add them as workspace Contributors"
+        },
+        {
+          "id": "C",
+          "text": "Share the .pbix file"
+        },
+        {
+          "id": "D",
+          "text": "Export the data to CSV each month"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Build permission on the semantic model (without an editing workspace role) lets them use Analyze in Excel. Contributor or Member would let them edit workspace content.",
+      "takeaway": "Excel PivotTables without edit rights → Build permission."
+    },
+    {
+      "id": "CASE-025",
+      "domain": "case",
+      "topic": "Case studies",
+      "subtopic": "Manage and secure",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "How should you mark the finance semantic model as the official, reviewed source?",
+      "caseId": "CS4",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Promote it"
+        },
+        {
+          "id": "B",
+          "text": "Add a sensitivity label"
+        },
+        {
+          "id": "C",
+          "text": "Have an authorised reviewer certify it"
+        },
+        {
+          "id": "D",
+          "text": "Pin it to a dashboard"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Certification, by a reviewer authorised in tenant settings, marks the model as meeting organisational standards. Promotion only shows that the owner thinks it's ready.",
+      "takeaway": "Official and reviewed → certified."
+    }
+  ],
+  "cases": [
+    {
+      "id": "CS1",
+      "title": "Tailwind Traders",
+      "tabs": [
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Tailwind Traders runs 140 home-improvement stores in four regions. It is moving store and regional reporting from spreadsheets to Power BI.",
+            "All reports will be published to one workspace, Retail Analytics, on Fabric capacity F64."
+          ],
+          "image": null
+        },
+        {
+          "title": "Data sources",
+          "paragraphs": [
+            "Sales: an Azure SQL database. The Sales table has one row per receipt line (about 900 million rows) with StoreKey, ProductKey, DateKey, Quantity and Amount.",
+            "Inventory: an on-premises SQL Server. The StockLevel table records each product's stock on hand at each store at the end of every day.",
+            "Targets: an Excel workbook in SharePoint Online with one row per product category per month.",
+            "Store: a table in the Azure SQL database with StoreKey, StoreName, Region and ManagerEmail. Each store has one manager."
+          ],
+          "image": null
+        },
+        {
+          "title": "Requirements",
+          "paragraphs": [
+            "Data must be current as of 7:00 AM each day, and visuals must respond quickly.",
+            "Store managers must see only their own store. Regional directors must see every store in their region; a director can cover more than one region, and coverage changes several times a year. Executives must see everything.",
+            "Inventory reports must show stock on hand at the end of each month, quarter and year.",
+            "Sales must be compared with targets by category and month.",
+            "The 400 store managers have free Power BI licences. They must get a single, curated set of reports that's separate from work in progress in the workspace."
+          ],
+          "image": null
+        },
+        {
+          "title": "Exhibit",
+          "paragraphs": [
+            "The current draft model is shown below."
+          ],
+          "image": {
+            "src": "images/case/CS1-exhibit.svg",
+            "alt": "Draft model: Store, Product and Date each relate one-to-many to Sales. StockLevel (StoreKey, ProductKey, DateKey, OnHand) has no relationships yet."
+          }
+        }
+      ]
+    },
+    {
+      "id": "CS2",
+      "title": "Contoso Clinics",
+      "tabs": [
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Contoso Clinics operates 35 outpatient clinics. Its data team uses Microsoft Fabric.",
+            "Analysts want to understand appointment no-shows and track daily patient volumes."
+          ],
+          "image": null
+        },
+        {
+          "title": "Data",
+          "paragraphs": [
+            "Appointments: a Delta table in a Fabric lakehouse, updated every 15 minutes, with one row per appointment (about 300 million rows). Columns include PatientKey, ClinicKey, DateKey, BookingChannel, LeadTimeDays, AgeBand and NoShow (Yes or No).",
+            "Patient: a lakehouse table with PatientKey, PatientName, DateOfBirth and PostalCode.",
+            "Clinic and Date dimension tables are also in the lakehouse."
+          ],
+          "image": null
+        },
+        {
+          "title": "Requirements",
+          "paragraphs": [
+            "Reports must show near-current data without copying it through scheduled imports, with Import-like performance.",
+            "Analysts must see every appointment but must not be able to see or query PatientName or DateOfBirth. Clinical managers must see them.",
+            "Every report and semantic model must carry a sensitivity label before it is published.",
+            "Analysts need to find which factors make a no-show more likely.",
+            "Operations managers want unusual daily appointment volumes flagged automatically.",
+            "Executives want an AI-written summary on the overview page."
+          ],
+          "image": null
+        }
+      ]
+    },
+    {
+      "id": "CS3",
+      "title": "Litware Logistics",
+      "tabs": [
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Litware Logistics delivers parcels for retailers across three countries. Its operations team wants to monitor on-time delivery."
+          ],
+          "image": null
+        },
+        {
+          "title": "Data",
+          "paragraphs": [
+            "Shipments: one row per shipment with ShipmentID, CustomerKey, OrderDate, ShipDate, PromisedDate, DeliveredDate and Weight.",
+            "A Date table is marked as a date table. Shipments currently has an active relationship from OrderDate to Date.",
+            "A shipment is late when DeliveredDate is after PromisedDate."
+          ],
+          "image": null
+        },
+        {
+          "title": "Requirements",
+          "paragraphs": [
+            "Report on-time delivery % by delivery month, and shipment counts by order month on the same page.",
+            "Users must be able to right-click a customer and open a page listing that customer's shipments.",
+            "The operations manager must be notified when on-time delivery for the current month drops below 92%.",
+            "Each depot must receive a printable delivery manifest of 20 to 200 pages every morning as PDF.",
+            "Reports move from Development to Test to Production. Each stage must use its own database."
+          ],
+          "image": null
+        },
+        {
+          "title": "Exhibit",
+          "paragraphs": [
+            "A sample of the Shipments table."
+          ],
+          "image": {
+            "src": "images/case/CS3-exhibit.svg",
+            "alt": "Sample shipments: 90011 delivered on its promised date, 90012 delivered two days late, 90013 not yet delivered (DeliveredDate null)."
+          }
+        }
+      ]
+    },
+    {
+      "id": "CS4",
+      "title": "Wide World Importers",
+      "tabs": [
+        {
+          "title": "Overview",
+          "paragraphs": [
+            "Wide World Importers sells goods in several currencies. Finance reports in US dollars. The financial year runs from 1 July to 30 June."
+          ],
+          "image": null
+        },
+        {
+          "title": "Data",
+          "paragraphs": [
+            "Transactions: one row per invoice line, with InvoiceDate, Currency and LocalAmount.",
+            "Rates: one row per currency per day, with Currency, Date and RateToUSD.",
+            "Budget: one row per department per month, in US dollars.",
+            "A Date table marked as a date table includes FiscalYear and FiscalQuarter columns."
+          ],
+          "image": null
+        },
+        {
+          "title": "Requirements",
+          "paragraphs": [
+            "Show fiscal year-to-date sales in US dollars.",
+            "Each transaction must be converted using the rate for its own currency and date.",
+            "Compare actual sales with budget by department and month.",
+            "Each department head receives a monthly email of the report filtered to their department, from a single subscription.",
+            "Finance analysts must build their own PivotTables in Excel on the semantic model, and must not be able to edit workspace content.",
+            "Users must be able to tell that the finance semantic model is the official, reviewed source."
+          ],
+          "image": null
+        }
+      ]
+    }
+  ]
+}

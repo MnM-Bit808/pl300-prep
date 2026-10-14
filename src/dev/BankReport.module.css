@@ -1,0 +1,119 @@
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--gutter);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 40px);
+  letter-spacing: -0.02em;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.summary {
+  color: var(--muted);
+}
+
+.summary strong {
+  color: var(--text);
+}
+
+.checks ul {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.checks li {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+/* State is spelled out in the text too; the border is a second cue, never the only one. */
+.checks li[data-state='ok'] {
+  border-left-color: var(--ok);
+}
+.checks li[data-state='failed'] {
+  border-left-color: var(--bad);
+}
+.checks li[data-state='loading'] {
+  border-left-color: var(--muted);
+}
+
+.tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.table caption {
+  padding-bottom: 6px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.table th,
+.table td {
+  padding: 6px 12px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  font-weight: 500;
+}
+
+.table td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.grid li {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  /* Exhibits are drawn for a light page, so they always sit on white, even in dark mode. */
+  background: #fff;
+  color: #1b201d;
+  font-size: 13px;
+}
+
+.grid li[data-state='failed'] {
+  outline: 2px solid var(--bad);
+}
+
+.grid img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}

@@ -1,0 +1,1485 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 3,
+  "title": "Transform and load the data",
+  "domains": [
+    "prepare"
+  ],
+  "schemaVersion": 2,
+  "count": 45,
+  "questions": [
+    {
+      "id": "PRE-088",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a Merge you're about to run. Every order must stay in the result.\n\nWhat happens to the 588 orders that have no matching customer?",
+      "image": {
+        "src": "images/prepare/PRE-088.svg",
+        "alt": "Merge dialog with Orders as the first table and Customers as the second, both keyed on CustomerID, join kind Left Outer. The note says the selection matches 9,412 of 10,000 rows."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "They are removed from the result"
+        },
+        {
+          "id": "B",
+          "text": "They stay, and the expanded customer columns are null for them"
+        },
+        {
+          "id": "C",
+          "text": "They are moved to a separate query"
+        },
+        {
+          "id": "D",
+          "text": "The merge fails until every order matches"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Left outer keeps every row of the first table (Orders). Orders with no matching CustomerID stay, and when you expand the Customers column their Name and City are null. An inner join would drop them, and a left anti join would return only them.",
+      "takeaway": "Left outer keeps every first-table row; unmatched rows get nulls."
+    },
+    {
+      "id": "PRE-089",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Using the same tables as the previous exhibit, you need a list of only the orders whose CustomerID has no matching customer, so the data team can fix them.\n\nWhich join kind should you choose?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Left outer"
+        },
+        {
+          "id": "B",
+          "text": "Inner"
+        },
+        {
+          "id": "C",
+          "text": "Left anti"
+        },
+        {
+          "id": "D",
+          "text": "Right anti"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Left anti returns only rows from the first table that have no match in the second: the orphan orders. Left outer returns all orders, inner returns only matched ones, and right anti returns customers with no orders.",
+      "takeaway": "Rows in the first table with no match → Left anti."
+    },
+    {
+      "id": "PRE-090",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows a Merge where no rows match, even though the CustomerID values look identical.\n\nWhat is the most likely cause?",
+      "image": {
+        "src": "images/prepare/PRE-090.svg",
+        "alt": "Merge dialog where Orders.CustomerID has the whole-number icon and Customers.CustomerID has the text icon. The note warns that the selection matches 0 of 10,000 rows."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The key columns have different data types"
+        },
+        {
+          "id": "B",
+          "text": "The join kind should be Inner"
+        },
+        {
+          "id": "C",
+          "text": "Fuzzy matching is turned off"
+        },
+        {
+          "id": "D",
+          "text": "The second table has more rows than the first"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Look at the type icons: CustomerID is a whole number in Orders but text in Customers. Merge compares values including their type, so 301 (number) never equals \"301\" (text). Give both columns the same data type before merging.",
+      "takeaway": "Merge keys must have the same data type."
+    },
+    {
+      "id": "PRE-091",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "After merging Orders with a Promotions table on ProductID and expanding it, Orders has 12,800 rows instead of 10,000. The exhibit shows part of the result.\n\nWhat caused the increase?",
+      "image": {
+        "src": "images/prepare/PRE-091.svg",
+        "alt": "Merged result where orders 5001 and 5003 each appear twice, once with promo code SPRING10 and once with LOYAL5."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Left outer joins always add rows"
+        },
+        {
+          "id": "B",
+          "text": "Expanding the column added header rows"
+        },
+        {
+          "id": "C",
+          "text": "Fuzzy matching created extra matches"
+        },
+        {
+          "id": "D",
+          "text": "ProductID appears more than once in Promotions"
+        }
+      ],
+      "answer": "D",
+      "explanation": "When a key appears more than once in the second table, each matching row is joined, so an order is repeated once per matching promotion. Make the second table's key unique first (for example keep only the current promotion per product), or aggregate it.",
+      "takeaway": "Duplicate keys in the second table multiply rows after a merge."
+    },
+    {
+      "id": "PRE-092",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Daily targets are stored per store per day. You need to merge them into a sales table using both StoreID and Date.\n\nHow do you set up the match in the Merge dialog?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge on StoreID, then merge the result again on Date"
+        },
+        {
+          "id": "B",
+          "text": "Select StoreID and Date in both tables, in the same order"
+        },
+        {
+          "id": "C",
+          "text": "Concatenate the two tables first"
+        },
+        {
+          "id": "D",
+          "text": "Use fuzzy matching on Date"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Ctrl-select StoreID then Date in the first table, and StoreID then Date in the second, in the same order. Power Query matches on the combination. Merging twice, once per column, would match on each column separately.",
+      "takeaway": "Composite keys → select several columns, in the same order, in both tables."
+    },
+    {
+      "id": "PRE-093",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Sales is the first table and Products is the second in each merge.\n\nSelect the join kind for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Every sale, with product details where available",
+          "options": [
+            "Left outer",
+            "Inner",
+            "Left anti",
+            "Right anti"
+          ]
+        },
+        {
+          "label": "Only sales whose product exists in Products",
+          "options": [
+            "Left outer",
+            "Inner",
+            "Full outer",
+            "Right anti"
+          ]
+        },
+        {
+          "label": "Products that have never been sold",
+          "options": [
+            "Left outer",
+            "Inner",
+            "Left anti",
+            "Right anti"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          3
+        ]
+      },
+      "explanation": "Left outer keeps every sale and adds product details where they exist. Inner keeps only sales whose product exists. Right anti returns rows from the second table (Products) with no match in Sales: products never sold.",
+      "takeaway": "Left/Right = whose rows you keep; Outer = all, Inner = matches, Anti = non-matches."
+    },
+    {
+      "id": "PRE-094",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to combine Orders with Customers, but the original Orders query must stay unchanged because other queries reference it.\n\nWhich command should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge Queries"
+        },
+        {
+          "id": "B",
+          "text": "Append Queries"
+        },
+        {
+          "id": "C",
+          "text": "Merge Queries as New"
+        },
+        {
+          "id": "D",
+          "text": "Append Queries as New"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Merge Queries as New creates a third query containing the result and leaves both originals untouched. Plain Merge Queries adds the step to the selected query, changing Orders.",
+      "takeaway": "Keep originals unchanged → Merge Queries as New."
+    },
+    {
+      "id": "PRE-095",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "After expanding a merged Customers column, your new columns are named Customers.Name and Customers.City.\n\nHow could you have avoided the prefix?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Clear Use original column name as prefix in the expand dialog"
+        },
+        {
+          "id": "B",
+          "text": "Use Merge Queries as New"
+        },
+        {
+          "id": "C",
+          "text": "Rename the Customers query"
+        },
+        {
+          "id": "D",
+          "text": "Use an inner join"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The expand dialog has a Use original column name as prefix check box. Clear it and the columns keep their plain names (unless a name clashes with an existing column).",
+      "takeaway": "Expand dialog → clear 'Use original column name as prefix'."
+    },
+    {
+      "id": "PRE-096",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A fuzzy merge matches supplier names from invoices to a supplier list. It wrongly matches Contoso to Contosa Foods.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Lower the similarity threshold"
+        },
+        {
+          "id": "B",
+          "text": "Raise the similarity threshold"
+        },
+        {
+          "id": "C",
+          "text": "Turn on Ignore case"
+        },
+        {
+          "id": "D",
+          "text": "Switch to an inner join"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The similarity threshold runs from 0 to 1 (default 0.8). Raising it requires closer matches, which removes weak matches like this one. Lowering it would accept even looser matches.",
+      "takeaway": "Too many wrong fuzzy matches → raise the similarity threshold."
+    },
+    {
+      "id": "PRE-097",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A fuzzy merge fails to match 'Contoso Ltd' to 'Contoso Limited' and 'Intl' to 'International'.\n\nWhat should you add to the fuzzy matching options?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A higher similarity threshold"
+        },
+        {
+          "id": "B",
+          "text": "A Remove Duplicates step"
+        },
+        {
+          "id": "C",
+          "text": "A composite key"
+        },
+        {
+          "id": "D",
+          "text": "A transformation table"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A transformation table maps known equivalents (From → To), such as Ltd → Limited, before the similarity is scored. Raising the threshold would make matching stricter, the opposite of what's needed.",
+      "takeaway": "Known abbreviations in a fuzzy merge → transformation table."
+    },
+    {
+      "id": "PRE-098",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "OrderHeader has one row per order (OrderID, OrderDate, CustomerID). OrderLines has one row per product on an order (OrderID, ProductID, Quantity, Price). You need one fact table for analysis by date, customer and product.\n\nHow should you merge them?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "OrderHeader first, inner join, expand ProductID"
+        },
+        {
+          "id": "B",
+          "text": "OrderLines first, left outer join on OrderID, expand OrderDate and CustomerID"
+        },
+        {
+          "id": "C",
+          "text": "Append OrderHeader to OrderLines"
+        },
+        {
+          "id": "D",
+          "text": "Keep both tables and relate them on OrderID only"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The fact table should be at the most detailed grain, the order line. Merge with OrderLines as the first table (left outer on OrderID) and expand OrderDate and CustomerID. Starting from OrderHeader would need the lines nested or aggregated, losing product detail.",
+      "takeaway": "Header + detail → merge the header into the detail table."
+    },
+    {
+      "id": "PRE-099",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Merge queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which situation calls for a merge in Power Query rather than a relationship in the model?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Filtering Sales by Product[Color] in a report"
+        },
+        {
+          "id": "B",
+          "text": "Showing sales by Date[Month]"
+        },
+        {
+          "id": "C",
+          "text": "Folding Subcategory and Category lookups into a single Product table"
+        },
+        {
+          "id": "D",
+          "text": "Using a Region slicer on several fact tables"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Merging is for flattening, such as folding Subcategory and Category lookups into Product so the model has one Product dimension (a star rather than a snowflake). Slicing facts by a dimension attribute is exactly what relationships are for.",
+      "takeaway": "Merge to flatten lookups; relate to slice facts by dimensions."
+    },
+    {
+      "id": "PRE-100",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You append Sales2025 and Sales2026. The exhibit shows the result: Channel is null for every 2025 row.\n\nWhy?",
+      "image": {
+        "src": "images/prepare/PRE-100.svg",
+        "alt": "Appended query Append1 where the 2025 rows have null in Channel and the 2026 rows show Online and Store."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Sales2025 has no Channel column"
+        },
+        {
+          "id": "B",
+          "text": "Append matches columns by position"
+        },
+        {
+          "id": "C",
+          "text": "The 2025 Channel values failed type conversion"
+        },
+        {
+          "id": "D",
+          "text": "Append Queries as New removes columns"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Append matches columns by name. Channel exists only in Sales2026, so rows from Sales2025 have no value for it and get null. Nothing is broken; fill or default it if reports need a value.",
+      "takeaway": "Append matches by column name; missing columns become null."
+    },
+    {
+      "id": "PRE-101",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Before appending, you notice Amount is named SalesAmount in one of the two queries.\n\nWhat happens if you append without changing it, and how do you fix it?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Power Query matches them by position automatically"
+        },
+        {
+          "id": "B",
+          "text": "Append fails with an error"
+        },
+        {
+          "id": "C",
+          "text": "Amount is converted to SalesAmount automatically"
+        },
+        {
+          "id": "D",
+          "text": "You get two separate, half-empty columns; rename one so the names match first"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Append matches by name, so you'd get two half-empty columns, Amount and SalesAmount. Rename one so the names match before appending.",
+      "takeaway": "Rename columns to match before appending."
+    },
+    {
+      "id": "PRE-102",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to stack four regional queries with identical columns into one new query.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Merge Queries as New on a common key"
+        },
+        {
+          "id": "B",
+          "text": "Append Queries as New, choose Three or more tables, and add all four queries"
+        },
+        {
+          "id": "C",
+          "text": "Append two queries at a time, three times"
+        },
+        {
+          "id": "D",
+          "text": "Pivot the queries"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Append Queries as New has a Three or more tables option, where you add all four queries to one list. Repeated two-table appends work but add needless steps.",
+      "takeaway": "Stack several queries → Append as New, three or more tables."
+    },
+    {
+      "id": "PRE-103",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "An Excel workbook gets a new sheet each month, all with identical columns. You need one table of every sheet, including sheets added in future.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Select each sheet in the Navigator and append them"
+        },
+        {
+          "id": "B",
+          "text": "Use the Folder connector on the workbook"
+        },
+        {
+          "id": "C",
+          "text": "Use the workbook's list of sheets, filter to the sheets, and expand their data"
+        },
+        {
+          "id": "D",
+          "text": "Merge the sheets on a common key"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Connect to the workbook and work from its navigation table (the list of sheets and tables), filter to the sheets you need, and expand their Data column. New sheets then appear automatically on refresh. Selecting sheets individually in the Navigator hard-codes today's sheets.",
+      "takeaway": "Sheets added over time → combine from the workbook's sheet list, not individual sheets."
+    },
+    {
+      "id": "PRE-104",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Monthly extracts overlap by one day, so after appending, some transactions appear twice with the same TransactionID.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Select TransactionID and Remove Duplicates"
+        },
+        {
+          "id": "B",
+          "text": "Remove Duplicates across all columns"
+        },
+        {
+          "id": "C",
+          "text": "Use Keep Duplicates"
+        },
+        {
+          "id": "D",
+          "text": "Group By Date"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Remove Duplicates on TransactionID (the unique key) keeps one row per transaction. Removing duplicates across all columns could miss duplicates where a non-key column differs slightly.",
+      "takeaway": "Overlapping appended files → Remove Duplicates on the business key."
+    },
+    {
+      "id": "PRE-105",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about appending queries, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Append matches columns by their names.",
+        "Append matches columns by their position.",
+        "The source queries must stay loaded into the model for the appended query to refresh."
+      ],
+      "answer": [
+        true,
+        false,
+        false
+      ],
+      "explanation": "Append lines up columns by name. Columns aren't matched by position. The source queries can have Enable load turned off; the appended query still evaluates them on refresh.",
+      "takeaway": "Append = by name; sources can be unloaded staging queries."
+    },
+    {
+      "id": "PRE-106",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Append queries",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You select Sales_North and choose Append Queries (not as New), adding Sales_South.\n\nWhat is the result?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A new query named Append1 with both regions"
+        },
+        {
+          "id": "B",
+          "text": "Sales_North now contains both regions"
+        },
+        {
+          "id": "C",
+          "text": "Sales_South now contains both regions"
+        },
+        {
+          "id": "D",
+          "text": "Both queries are deleted and replaced"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Plain Append Queries adds the step to the selected query, so Sales_North now contains both regions while still being called Sales_North. Append Queries as New would leave both originals unchanged.",
+      "takeaway": "Plain Append changes the selected query; 'as New' doesn't."
+    },
+    {
+      "id": "PRE-107",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows sales with one column per quarter. Reports need a Quarter slicer, and Q1 2027 columns will be added next year.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-107.svg",
+        "alt": "Power Query preview with a Region column and four quarter columns, 2026 Q1 to 2026 Q4, holding sales numbers."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Select the quarter columns and choose Unpivot Only Selected Columns"
+        },
+        {
+          "id": "B",
+          "text": "Transpose the table"
+        },
+        {
+          "id": "C",
+          "text": "Select Region and choose Unpivot Other Columns"
+        },
+        {
+          "id": "D",
+          "text": "Pivot the Region column"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Select Region (the column to keep) and choose Unpivot Other Columns. The quarter headers become values in an Attribute column (rename it Quarter) and the numbers go into Value (rename it Sales). Because the step is written as 'everything except Region', new quarter columns are unpivoted automatically.",
+      "takeaway": "Values spread across columns → Unpivot Other Columns from the columns to keep."
+    },
+    {
+      "id": "PRE-108",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows a long table with one row per store per metric. Reports need Revenue, Cost and Units as separate columns.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-108.svg",
+        "alt": "Power Query preview with columns Store, Metric and Value, where Metric repeats Revenue, Cost and Units for each store."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Pivot the Metric column, using Value as the values"
+        },
+        {
+          "id": "B",
+          "text": "Unpivot the Value column"
+        },
+        {
+          "id": "C",
+          "text": "Transpose the table"
+        },
+        {
+          "id": "D",
+          "text": "Group By Metric"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Pivot Column on Metric, using Value as the values column, turns each metric into its own column with one row per store. Unpivot does the opposite. Transpose would flip the whole table.",
+      "takeaway": "Attribute/value rows that should be columns → Pivot Column."
+    },
+    {
+      "id": "PRE-109",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You pivot the Metric column with the aggregation set to Don't Aggregate, and some cells show the error in the exhibit.\n\nWhat is the cause?",
+      "image": {
+        "src": "images/prepare/PRE-109.svg",
+        "alt": "Power Query error pane: Expression.Error, there were too many elements in the enumeration to complete the operation, on the Pivoted Column step."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Metric contains null values"
+        },
+        {
+          "id": "B",
+          "text": "Some store and metric pairs appear more than once"
+        },
+        {
+          "id": "C",
+          "text": "Value has the Text type"
+        },
+        {
+          "id": "D",
+          "text": "Pivoting needs the Value column selected first"
+        }
+      ],
+      "answer": "B",
+      "explanation": "With Don't Aggregate, each store-metric pair must appear once. Some pairs appear more than once (for example two Revenue rows for one store), so Power Query can't put a single value in the cell. Choose an aggregation such as Sum, or remove the duplicates first.",
+      "takeaway": "Pivot with Don't Aggregate fails when a row/column pair repeats."
+    },
+    {
+      "id": "PRE-110",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A sheet lists one field per row: column A holds field names (Name, Region, Revenue) and columns B to F hold one record each.\n\nHow do you turn it into one row per record?",
+      "image": {
+        "src": "images/prepare/PRE-110.svg",
+        "alt": "Power Query preview with Column1 holding Name, Region and Revenue, and Columns 2 to 4 each holding one store's values."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Unpivot Other Columns"
+        },
+        {
+          "id": "B",
+          "text": "Pivot Column A"
+        },
+        {
+          "id": "C",
+          "text": "Transpose, then Use First Row as Headers"
+        },
+        {
+          "id": "D",
+          "text": "Fill Down column A"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Transpose swaps rows and columns, so each record becomes a row and the field names land in the first row; then Use First Row as Headers. Unpivot and Pivot reshape values within a table rather than flipping its orientation.",
+      "takeaway": "Records laid out as columns → Transpose, then promote headers."
+    },
+    {
+      "id": "PRE-111",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "An Excel sheet has a title in row 1 and headers Region, 2024, 2025, 2026 in row 2, with sales below. You need columns Region, Year (whole number) and Sales.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Remove the top 1 row"
+        },
+        {
+          "id": "B",
+          "text": "Use First Row as Headers"
+        },
+        {
+          "id": "C",
+          "text": "Select Region and choose Unpivot Other Columns"
+        },
+        {
+          "id": "D",
+          "text": "Rename Attribute to Year and Value to Sales"
+        },
+        {
+          "id": "E",
+          "text": "Change Year to Whole Number"
+        },
+        {
+          "id": "F",
+          "text": "Transpose the table"
+        },
+        {
+          "id": "G",
+          "text": "Pivot the Region column"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "Remove the title row, promote the real headers, unpivot every column except Region, rename Attribute and Value, then set Year to a whole number (it arrives as text, because it came from column headers). Transpose and Pivot aren't needed.",
+      "takeaway": "Title → headers → unpivot → rename → set types."
+    },
+    {
+      "id": "PRE-112",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A Tags column holds lists such as red;blue;green. Reports need to count products per tag.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-112.svg",
+        "alt": "Power Query preview with ProductID, Product and a Tags column holding values such as red;blue and red;green;black."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Split by delimiter into columns"
+        },
+        {
+          "id": "B",
+          "text": "Extract the first characters"
+        },
+        {
+          "id": "C",
+          "text": "Replace ';' with a space"
+        },
+        {
+          "id": "D",
+          "text": "Split by the ';' delimiter into rows"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Split Column by Delimiter with ';' and, under Advanced options, Split into Rows gives one row per tag with the product repeated, so counting by tag works. Splitting into columns would scatter tags across Tag.1, Tag.2 and so on.",
+      "takeaway": "Lists in one cell → split by delimiter into rows."
+    },
+    {
+      "id": "PRE-113",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A FullName column holds values such as Haddad, Omar Khalil. You need LastName and the rest of the name in two columns.\n\nHow should you split it?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Split by delimiter ',' at the left-most delimiter"
+        },
+        {
+          "id": "B",
+          "text": "Split by delimiter ' ' at each occurrence"
+        },
+        {
+          "id": "C",
+          "text": "Split by number of characters"
+        },
+        {
+          "id": "D",
+          "text": "Split by delimiter ',' into rows"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Split by the comma delimiter at the left-most occurrence gives two columns: everything before the first comma and everything after it. Splitting at each occurrence could create more columns if a name has more commas; splitting by spaces would break multi-word names.",
+      "takeaway": "Split once at the first delimiter → Left-most delimiter."
+    },
+    {
+      "id": "PRE-114",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Product codes always follow the pattern AB12345UK: two letters, five digits, then a two-letter country code. You need the country code in its own column.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Split by delimiter"
+        },
+        {
+          "id": "B",
+          "text": "Unpivot the column"
+        },
+        {
+          "id": "C",
+          "text": "Add Column > Extract > Last Characters with a count of 2"
+        },
+        {
+          "id": "D",
+          "text": "Use fuzzy matching"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Because the country code is always the last two characters, Extract > Last Characters (2) is the simplest reliable option. A delimiter split needs a separator, which these codes don't have.",
+      "takeaway": "Fixed-pattern codes → Extract first/last/range of characters."
+    },
+    {
+      "id": "PRE-115",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need a column of customer initials (for example AS for Ana Silva) and don't want to write M code.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Conditional Column"
+        },
+        {
+          "id": "B",
+          "text": "Column From Examples"
+        },
+        {
+          "id": "C",
+          "text": "Index Column"
+        },
+        {
+          "id": "D",
+          "text": "Custom Column with DAX"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Column From Examples lets you type the desired output for a few rows; Power Query infers the transformation and writes the M for you. A conditional column handles if/then rules, not text patterns like this.",
+      "takeaway": "Show Power Query the result you want → Column From Examples."
+    },
+    {
+      "id": "PRE-116",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to replace an OrderDate column with just the year, without keeping the full date.\n\nWhere should you choose Date > Year?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "On the Transform tab"
+        },
+        {
+          "id": "B",
+          "text": "On the Add Column tab"
+        },
+        {
+          "id": "C",
+          "text": "In the column's filter menu"
+        },
+        {
+          "id": "D",
+          "text": "In Data source settings"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The Transform tab changes the selected column in place. The same command on the Add Column tab keeps OrderDate and adds a new Year column.",
+      "takeaway": "Transform tab = change in place; Add Column tab = new column."
+    },
+    {
+      "id": "PRE-117",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Reshape data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need an OrderSize column that shows Small below 100, Medium from 100 to 999 and Large from 1,000, based on Amount, without writing code.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Group By"
+        },
+        {
+          "id": "B",
+          "text": "Column From Examples on OrderID"
+        },
+        {
+          "id": "C",
+          "text": "Conditional Column"
+        },
+        {
+          "id": "D",
+          "text": "Pivot Column"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Conditional Column builds if/else-if rules through a dialog (Amount less than 100 → Small, and so on). Grouping would summarise rows, and a merge would need a separate band table.",
+      "takeaway": "If/then rules without code → Conditional Column."
+    },
+    {
+      "id": "PRE-118",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You run the Group By shown in the exhibit on an Orders query with 10,000 rows and 1,450 distinct customers.\n\nWhat does the result contain?",
+      "image": {
+        "src": "images/prepare/PRE-118.svg",
+        "alt": "Group By dialog in Basic mode: group by CustomerID, new column Orders, operation Count Rows."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "10,000 rows with an extra Orders column"
+        },
+        {
+          "id": "B",
+          "text": "1,450 rows: CustomerID and the number of orders for each"
+        },
+        {
+          "id": "C",
+          "text": "One row with the total count"
+        },
+        {
+          "id": "D",
+          "text": "1,450 rows with every original column"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Group By returns one row per distinct value of the grouping column, here 1,450 customers, with a new Orders column holding the count of rows for each. The other columns are dropped unless you add them as groupings or aggregations.",
+      "takeaway": "Group By = one row per group, plus the aggregations you define."
+    },
+    {
+      "id": "PRE-119",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need one row per Region and Month with total Amount and the number of orders.\n\nWhat should you do in the Group By dialog?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Use Basic mode twice"
+        },
+        {
+          "id": "B",
+          "text": "Group by Region only, then pivot Month"
+        },
+        {
+          "id": "C",
+          "text": "Use Basic mode with Sum"
+        },
+        {
+          "id": "D",
+          "text": "Use Advanced mode with Region and Month, and add Sum of Amount and Count Rows"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Advanced mode lets you add several grouping columns (Region, Month) and several aggregations (Sum of Amount, Count Rows) in one step. Basic mode allows only one grouping column and one aggregation.",
+      "takeaway": "Several groupings or aggregations → Group By, Advanced."
+    },
+    {
+      "id": "PRE-120",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which Group By operation returns, for each group, a nested table of all the rows in that group?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Count Rows"
+        },
+        {
+          "id": "B",
+          "text": "Count Distinct Rows"
+        },
+        {
+          "id": "C",
+          "text": "All Rows"
+        },
+        {
+          "id": "D",
+          "text": "Max"
+        }
+      ],
+      "answer": "C",
+      "explanation": "All Rows keeps each group's full detail as a nested Table, which you can then transform, for example to keep the latest row per customer. The other operations return single values.",
+      "takeaway": "Need each group's detail rows → All Rows."
+    },
+    {
+      "id": "PRE-121",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A transactions table has 40 million rows with a TransactionDateTime column. Reports only show sales by day and store.\n\nWhich Group By produces the smallest table that still meets the requirement?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Group by Date (date part only) and StoreID, with Sum of Amount"
+        },
+        {
+          "id": "B",
+          "text": "Group by TransactionDateTime and StoreID, with Sum of Amount"
+        },
+        {
+          "id": "C",
+          "text": "Group by Month and StoreID, with Sum of Amount"
+        },
+        {
+          "id": "D",
+          "text": "Group by StoreID only, with All Rows"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Grouping by the date part (not the date-time) and StoreID gives one row per store per day, the grain reports use. Grouping by date-time keeps every timestamp; grouping by month loses daily detail.",
+      "takeaway": "Aggregate to exactly the grain the reports need."
+    },
+    {
+      "id": "PRE-122",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You group a Customers query by City and count rows. The exhibit shows the result.\n\nWhat should you do so each city appears once?",
+      "image": {
+        "src": "images/prepare/PRE-122.svg",
+        "alt": "Group By result showing separate rows for Paris, PARIS and paris, plus Lyon."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Use Count Distinct Rows instead"
+        },
+        {
+          "id": "B",
+          "text": "Standardise City's casing before the Group By step"
+        },
+        {
+          "id": "C",
+          "text": "Sort City before grouping"
+        },
+        {
+          "id": "D",
+          "text": "Group by City and Country"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Like other Power Query comparisons, Group By is case-sensitive, so Paris and PARIS form separate groups. Standardise the casing (and trim spaces) before grouping.",
+      "takeaway": "Group By is case-sensitive; clean text first."
+    },
+    {
+      "id": "PRE-123",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Group and aggregate",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You build a Product dimension by removing duplicates from a flat sales query. You need a whole-number surrogate key, starting at 1, for each product row.\n\nWhat should you add?",
+      "image": {
+        "src": "images/prepare/PRE-123.svg",
+        "alt": "Product query after Removed Duplicates and Added Index, with a new ProductKey column numbered 1, 2, 3."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "An index column starting from 1"
+        },
+        {
+          "id": "B",
+          "text": "A conditional column"
+        },
+        {
+          "id": "C",
+          "text": "A custom column with Text.Length"
+        },
+        {
+          "id": "D",
+          "text": "A duplicate of ProductName"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Add Column > Index Column > From 1 numbers the rows 1, 2, 3 and so on, which works as a surrogate key once the table holds one row per product. A conditional column applies rules, not numbering.",
+      "takeaway": "Surrogate key in Power Query → Index column from 1."
+    },
+    {
+      "id": "PRE-124",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A flat AllSales query holds sales and product columns together. You need a Product dimension that automatically picks up any future cleaning steps added to AllSales.\n\nHow should you create it?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Duplicate AllSales, keep the product columns, remove duplicates"
+        },
+        {
+          "id": "B",
+          "text": "Reference AllSales, keep the product columns, remove duplicates"
+        },
+        {
+          "id": "C",
+          "text": "Append AllSales to itself"
+        },
+        {
+          "id": "D",
+          "text": "Create a calculated table with DAX"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Reference starts the new query from the output of AllSales, so later changes to AllSales flow into it. Keep the product columns and remove duplicates. Duplicate copies the steps once, so later fixes wouldn't reach it.",
+      "takeaway": "Build a dimension from a staging query → Reference, not Duplicate."
+    },
+    {
+      "id": "PRE-125",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "Create a Product dimension from the AllSales query so that it stays in sync with AllSales.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Right-click AllSales and select Reference"
+        },
+        {
+          "id": "B",
+          "text": "Choose Columns: ProductID, ProductName, Category"
+        },
+        {
+          "id": "C",
+          "text": "Select ProductID and Remove Duplicates"
+        },
+        {
+          "id": "D",
+          "text": "Rename the query Product"
+        },
+        {
+          "id": "E",
+          "text": "Right-click AllSales and select Duplicate"
+        },
+        {
+          "id": "F",
+          "text": "Append AllSales to the new query"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Reference AllSales, keep only the product columns, remove duplicates on ProductID so there's one row per product, then give the query a clear name. Duplicating would break the link to AllSales; appending would add rows, not remove them.",
+      "takeaway": "Reference → choose columns → remove duplicates → rename."
+    },
+    {
+      "id": "PRE-126",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "AllSales now only feeds the Product, Customer and Sales queries built from it.\n\nWhat should you change on AllSales to avoid loading the same data twice?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Delete AllSales"
+        },
+        {
+          "id": "B",
+          "text": "Turn off Include in report refresh"
+        },
+        {
+          "id": "C",
+          "text": "Turn off Enable load"
+        },
+        {
+          "id": "D",
+          "text": "Convert AllSales to a parameter"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Turn off Enable load on AllSales. It stays in Power Query as a staging query, the queries that reference it still refresh, and the model only holds the star schema tables.",
+      "takeaway": "Staging queries → Enable load off."
+    },
+    {
+      "id": "PRE-127",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Holidays table loaded from a static file never changes. You want it to stay in the model but skip it during refresh to save time.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn off Enable load"
+        },
+        {
+          "id": "B",
+          "text": "Delete the query after the first load"
+        },
+        {
+          "id": "C",
+          "text": "Mark it as a date table"
+        },
+        {
+          "id": "D",
+          "text": "Turn off Include in report refresh"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Include in report refresh controls whether a loaded query is refreshed; turning it off keeps the existing data in the model. Turning off Enable load would remove the table from the model entirely.",
+      "takeaway": "Keep in model, skip refreshing → clear Include in report refresh."
+    },
+    {
+      "id": "PRE-128",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows Query Dependencies. You add a step to AllSales that renames Product Name to ProductName.\n\nWhich queries can be affected?",
+      "image": {
+        "src": "images/prepare/PRE-128.svg",
+        "alt": "Query dependencies: an Excel workbook feeds AllSales (a staging query that isn't loaded), which feeds Product, Customer and Sales, all loaded to the model."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Only AllSales"
+        },
+        {
+          "id": "B",
+          "text": "AllSales, Product, Customer and Sales"
+        },
+        {
+          "id": "C",
+          "text": "Only Product"
+        },
+        {
+          "id": "D",
+          "text": "The source Excel file"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Product, Customer and Sales all reference AllSales, so any change to its output flows into all three (and could break steps that use the old name). The source file itself isn't changed by Power Query.",
+      "takeaway": "A change to a referenced query flows to everything downstream."
+    },
+    {
+      "id": "PRE-129",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The source table regularly gains new columns that reports don't need. The model must not grow when that happens.\n\nWhich step should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Choose Columns (Remove Other Columns)"
+        },
+        {
+          "id": "B",
+          "text": "Remove Columns"
+        },
+        {
+          "id": "C",
+          "text": "Unpivot Other Columns"
+        },
+        {
+          "id": "D",
+          "text": "Promote Headers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Choose Columns (Remove Other Columns) lists the columns to keep, so new source columns are excluded automatically. Remove Columns lists the columns to drop, so any new column passes through and loads.",
+      "takeaway": "Lock the column list → Choose Columns / Remove Other Columns."
+    },
+    {
+      "id": "PRE-130",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Only rows with Status = Finished are used in reports. The source is SQL Server, and the query later adds a non-folding step.\n\nWhere should you filter on Status?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "In a report-level filter"
+        },
+        {
+          "id": "B",
+          "text": "As the last step of the query"
+        },
+        {
+          "id": "C",
+          "text": "Early in the query, before the non-folding step"
+        },
+        {
+          "id": "D",
+          "text": "In a calculated table"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Filter as early as possible, before any step that breaks folding, so the filter becomes part of the SQL and unwanted rows never leave the server. Filtering after a non-folding step forces Power Query to download every row first; a report filter still loads them all.",
+      "takeaway": "Filter early, before non-folding steps."
+    },
+    {
+      "id": "PRE-131",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "The Order table has 100 million rows. During development you want to work with a small sample in Power BI Desktop, then publish with the full data, editing as little as possible.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Copy 1,000 rows into an Excel file and connect to that"
+        },
+        {
+          "id": "B",
+          "text": "Use a parameter in a Keep Top Rows or filter step, and change it in the service after publishing"
+        },
+        {
+          "id": "C",
+          "text": "Use DirectQuery in Desktop and Import in the service"
+        },
+        {
+          "id": "D",
+          "text": "Turn off Enable load during development"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Add a parameter (for example RowLimit) used in a Keep Top Rows step, or in a filter, while developing; after publishing, change the parameter in the semantic model settings so the service loads everything. Editing queries before every publish is error-prone.",
+      "takeaway": "Dev sample → a parameter controlling rows, changed in the service after publishing."
+    },
+    {
+      "id": "PRE-132",
+      "domain": "prepare",
+      "topic": "Transform and load the data",
+      "subtopic": "Query structure and loading",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "What does Close & Apply do in Power Query Editor?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Closes the editor and loads the query changes into the model"
+        },
+        {
+          "id": "B",
+          "text": "Publishes the report to the service"
+        },
+        {
+          "id": "C",
+          "text": "Discards unsaved query changes"
+        },
+        {
+          "id": "D",
+          "text": "Refreshes only the selected query"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Close & Apply closes the editor and applies the query changes, loading the results into the model. Apply alone loads without closing. Neither publishes anything.",
+      "takeaway": "Close & Apply = load changes into the model."
+    }
+  ]
+}

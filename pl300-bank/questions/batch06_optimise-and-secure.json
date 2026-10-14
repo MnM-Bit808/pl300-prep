@@ -1,0 +1,1245 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 6,
+  "title": "Optimise model performance and secure data",
+  "domains": [
+    "manage",
+    "model"
+  ],
+  "schemaVersion": 2,
+  "count": 39,
+  "questions": [
+    {
+      "id": "MOD-100",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Performance Analyzer",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows Performance Analyzer after you refresh a report page.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/model/MOD-100.svg",
+        "alt": "Performance Analyzer: the matrix takes 4,470 ms (DAX query 4,120, visual display 310, other 40); the card takes 3,937 ms (DAX query 25, display 12, other 3,900); the slicer takes 96 ms."
+      },
+      "parts": [
+        {
+          "label": "The visual with the slowest DAX query is",
+          "options": [
+            "the matrix",
+            "the card",
+            "the slicer"
+          ]
+        },
+        {
+          "label": "The visual that spends most of its time waiting is",
+          "options": [
+            "the matrix",
+            "the card",
+            "the slicer"
+          ]
+        },
+        {
+          "label": "Your first optimisation step should be to",
+          "options": [
+            "remove the slicer",
+            "change the card's format",
+            "copy and analyse the matrix's query"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "The matrix spends 4,120 ms in its DAX query, so its measures or model are the bottleneck. The card's own query and display are tiny; its 3,900 ms of Other is time spent waiting, mostly for other visuals. The sensible first step is to copy the matrix's query and analyse it (for example in DAX query view or DAX Studio).",
+      "takeaway": "DAX query = model/measure work. Visual display = rendering. Other = waiting."
+    },
+    {
+      "id": "MOD-101",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Performance Analyzer",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Performance Analyzer shows that a matrix's DAX query is slow. You want to run that exact query on its own and try changes to the measure.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Export the visual's data to Excel"
+        },
+        {
+          "id": "B",
+          "text": "Use Copy query, then run it in DAX query view"
+        },
+        {
+          "id": "C",
+          "text": "Refresh the semantic model"
+        },
+        {
+          "id": "D",
+          "text": "Turn on Auto date/time"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Copy query in Performance Analyzer copies the DAX the visual sent. Paste it into DAX query view (or DAX Studio) to run it, inspect the result and test faster versions of the measure.",
+      "takeaway": "Investigate a slow visual → Copy query → DAX query view."
+    },
+    {
+      "id": "MOD-102",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows the largest columns in an imported Sales table.\n\nWhich change will shrink the model most without affecting reports, which never use transaction-level IDs?",
+      "image": {
+        "src": "images/model/MOD-102.svg",
+        "alt": "Table of Sales column sizes: TransactionGUID 48 million distinct values and 1,412.6 MB (71.8%), SaleDateTime 402.3 MB, Amount 96.1 MB, ProductKey 22.7 MB, Region 0.4 MB."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove TransactionGUID"
+        },
+        {
+          "id": "B",
+          "text": "Remove Region"
+        },
+        {
+          "id": "C",
+          "text": "Change Amount to Text"
+        },
+        {
+          "id": "D",
+          "text": "Hide TransactionGUID"
+        }
+      ],
+      "answer": "A",
+      "explanation": "TransactionGUID is unique on every row, so it barely compresses and takes most of the table's memory. Removing it (in Power Query) gives the largest saving. Low-cardinality columns such as Region are already tiny.",
+      "takeaway": "Unused high-cardinality columns (GUIDs, IDs, timestamps) are the biggest wins to remove."
+    },
+    {
+      "id": "MOD-103",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Product's key is a 12-character text code such as PRD-00045821, used in a relationship to a 50-million-row Sales table.\n\nWhat change usually improves compression and relationship performance?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Make the relationship bidirectional"
+        },
+        {
+          "id": "B",
+          "text": "Convert the key to Date"
+        },
+        {
+          "id": "C",
+          "text": "Use an integer surrogate key for the relationship"
+        },
+        {
+          "id": "D",
+          "text": "Add a prefix to every key"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Replacing a text key with an integer surrogate key (for example an index column) makes the key smaller to store and faster to join. Keep the text code as an attribute in Product if users need it.",
+      "takeaway": "Relationship keys → whole-number surrogate keys."
+    },
+    {
+      "id": "MOD-104",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need a ProfitBand column in Sales. You can build it as a DAX calculated column or as a column added in Power Query.\n\nWhich does Microsoft's guidance generally prefer, and why?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A calculated column, because it's always faster"
+        },
+        {
+          "id": "B",
+          "text": "A Power Query column, because it usually compresses better"
+        },
+        {
+          "id": "C",
+          "text": "Either; they're stored identically"
+        },
+        {
+          "id": "D",
+          "text": "Neither; use a measure for slicing"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Columns added in Power Query are loaded like source columns and usually compress better. Calculated columns are computed after loading and can compress less efficiently. Use DAX calculated columns when the logic genuinely needs the model (for example RELATED across tables).",
+      "takeaway": "Prefer Power Query columns over DAX calculated columns where possible."
+    },
+    {
+      "id": "MOD-105",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Temperature column holds values with eight decimal places, such as 21.47382915, although reports show one decimal.\n\nWhat should you do to reduce the model size?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Round the values to one decimal place in Power Query"
+        },
+        {
+          "id": "B",
+          "text": "Format the column to one decimal place"
+        },
+        {
+          "id": "C",
+          "text": "Change the column to Text"
+        },
+        {
+          "id": "D",
+          "text": "Hide the column"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Rounding to the precision reports actually use (here one decimal) collapses millions of near-unique values into a few hundred distinct ones, which compress far better. Formatting only changes how values look.",
+      "takeaway": "Round numbers to the precision you need to cut cardinality."
+    },
+    {
+      "id": "MOD-106",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The Sales source holds 12 years of history, but reports only cover the current year and the previous three years.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Add a report-level filter on Year"
+        },
+        {
+          "id": "B",
+          "text": "Hide old years with a slicer"
+        },
+        {
+          "id": "C",
+          "text": "Use a calculated table for recent years"
+        },
+        {
+          "id": "D",
+          "text": "Filter the query to the last four years"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Filter the query to the required years (ideally in a step that folds to the source, or with an incremental refresh archive period) so older rows never load. Report filters still load and store every row.",
+      "takeaway": "Don't load rows nobody reports on."
+    },
+    {
+      "id": "MOD-107",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A model has 14 date columns across its tables, and Auto date/time is turned on.\n\nHow does this affect the model?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "It has no effect on size"
+        },
+        {
+          "id": "B",
+          "text": "It creates one shared hidden date table"
+        },
+        {
+          "id": "C",
+          "text": "It creates 14 hidden date tables"
+        },
+        {
+          "id": "D",
+          "text": "It converts the columns to Text"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Auto date/time creates a hidden date table for each date column, here 14, each spanning that column's full years. Turning it off and using one proper Date table removes them.",
+      "takeaway": "Auto date/time = one hidden table per date column."
+    },
+    {
+      "id": "MOD-108",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Aggregations",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A DirectQuery Sales table holds 3 billion rows. Most visuals show totals by month and product, which are slow.\n\nWhat should you implement?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "An imported aggregation table configured with Manage aggregations"
+        },
+        {
+          "id": "B",
+          "text": "Bidirectional relationships"
+        },
+        {
+          "id": "C",
+          "text": "A calculated column for each month"
+        },
+        {
+          "id": "D",
+          "text": "Auto date/time"
+        }
+      ],
+      "answer": "A",
+      "explanation": "An imported aggregation table summarised by month and product answers those visuals from memory. Configure it with Manage aggregations so Power BI uses it automatically, and set related dimensions to Dual. Detailed queries still go to the DirectQuery table.",
+      "takeaway": "Big DirectQuery fact + summary visuals → imported aggregation table."
+    },
+    {
+      "id": "MOD-109",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Aggregations",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "An aggregation table summarises Sales by month and product. A user opens a visual showing sales by day.\n\nWhat happens?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The visual shows an error"
+        },
+        {
+          "id": "B",
+          "text": "The query falls back to the detailed table"
+        },
+        {
+          "id": "C",
+          "text": "The visual shows monthly values on each day"
+        },
+        {
+          "id": "D",
+          "text": "The visual shows blank"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The aggregation can't answer day-level questions, so Power BI falls back to the detailed table (through DirectQuery). The user still gets correct results, just more slowly.",
+      "takeaway": "Queries finer than the aggregation's grain fall back to the detail table."
+    },
+    {
+      "id": "MOD-110",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Report performance",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A report page has 35 visuals and loads slowly, although each DAX query is fast.\n\nWhat does Microsoft recommend?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn on Auto date/time"
+        },
+        {
+          "id": "B",
+          "text": "Convert the model to DirectQuery"
+        },
+        {
+          "id": "C",
+          "text": "Reduce the visuals on the page and move detail to drillthrough pages or tooltips"
+        },
+        {
+          "id": "D",
+          "text": "Add more slicers"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Each visual sends at least one query and must render, and they queue. Reduce the number of visuals per page: combine visuals, and move detail to drillthrough pages or report page tooltips.",
+      "takeaway": "Fewer visuals per page; move detail to drillthrough and tooltips."
+    },
+    {
+      "id": "MOD-111",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Report performance",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A scatter chart with 200,000 points has a long Visual display time in Performance Analyzer.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Rewrite the measures with variables"
+        },
+        {
+          "id": "B",
+          "text": "Reduce the number of points the visual shows"
+        },
+        {
+          "id": "C",
+          "text": "Increase the refresh frequency"
+        },
+        {
+          "id": "D",
+          "text": "Turn off query reduction"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Rendering hundreds of thousands of points is slow and unreadable. Reduce the points shown, for example by aggregating to a coarser level or applying a Top N filter. Faster DAX won't fix rendering time.",
+      "takeaway": "Long visual display time → show fewer data points."
+    },
+    {
+      "id": "MOD-112",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "DAX performance",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "According to Microsoft's DAX guidance, which function should you use to count the rows of a table?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "COUNTROWS"
+        },
+        {
+          "id": "B",
+          "text": "COUNT on the key column"
+        },
+        {
+          "id": "C",
+          "text": "COUNTA on any column"
+        },
+        {
+          "id": "D",
+          "text": "SUMX with 1"
+        }
+      ],
+      "answer": "A",
+      "explanation": "COUNTROWS counts rows directly, states the intent clearly and doesn't depend on a column's blanks. COUNT ( column ) counts non-blank values, which may differ and reads less clearly.",
+      "takeaway": "Count rows → COUNTROWS."
+    },
+    {
+      "id": "MOD-113",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "DAX performance",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A measure uses IF ( HASONEVALUE ( Region[Region] ), VALUES ( Region[Region] ), \"Several\" ).\n\nWhat is a simpler equivalent?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`MAX ( Region[Region] )`"
+        },
+        {
+          "id": "B",
+          "text": "`FIRSTNONBLANK ( Region[Region], 1 )`"
+        },
+        {
+          "id": "C",
+          "text": "`ALL ( Region[Region] )`"
+        },
+        {
+          "id": "D",
+          "text": "`SELECTEDVALUE ( Region[Region], \"Several\" )`"
+        }
+      ],
+      "answer": "D",
+      "explanation": "SELECTEDVALUE ( Region[Region], \"Several\" ) returns the single value when exactly one exists, otherwise the alternate result. It's shorter and clearer.",
+      "takeaway": "IF ( HASONEVALUE, VALUES ) → SELECTEDVALUE."
+    },
+    {
+      "id": "MOD-114",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "DirectQuery performance",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "In a DirectQuery model, slicers on Product and Date are slow because every interaction queries the source. Sales must remain DirectQuery.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Set Product and Date to Import"
+        },
+        {
+          "id": "B",
+          "text": "Set Product and Date to Dual"
+        },
+        {
+          "id": "C",
+          "text": "Set Sales to Dual"
+        },
+        {
+          "id": "D",
+          "text": "Remove the relationships"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Setting the dimension tables to Dual lets slicer lists be answered from memory while joins to the DirectQuery fact still run at the source. Import would create limited relationships with the DirectQuery fact.",
+      "takeaway": "DirectQuery fact + small dimensions → Dual dimensions."
+    },
+    {
+      "id": "MOD-115",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Refresh performance",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Nightly refresh of a 400-million-row Import table takes four hours, although only recent rows change.\n\nWhat should you configure?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "DirectQuery for every table"
+        },
+        {
+          "id": "B",
+          "text": "A second gateway"
+        },
+        {
+          "id": "C",
+          "text": "Incremental refresh"
+        },
+        {
+          "id": "D",
+          "text": "Auto date/time"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Incremental refresh partitions the table by date and refreshes only the recent window, keeping older partitions as they are. Refresh time drops dramatically.",
+      "takeaway": "Slow full refresh of mostly unchanged history → incremental refresh."
+    },
+    {
+      "id": "MOD-116",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Model analysis tools",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You want to check the model against a rule set of design best practices, such as unused columns, bidirectional relationships and missing formats.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Best Practice Analyzer in Tabular Editor"
+        },
+        {
+          "id": "B",
+          "text": "Performance Analyzer"
+        },
+        {
+          "id": "C",
+          "text": "Query Diagnostics"
+        },
+        {
+          "id": "D",
+          "text": "Column profiling"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The Best Practice Analyzer in Tabular Editor runs a set of rules over the model and lists violations. Performance Analyzer times visuals; VertiPaq Analyzer reports sizes.",
+      "takeaway": "Design rule checks → Best Practice Analyzer."
+    },
+    {
+      "id": "MOD-117",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Model analysis tools",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need to see which tables and columns take up the most memory in an Import model.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Performance Analyzer"
+        },
+        {
+          "id": "B",
+          "text": "Query Dependencies"
+        },
+        {
+          "id": "C",
+          "text": "Column quality"
+        },
+        {
+          "id": "D",
+          "text": "VertiPaq Analyzer in DAX Studio"
+        }
+      ],
+      "answer": "D",
+      "explanation": "VertiPaq Analyzer (available in DAX Studio) reports the size and cardinality of every table and column, showing exactly where memory goes. Performance Analyzer only times report visuals.",
+      "takeaway": "Where's the memory? → VertiPaq Analyzer (DAX Studio)."
+    },
+    {
+      "id": "MOD-118",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Relationship performance",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "The exhibit shows a model with a many-to-many, bidirectional relationship between Sales and Budget. Visuals that use both tables are slow.\n\nWhat should you change first?",
+      "image": {
+        "src": "images/model/MOD-118.svg",
+        "alt": "Model view where Sales and Budget are related directly on Category, many-to-many, with a bidirectional arrow."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Make the relationship one-to-one"
+        },
+        {
+          "id": "B",
+          "text": "Relate Sales and Budget to shared dimensions and remove the direct relationship"
+        },
+        {
+          "id": "C",
+          "text": "Add a second relationship"
+        },
+        {
+          "id": "D",
+          "text": "Turn on Assume referential integrity"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fact-to-fact, many-to-many, bidirectional relationships are expensive and can be ambiguous. Relate both facts to shared dimensions (Product, Date) with single-direction one-to-many relationships, and remove the direct link.",
+      "takeaway": "Avoid fact-to-fact and bidirectional many-to-many links; share dimensions."
+    },
+    {
+      "id": "MOD-119",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You create a calculated table SalesCopy = Sales to use in another part of the report. Sales has 80 million rows.\n\nWhat is the effect?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "No effect; calculated tables aren't stored"
+        },
+        {
+          "id": "B",
+          "text": "It halves refresh time"
+        },
+        {
+          "id": "C",
+          "text": "It roughly doubles the memory used by that data"
+        },
+        {
+          "id": "D",
+          "text": "It converts Sales to DirectQuery"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A calculated table is materialised and stored, so SalesCopy roughly doubles the memory used by Sales. Copying small tables (like Date for a role-playing dimension) is fine; copying a large fact usually isn't.",
+      "takeaway": "Calculated tables are stored in full; don't copy large facts."
+    },
+    {
+      "id": "MOD-120",
+      "domain": "model",
+      "topic": "Optimize model performance",
+      "subtopic": "Reduce model size",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about model size, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Adding measures doesn't increase the stored size of the model.",
+        "Calculated columns increase the stored size of the model.",
+        "Hiding a column removes its data from the model."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Measures are formulas evaluated at query time and store no data. Calculated columns and tables are computed at refresh and stored. Hidden columns are still loaded and stored.",
+      "takeaway": "Measures: no storage. Calculated columns/tables and hidden columns: stored."
+    },
+    {
+      "id": "MAN-001",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 1,
+      "type": "order",
+      "stem": "You need regional managers to see only their own region's data. A static role per region is acceptable.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "In Power BI Desktop, create a role per region in Manage roles"
+        },
+        {
+          "id": "B",
+          "text": "Add a filter such as [Region] = \"North\" to the Region table in each role"
+        },
+        {
+          "id": "C",
+          "text": "Test each role with View as"
+        },
+        {
+          "id": "D",
+          "text": "Publish, then add each region's security group to its role in the Power BI service"
+        },
+        {
+          "id": "E",
+          "text": "Add the managers to the workspace as Contributors"
+        },
+        {
+          "id": "F",
+          "text": "Turn on Assume referential integrity"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Create roles and their DAX filters in Desktop, test them with View as, publish, then add members (ideally security groups) to each role on the semantic model's Security page. Workspace Contributors would bypass RLS.",
+      "takeaway": "Create roles → test → publish → assign members."
+    },
+    {
+      "id": "MAN-002",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a role in Manage roles. Geography relates one-to-many to Customer, which relates one-to-many to Sales.\n\nWhat does a member of the Germany role see?",
+      "image": {
+        "src": "images/manage/MAN-002.svg",
+        "alt": "Manage security roles: the Germany role is selected, the Geography table is selected, and its DAX filter is [Country] = \"Germany\"."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "All data, because the filter is on a dimension"
+        },
+        {
+          "id": "B",
+          "text": "Only the Geography table, filtered to Germany"
+        },
+        {
+          "id": "C",
+          "text": "No data, because Sales isn't filtered"
+        },
+        {
+          "id": "D",
+          "text": "Only German customers and their sales"
+        }
+      ],
+      "answer": "D",
+      "explanation": "The filter keeps only German rows in Geography, and it flows from the one side to the many side: Geography → Customer → Sales. Members see German customers and their sales only.",
+      "takeaway": "RLS filters flow along relationships like any other filter."
+    },
+    {
+      "id": "MAN-003",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Your model has a dynamic role that filters on USERPRINCIPALNAME (). You want to check in Power BI Desktop what amira@contoso.com would see.\n\nWhat should you select in the View as dialog shown in the exhibit?",
+      "image": {
+        "src": "images/manage/MAN-003.svg",
+        "alt": "View as roles dialog with check boxes for None, Other user (with an email box), SalesRep (dynamic) and Executives."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Only the Other user box"
+        },
+        {
+          "id": "B",
+          "text": "The SalesRep role and Other user, entering amira@contoso.com"
+        },
+        {
+          "id": "C",
+          "text": "None, and refresh the model"
+        },
+        {
+          "id": "D",
+          "text": "Every role"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Tick the dynamic role and tick Other user, entering amira@contoso.com. USERPRINCIPALNAME () then returns that email, so you see exactly her data. Ticking only the role would use your own identity.",
+      "takeaway": "Test dynamic RLS for someone else → View as: role + Other user."
+    },
+    {
+      "id": "MAN-004",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Which function should a dynamic RLS filter use to compare a table's Email column with the signed-in user, so it behaves the same in Power BI Desktop and the service?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "USERPRINCIPALNAME ()"
+        },
+        {
+          "id": "B",
+          "text": "USERNAME ()"
+        },
+        {
+          "id": "C",
+          "text": "SELECTEDVALUE ()"
+        },
+        {
+          "id": "D",
+          "text": "CUSTOMDATA ()"
+        }
+      ],
+      "answer": "A",
+      "explanation": "USERPRINCIPALNAME () returns the user principal name (usually the work email) in both places. USERNAME () returns DOMAIN\\user in Desktop on a domain-joined machine, so tests in Desktop may not match the service.",
+      "takeaway": "Dynamic RLS → USERPRINCIPALNAME ()."
+    },
+    {
+      "id": "MAN-005",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Employee has EmployeeID, ManagerID, Email and Path = PATH ( Employee[EmployeeID], Employee[ManagerID] ). Managers must see their own rows and those of everyone below them.\n\nWhich role filter on Employee should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "`[Email] = USERPRINCIPALNAME ()`"
+        },
+        {
+          "id": "B",
+          "text": "`[ManagerID] = USERPRINCIPALNAME ()`"
+        },
+        {
+          "id": "C",
+          "text": "`PATHCONTAINS ( [Path], LOOKUPVALUE ( Employee[EmployeeID], Employee[Email], USERPRINCIPALNAME () ) )`"
+        },
+        {
+          "id": "D",
+          "text": "`PATH ( [EmployeeID], USERPRINCIPALNAME () )`"
+        }
+      ],
+      "answer": "C",
+      "explanation": "PATHCONTAINS checks whether each employee's path (their chain of managers) contains the signed-in user's EmployeeID, looked up from their email. That returns the user and everyone under them at any level.",
+      "takeaway": "Hierarchical RLS → PATH + PATHCONTAINS with the user's ID."
+    },
+    {
+      "id": "MAN-006",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about RLS, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "A user assigned to two roles sees the rows allowed by either role.",
+        "Workspace Contributors aren't restricted by RLS.",
+        "RLS applies to a user with Build permission who connects through Analyze in Excel."
+      ],
+      "answer": [
+        true,
+        true,
+        true
+      ],
+      "explanation": "A user in several roles sees the union of what each role allows. Workspace Admins, Members and Contributors can edit the model, so RLS doesn't restrict them. RLS does apply to Viewers and to people with only Build permission, including when they use Analyze in Excel.",
+      "takeaway": "Roles combine as a union; editors bypass RLS; Viewers and Build-only users don't."
+    },
+    {
+      "id": "MAN-007",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Store managers have a dynamic role. The CFO must see every store, and is a workspace Viewer.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Do nothing; Viewers see everything by default"
+        },
+        {
+          "id": "B",
+          "text": "Create a role with no filter and add the CFO to it"
+        },
+        {
+          "id": "C",
+          "text": "Make the CFO a workspace Contributor"
+        },
+        {
+          "id": "D",
+          "text": "Add the CFO to the store managers' role"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Once RLS exists, a Viewer in no role sees no data. Create a role with no filter (or a TRUE () filter) and add the CFO to it. Making the CFO a Contributor would grant editing rights just to bypass security.",
+      "takeaway": "Full-access users under RLS → a role with no filter."
+    },
+    {
+      "id": "MAN-008",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "The exhibit shows a model. A role filters Users with [Email] = USERPRINCIPALNAME (), but members still see every region's sales.\n\nWhat should you do?",
+      "image": {
+        "src": "images/manage/MAN-008.svg",
+        "alt": "Model view: Region relates one-to-many to Users and one-to-many to Sales, with single-direction filters flowing from Region to each."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Move the role filter to Sales"
+        },
+        {
+          "id": "B",
+          "text": "Change the role to use USERNAME ()"
+        },
+        {
+          "id": "C",
+          "text": "Set Users–Region to Both and select Apply security filter in both directions"
+        },
+        {
+          "id": "D",
+          "text": "Mark Users as a date table"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Users is on the many side of its relationship with Region, so the filter on Users doesn't flow to Region and on to Sales. Set that relationship to filter in both directions and select Apply security filter in both directions, so the security filter reaches Region and then Sales.",
+      "takeaway": "Security filter on a many-side mapping table → Both + Apply security filter in both directions."
+    },
+    {
+      "id": "MAN-009",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Where do you add people or security groups to an RLS role after publishing?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "On the semantic model's Security page in the Power BI service"
+        },
+        {
+          "id": "B",
+          "text": "In the workspace's Access settings"
+        },
+        {
+          "id": "C",
+          "text": "In Power BI Desktop's View as dialog"
+        },
+        {
+          "id": "D",
+          "text": "In the report's Format pane"
+        }
+      ],
+      "answer": "A",
+      "explanation": "In the Power BI service, open the semantic model's Security page, select the role and add members. Roles themselves are defined in Power BI Desktop.",
+      "takeaway": "Assign role members → semantic model > Security in the service."
+    },
+    {
+      "id": "MAN-010",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Analysts must build their own reports on a semantic model protected by RLS, and RLS must still restrict what they see.\n\nHow should you grant access?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Add them as workspace Members"
+        },
+        {
+          "id": "B",
+          "text": "Add them as workspace Contributors"
+        },
+        {
+          "id": "C",
+          "text": "Give them the .pbix file"
+        },
+        {
+          "id": "D",
+          "text": "Grant Build permission on the semantic model without an editing workspace role"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Workspace Contributors and above bypass RLS. Give the analysts Build permission on the semantic model (and keep them as Viewers or outside the workspace): they can create reports in their own workspace, and RLS applies to them.",
+      "takeaway": "Build reports + stay restricted → Build permission, not an editor role."
+    },
+    {
+      "id": "MAN-011",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You share a report with a colleague who isn't a member of any RLS role on the semantic model.\n\nWhat does the colleague see?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "All data"
+        },
+        {
+          "id": "B",
+          "text": "No data"
+        },
+        {
+          "id": "C",
+          "text": "Only data from the default role"
+        },
+        {
+          "id": "D",
+          "text": "The data visible to the person who shared it"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Sharing grants access to the report, but RLS still decides which rows they see. Belonging to no role means no rows, so visuals show no data.",
+      "takeaway": "Sharing doesn't bypass RLS; no role = no data."
+    },
+    {
+      "id": "MAN-012",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "After assigning members, you want to confirm in the Power BI service what a role shows.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Performance Analyzer"
+        },
+        {
+          "id": "B",
+          "text": "Usage metrics"
+        },
+        {
+          "id": "C",
+          "text": "Test as role on the semantic model's Security page"
+        },
+        {
+          "id": "D",
+          "text": "Lineage view"
+        }
+      ],
+      "answer": "C",
+      "explanation": "On the semantic model's Security page, the role's menu has Test as role, which opens the report as a member of that role would see it (and lets you test as a specific person).",
+      "takeaway": "Test RLS in the service → Security > Test as role."
+    },
+    {
+      "id": "MAN-013",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Some sales reps cover several regions, and the list changes often. You need dynamic RLS by region.\n\nHow should you store who can see what?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A mapping table with one row per user and region"
+        },
+        {
+          "id": "B",
+          "text": "One role per sales rep"
+        },
+        {
+          "id": "C",
+          "text": "A comma-separated list of regions in each user's row"
+        },
+        {
+          "id": "D",
+          "text": "Static roles per region combination"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A mapping table with one row per user per region (Email, RegionKey) handles any number of regions per person, and changes only need new rows, not new roles. A single region column in a user table can't hold several regions.",
+      "takeaway": "Users with several allowed values → one row per user per value in a mapping table."
+    },
+    {
+      "id": "MAN-014",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Where should an RLS filter usually be defined for best performance and clarity?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "On every fact table separately"
+        },
+        {
+          "id": "B",
+          "text": "On the Date table"
+        },
+        {
+          "id": "C",
+          "text": "In a measure"
+        },
+        {
+          "id": "D",
+          "text": "On the dimension table that identifies the user's scope"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Filter the small dimension (for example Region or Customer) and let relationships carry the filter to the fact. Filtering a large fact table row by row is slower and repeats logic for every fact table.",
+      "takeaway": "Put RLS filters on dimensions."
+    },
+    {
+      "id": "MAN-015",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "A semantic model uses RLS. For each statement, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Dashboard tiles pinned from the report respect RLS for each viewer.",
+        "You can share the report publicly with Publish to web, and RLS still applies.",
+        "Answers from Q&A respect RLS."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Dashboard tiles and Q&A answers run against the model as the viewer, so RLS applies. Publish to web isn't available for reports that use RLS, because it would expose data publicly without identity.",
+      "takeaway": "RLS follows the user everywhere they query the model; Publish to web is blocked."
+    },
+    {
+      "id": "MAN-016",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Row-level security",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You create a report with a live connection to a shared semantic model that uses RLS.\n\nWhat applies to your report's viewers?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "No RLS, unless you recreate the roles in your report"
+        },
+        {
+          "id": "B",
+          "text": "The model's RLS roles"
+        },
+        {
+          "id": "C",
+          "text": "Only static roles"
+        },
+        {
+          "id": "D",
+          "text": "RLS applies only in Desktop"
+        }
+      ],
+      "answer": "B",
+      "explanation": "RLS is part of the semantic model, so it applies to every report built on it, including live-connected ones. You can't add or change roles from a live-connected report.",
+      "takeaway": "RLS lives in the semantic model and follows every report built on it."
+    },
+    {
+      "id": "MAN-017",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Object-level security",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "You secure the Salary column with object-level security (OLS) for every role except HR. For each statement, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Non-HR users can't see or query the Salary column.",
+        "A visual that uses Salary shows an error for non-HR users.",
+        "OLS filters Employee rows by department."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "OLS hides the column from users without access, as if it didn't exist; visuals that use it show an error for them. It doesn't filter rows, which is RLS's job.",
+      "takeaway": "OLS hides tables/columns; RLS filters rows."
+    },
+    {
+      "id": "MAN-018",
+      "domain": "manage",
+      "topic": "Implement row-level and object-level security",
+      "subtopic": "Choose a security feature",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the feature that meets each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Regional managers see only their region's rows",
+          "options": [
+            "Row-level security",
+            "Object-level security",
+            "Sensitivity labels"
+          ]
+        },
+        {
+          "label": "Only HR can see the Salary column",
+          "options": [
+            "Row-level security",
+            "Object-level security",
+            "Sensitivity labels"
+          ]
+        },
+        {
+          "label": "Exported files stay encrypted and marked Confidential",
+          "options": [
+            "Row-level security",
+            "Object-level security",
+            "Sensitivity labels"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "RLS restricts rows per user. OLS hides tables or columns. Sensitivity labels classify content and keep protection on exported files.",
+      "takeaway": "Rows → RLS. Columns/tables → OLS. Classify and protect exports → sensitivity labels."
+    }
+  ]
+}

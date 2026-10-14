@@ -1,0 +1,1506 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 2,
+  "title": "Profile and clean the data",
+  "domains": [
+    "prepare"
+  ],
+  "schemaVersion": 2,
+  "count": 45,
+  "questions": [
+    {
+      "id": "PRE-043",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You turn on Column quality in Power Query Editor. The exhibit shows the result for four columns of an Orders query.\n\nWhich statement is true?",
+      "image": {
+        "src": "images/prepare/PRE-043.svg",
+        "alt": "Power Query preview of four columns with quality bars: CustomerID 100% valid, Email 92% valid and 8% empty, Revenue 97% valid and 3% error, Region 100% valid."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Email contains values that failed type conversion"
+        },
+        {
+          "id": "B",
+          "text": "CustomerID contains duplicate values"
+        },
+        {
+          "id": "C",
+          "text": "Revenue contains values that failed a step such as a type conversion"
+        },
+        {
+          "id": "D",
+          "text": "Region contains missing values"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Column quality splits each column into Valid, Error and Empty. Revenue shows 3% Error, which means some values failed a step, usually a type conversion such as text that couldn't become a number. Email has 8% Empty (missing values), not errors. CustomerID and Region are 100% valid, though that says nothing about duplicates.",
+      "takeaway": "Column quality: Valid / Error / Empty per column. Error usually = failed type conversion."
+    },
+    {
+      "id": "PRE-044",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "The exhibit shows column distribution for the State column of a 25,000-row Customers query.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/prepare/PRE-044.svg",
+        "alt": "Power Query preview showing CustomerID 1,000 distinct and 1,000 unique, State 48 distinct and 31 unique, Segment 3 distinct and 0 unique, with the status bar reading column profiling based on top 1000 rows."
+      },
+      "parts": [
+        {
+          "label": "The number of different State values in the sample is",
+          "options": [
+            "31",
+            "48",
+            "1,000",
+            "25,000"
+          ]
+        },
+        {
+          "label": "The number of State values that appear exactly once in the sample is",
+          "options": [
+            "31",
+            "48",
+            "17",
+            "952"
+          ]
+        },
+        {
+          "label": "These figures are based on",
+          "options": [
+            "all 25,000 rows",
+            "the rows currently visible on screen",
+            "the first 1,000 rows"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0,
+          2
+        ]
+      },
+      "explanation": "Distinct counts how many different values appear (48 states). Unique counts values that appear exactly once (31). Both figures come from the first 1,000 rows only, as the status bar says, so they describe a sample, not all 25,000 rows.",
+      "takeaway": "Distinct = different values. Unique = values that appear exactly once. Default sample = top 1,000 rows."
+    },
+    {
+      "id": "PRE-045",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Customers query returns 80,000 rows. Before using Email as a key, you must confirm that no email address appears twice in the whole query.\n\nWhat should you do first?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn on Column quality"
+        },
+        {
+          "id": "B",
+          "text": "Change column profiling to be based on the entire data set"
+        },
+        {
+          "id": "C",
+          "text": "Apply Remove Duplicates to Email"
+        },
+        {
+          "id": "D",
+          "text": "Sort Email in ascending order"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Profiling looks only at the first 1,000 rows unless you change it. Switch the status bar setting to Column profiling based on entire data set, then check that distinct, unique and the row count are all equal. Removing duplicates would hide the problem rather than confirm it.",
+      "takeaway": "Profiling a whole table → switch to 'based on entire data set'."
+    },
+    {
+      "id": "PRE-046",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows the column profile of an Age column in a patient registration query.\n\nWhat does the profile reveal?",
+      "image": {
+        "src": "images/prepare/PRE-046.svg",
+        "alt": "Column profile for Age: count 1,000, no errors or empties, 87 distinct, min -1, max 212, average 41.6. The value distribution has small bars at -1 and 212."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The column contains conversion errors"
+        },
+        {
+          "id": "B",
+          "text": "The column is mostly empty"
+        },
+        {
+          "id": "C",
+          "text": "The column has too many distinct values to load"
+        },
+        {
+          "id": "D",
+          "text": "The column contains out-of-range values that need investigating"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Column statistics show a minimum of -1 and a maximum of 212, which are impossible ages. They're probably placeholders or data entry errors. There are no errors or empty values, and 87 distinct values is normal for ages, so the problem is out-of-range values that need replacing or filtering.",
+      "takeaway": "Min/Max in the column profile are the quickest check for impossible values."
+    },
+    {
+      "id": "PRE-047",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Product descriptions come from a free-text field. You need to see how many descriptions are 0–50, 51–100 and over 100 characters long. The check must not add any step to the query or change the model.\n\nWhat should you use?",
+      "image": {
+        "src": "images/prepare/PRE-047.svg",
+        "alt": "Column profile for a Description text column. The value distribution is grouped by text length, with the largest bar at 51 to 100 characters."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The column profile, with the value distribution grouped by Text length"
+        },
+        {
+          "id": "B",
+          "text": "A custom column using Text.Length"
+        },
+        {
+          "id": "C",
+          "text": "A calculated column using LEN"
+        },
+        {
+          "id": "D",
+          "text": "Column quality"
+        }
+      ],
+      "answer": "A",
+      "explanation": "In the column profile, the value distribution can be grouped by Text length, which shows how many values have each length without adding a step. Adding a Text.Length custom column would change the query and the model.",
+      "takeaway": "Inspect text lengths without changing the query → Column profile grouped by Text length."
+    },
+    {
+      "id": "PRE-048",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Column quality shows 12% Empty for the Phone column.\n\nWhich values does Power Query count as Empty?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Only null values"
+        },
+        {
+          "id": "B",
+          "text": "Only empty text values"
+        },
+        {
+          "id": "C",
+          "text": "Null values and empty text values"
+        },
+        {
+          "id": "D",
+          "text": "Zeros and null values"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Empty counts both null and empty text (\"\"). The column profile's statistics list them separately as Empty and Empty string if you need to tell them apart. Zeros are valid values.",
+      "takeaway": "Empty = null + empty string."
+    },
+    {
+      "id": "PRE-049",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about Power Query data profiling, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "The column profile shows statistics for the currently selected column.",
+        "Turning on column profiling adds a step to Applied steps.",
+        "Column quality and column distribution are turned on from the View tab."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "The column profile shows statistics and value distribution for the one selected column. Profiling only describes the data; it never adds steps or changes values. Column quality, distribution and profile are switched on from the View tab.",
+      "takeaway": "Profiling describes data; it never changes it."
+    },
+    {
+      "id": "PRE-050",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Which profiling feature shows a small value-distribution histogram under every column header at once?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Column quality"
+        },
+        {
+          "id": "B",
+          "text": "Column distribution"
+        },
+        {
+          "id": "C",
+          "text": "Column profile"
+        },
+        {
+          "id": "D",
+          "text": "Query diagnostics"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Column distribution shows a mini histogram plus distinct and unique counts under each header. Column quality shows Valid, Error and Empty percentages; Column profile shows full detail for one selected column.",
+      "takeaway": "Distribution for all columns at a glance → Column distribution."
+    },
+    {
+      "id": "PRE-051",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "An OrderDate column has the Text data type. Column quality shows 100% Valid, but you know some rows contain TBD.\n\nWhy isn't TBD flagged, and how do you surface it?",
+      "image": {
+        "src": "images/prepare/PRE-051.svg",
+        "alt": "Power Query preview where OrderDate has the ABC text type and 100% valid quality, with one row showing TBD."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "TBD is valid text. Change the column to the Date type and check column quality again"
+        },
+        {
+          "id": "B",
+          "text": "Profiling ignores the first 1,000 rows. Switch to the entire data set"
+        },
+        {
+          "id": "C",
+          "text": "Column quality only checks numeric columns. Use column distribution instead"
+        },
+        {
+          "id": "D",
+          "text": "TBD is treated as null. Use Remove Empty"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Quality is judged against the column's type, and any text is valid text. Changing the type to Date makes rows that can't convert, such as TBD, show as Error, which column quality then reports.",
+      "takeaway": "Errors appear only after a type change fails; check quality after setting types."
+    },
+    {
+      "id": "PRE-052",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows the column profile of DaysToShip.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/prepare/PRE-052.svg",
+        "alt": "Column profile for DaysToShip: count 1,000, error 0, empty 120, distinct 18, unique 4, min 0, max 21, average 4.2."
+      },
+      "parts": [
+        {
+          "label": "Rows with no value",
+          "options": [
+            "4",
+            "18",
+            "120",
+            "1,000"
+          ]
+        },
+        {
+          "label": "Values that appear exactly once",
+          "options": [
+            "4",
+            "18",
+            "120",
+            "880"
+          ]
+        },
+        {
+          "label": "Different values in the column",
+          "options": [
+            "4",
+            "18",
+            "120",
+            "1,000"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          0,
+          1
+        ]
+      },
+      "explanation": "Empty is 120, so 120 rows have no value. Unique is 4: four values appear exactly once. Distinct is 18 different values in total. The count of 1,000 includes empty rows.",
+      "takeaway": "Read Empty, Distinct and Unique separately; they answer different questions."
+    },
+    {
+      "id": "PRE-053",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Profile the data",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows the column profile of a Quantity column. The business confirms that 9999 is a placeholder meaning 'not recorded'.\n\nWhat should you do so totals and averages aren't distorted?",
+      "image": {
+        "src": "images/prepare/PRE-053.svg",
+        "alt": "Column profile for Quantity: max 9,999 and average 368.4, with a bar of 37 rows at 9999 and every other value between 1 and 99."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove rows where Quantity is 9999"
+        },
+        {
+          "id": "B",
+          "text": "Replace 9999 with null"
+        },
+        {
+          "id": "C",
+          "text": "Replace 9999 with 0"
+        },
+        {
+          "id": "D",
+          "text": "Change Quantity to the Text type"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Replacing the placeholder with null makes those rows count as missing, so SUM and AVERAGE ignore them. Removing the rows would also drop their other columns, such as revenue. Replacing with 0 would still drag averages down.",
+      "takeaway": "Placeholder values → replace with null, not 0."
+    },
+    {
+      "id": "PRE-054",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 2,
+      "type": "multi",
+      "stem": "The column profile of Region shows separate bars for North, north and 'North ' (with a trailing space).\n\nWhich two transformations make every variant appear as North? Each correct answer presents part of the solution.",
+      "image": {
+        "src": "images/prepare/PRE-054.svg",
+        "alt": "Value distribution for Region with bars for North, north, North with a trailing space, South, East, West and WEST."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Trim"
+        },
+        {
+          "id": "B",
+          "text": "Capitalize Each Word"
+        },
+        {
+          "id": "C",
+          "text": "Clean"
+        },
+        {
+          "id": "D",
+          "text": "Remove Duplicates"
+        },
+        {
+          "id": "E",
+          "text": "Fill Down"
+        }
+      ],
+      "selectCount": 2,
+      "answer": [
+        "A",
+        "B"
+      ],
+      "explanation": "Trim removes leading and trailing spaces, and Capitalize Each Word standardises the casing. Together they turn all three variants into North. Clean removes non-printable characters, not spaces. Remove Duplicates is case-sensitive and would keep all three.",
+      "takeaway": "Inconsistent text → Trim (spaces) + a casing transform."
+    },
+    {
+      "id": "PRE-055",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Customer names exported from an old system look correct, but filters on them fail because some values contain hidden line-feed characters.\n\nWhich transformation removes them?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Trim"
+        },
+        {
+          "id": "B",
+          "text": "lowercase"
+        },
+        {
+          "id": "C",
+          "text": "Clean"
+        },
+        {
+          "id": "D",
+          "text": "Capitalize Each Word"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Clean removes non-printable control characters such as line feeds. Trim only removes spaces at the start and end. Lowercase changes casing.",
+      "takeaway": "Hidden non-printable characters → Clean. Extra spaces → Trim."
+    },
+    {
+      "id": "PRE-056",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You select Country and choose Remove Duplicates. The exhibit shows the result.\n\nWhy do France and FRANCE both remain?",
+      "image": {
+        "src": "images/prepare/PRE-056.svg",
+        "alt": "Power Query result after Removed Duplicates, still showing both France and FRANCE, plus Germany and Spain."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove Duplicates only checks the first 1,000 rows"
+        },
+        {
+          "id": "B",
+          "text": "Power Query treats values with different casing as different values"
+        },
+        {
+          "id": "C",
+          "text": "One of the values has a trailing space"
+        },
+        {
+          "id": "D",
+          "text": "Remove Duplicates keeps one row per original source file"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Power Query comparisons are case-sensitive, so France and FRANCE are different values. Standardise the casing first, then remove duplicates. Note that the Power BI model itself is case-insensitive, which is why leaving them would cause problems later.",
+      "takeaway": "Power Query is case-sensitive: fix casing before Remove Duplicates."
+    },
+    {
+      "id": "PRE-057",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to list the OrderID values that appear more than once in a query so you can investigate them.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Select OrderID, then Home > Keep Rows > Keep Duplicates"
+        },
+        {
+          "id": "B",
+          "text": "Select OrderID, then Remove Duplicates"
+        },
+        {
+          "id": "C",
+          "text": "Turn on Column quality"
+        },
+        {
+          "id": "D",
+          "text": "Sort OrderID descending"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Keep Rows > Keep Duplicates keeps only rows whose selected column values occur more than once. Remove Duplicates does the opposite, and Column quality doesn't show duplicates.",
+      "takeaway": "Investigate duplicates → Keep Duplicates."
+    },
+    {
+      "id": "PRE-058",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You select only the Email column of a Contacts query and choose Remove Duplicates. Several contacts share an email address.\n\nWhich rows remain?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Only rows where every column is identical"
+        },
+        {
+          "id": "B",
+          "text": "No rows, because duplicates exist"
+        },
+        {
+          "id": "C",
+          "text": "The first row for each email address, with all its columns"
+        },
+        {
+          "id": "D",
+          "text": "The last row for each email address"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Remove Duplicates on selected columns keeps one row per distinct value in those columns (the first one it encounters) and keeps all of that row's columns. Other rows with the same email are removed, even if their other columns differ.",
+      "takeaway": "Remove Duplicates on a column keeps the first row per value."
+    },
+    {
+      "id": "PRE-059",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A StreetType column holds abbreviations such as St, Rd and Ave, plus a few full words such as Station. You replace St with Street, and Station becomes Streetation.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Use Trim before replacing"
+        },
+        {
+          "id": "B",
+          "text": "Replace 'st' in lowercase instead"
+        },
+        {
+          "id": "C",
+          "text": "Use Replace Errors instead"
+        },
+        {
+          "id": "D",
+          "text": "Tick Match entire cell contents in Replace Values"
+        }
+      ],
+      "answer": "D",
+      "explanation": "By default, Replace Values on text replaces the text wherever it appears inside a value. Under Advanced options, tick Match entire cell contents so only cells that are exactly St change, and Station is left alone.",
+      "takeaway": "Replace Values matches inside text unless 'Match entire cell contents' is ticked."
+    },
+    {
+      "id": "PRE-060",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve inconsistent values",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A Country column contains about 40 countries, each written several ways (UK, U.K., United Kingdom, and so on). The business maintains the list of variants and keeps adding new ones.\n\nWhat is the most maintainable way to standardise the values?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Add a Replace Values step for each variant"
+        },
+        {
+          "id": "B",
+          "text": "Merge with a mapping table of variants and standard names"
+        },
+        {
+          "id": "C",
+          "text": "Use Capitalize Each Word"
+        },
+        {
+          "id": "D",
+          "text": "Use Column from Examples once"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A mapping table of variant to standard name, merged into the query, handles any number of variants, and the business can add new rows without anyone editing the query. Dozens of Replace Values steps would need editing for every new variant.",
+      "takeaway": "Many changing variants → mapping table + merge."
+    },
+    {
+      "id": "PRE-061",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows data imported from a spreadsheet with merged Region cells. Each region name appears only on the first row of its group.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-061.svg",
+        "alt": "Power Query preview where Region shows North then null, null, then South then null; Store and Sales are filled on every row."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Fill Down on Region"
+        },
+        {
+          "id": "B",
+          "text": "Fill Up on Region"
+        },
+        {
+          "id": "C",
+          "text": "Remove Empty on Region"
+        },
+        {
+          "id": "D",
+          "text": "Replace null with Unknown"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Fill Down copies the last non-null value into the null cells below it until it reaches the next value, which is exactly the merged-cell pattern. Fill Up copies upwards, which would assign rows to the wrong region.",
+      "takeaway": "Merged-cell exports with nulls below each label → Fill Down."
+    },
+    {
+      "id": "PRE-062",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You apply Fill Down to the Region column in the exhibit, but nothing changes.\n\nWhat should you do first?",
+      "image": {
+        "src": "images/prepare/PRE-062.svg",
+        "alt": "Power Query preview after a Filled Down step where Region shows North then two blank cells (not null), then South."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Use Fill Up instead"
+        },
+        {
+          "id": "B",
+          "text": "Change Region to the Any type"
+        },
+        {
+          "id": "C",
+          "text": "Replace the empty values in Region with null"
+        },
+        {
+          "id": "D",
+          "text": "Trim the Region column"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Fill Down only fills null cells. These cells hold empty text, which isn't null. Replace the empty values with null first (Replace Values, leaving Value To Find empty and typing null as the replacement), then Fill Down works.",
+      "takeaway": "Fill Down ignores empty strings; convert them to null first."
+    },
+    {
+      "id": "PRE-063",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A report export puts each group's label on the last row of the group, with nulls in the rows above it.\n\nWhich transformation assigns the right label to every row?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Fill Down"
+        },
+        {
+          "id": "B",
+          "text": "Fill Up"
+        },
+        {
+          "id": "C",
+          "text": "Remove Blank Rows"
+        },
+        {
+          "id": "D",
+          "text": "Replace Errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fill Up copies each value into the null cells above it, which matches labels placed at the bottom of each group. Fill Down would copy each label into the next group.",
+      "takeaway": "Label at the bottom of each group → Fill Up."
+    },
+    {
+      "id": "PRE-064",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Survey Score is null when a respondent skipped a question. Managers want the average score of answered questions only.\n\nHow should you handle the nulls?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Leave them as null"
+        },
+        {
+          "id": "B",
+          "text": "Replace them with 0"
+        },
+        {
+          "id": "C",
+          "text": "Remove the rows"
+        },
+        {
+          "id": "D",
+          "text": "Replace them with the text N/A"
+        }
+      ],
+      "answer": "A",
+      "explanation": "AVERAGE ignores blanks, so leaving the nulls gives the average of answered questions. Replacing them with 0 counts skipped questions as scores of zero and lowers the average. Removing the rows would also remove those respondents' other answers.",
+      "takeaway": "Nulls are ignored by averages; zeros are not."
+    },
+    {
+      "id": "PRE-065",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A CompletedDate column uses the text values N/A, '-' and blank to mean 'not completed'.\n\nWhat should you do before changing the column to the Date type?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove the rows"
+        },
+        {
+          "id": "B",
+          "text": "Replace them with 01/01/1900"
+        },
+        {
+          "id": "C",
+          "text": "Replace N/A, '-' and empty values with null"
+        },
+        {
+          "id": "D",
+          "text": "Change the type first and remove errors"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Converting the variants to null means the type change succeeds, profiling counts them as Empty, and DAX treats them as blank. Leaving them as text would make them errors when the type changes, and replacing errors afterwards hides what they meant.",
+      "takeaway": "Text markers for 'missing' → replace with null before changing type."
+    },
+    {
+      "id": "PRE-066",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "In Replace Values, how do you target null cells?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Leave Value To Find empty"
+        },
+        {
+          "id": "B",
+          "text": "Type null in Value To Find"
+        },
+        {
+          "id": "C",
+          "text": "Type \"null\" in quotes"
+        },
+        {
+          "id": "D",
+          "text": "Use Replace Errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Type null (lowercase, without quotes) in Value To Find. Power Query then replaces true nulls rather than the text 'null'.",
+      "takeaway": "Replace nulls → type null in Value To Find."
+    },
+    {
+      "id": "PRE-067",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The Product dimension contains 3 rows where ProductKey is null.\n\nWhat should you do before creating a one-to-many relationship to the Sales table?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Fill Down ProductKey"
+        },
+        {
+          "id": "B",
+          "text": "Replace null with 0 in every column"
+        },
+        {
+          "id": "C",
+          "text": "Leave them; Power BI ignores null keys"
+        },
+        {
+          "id": "D",
+          "text": "Remove the rows with a null ProductKey (or give them a defined Unknown key)"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A dimension's key must be unique and non-blank. Rows with a null key can't be matched and break the 'one' side. Filter them out (Remove Empty on ProductKey), or replace them with a proper Unknown member key if facts point to it. Fill Down would invent keys.",
+      "takeaway": "Dimension keys must be unique and not blank."
+    },
+    {
+      "id": "PRE-068",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve nulls and blanks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "An Excel export has spacer rows where every column is empty.\n\nWhich command removes only those rows?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove Empty on the first column"
+        },
+        {
+          "id": "B",
+          "text": "Home > Remove Rows > Remove Blank Rows"
+        },
+        {
+          "id": "C",
+          "text": "Remove Duplicates"
+        },
+        {
+          "id": "D",
+          "text": "Remove Errors"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Remove Rows > Remove Blank Rows deletes rows where every column is null or empty. Remove Empty from a column's filter removes rows where that one column is empty, which could delete rows that have data elsewhere.",
+      "takeaway": "Entirely empty rows → Remove Blank Rows."
+    },
+    {
+      "id": "PRE-069",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "In Excel, some cells in a Margin column show #N/A. In Power Query they appear as Error. All rows must be kept, and those margins should be treated as missing.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-069.svg",
+        "alt": "Power Query preview where the Margin column shows Error in two rows and 6% error in column quality."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Replace errors with null"
+        },
+        {
+          "id": "B",
+          "text": "Remove errors"
+        },
+        {
+          "id": "C",
+          "text": "Replace errors with 0"
+        },
+        {
+          "id": "D",
+          "text": "Keep errors"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Excel error values arrive in Power Query as errors. Replace Errors with null keeps every row and marks the value as missing. Remove Errors deletes the rows; replacing with 0 would count them as zero margin.",
+      "takeaway": "Excel #N/A → Power Query Error → Replace Errors (with null if 'missing')."
+    },
+    {
+      "id": "PRE-070",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "A Discount column is text. Some rows contain N/A, which becomes an error when converted. Some rows are null. Every row must be kept, and both errors and nulls must become 0.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Change Discount to Decimal Number"
+        },
+        {
+          "id": "B",
+          "text": "Replace errors in Discount with 0"
+        },
+        {
+          "id": "C",
+          "text": "Replace null in Discount with 0"
+        },
+        {
+          "id": "D",
+          "text": "Remove errors in Discount"
+        },
+        {
+          "id": "E",
+          "text": "Keep errors in Discount"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "Errors only exist after the type change, so change the type first, then replace the errors that it creates, then replace the nulls. Removing or keeping errors would drop rows.",
+      "takeaway": "Change type → Replace Errors → replace nulls."
+    },
+    {
+      "id": "PRE-071",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Before deciding how to fix errors in a large Shipments query, you want to look at only the rows that contain errors.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove Errors"
+        },
+        {
+          "id": "B",
+          "text": "Replace Errors"
+        },
+        {
+          "id": "C",
+          "text": "Keep Errors"
+        },
+        {
+          "id": "D",
+          "text": "Column distribution"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Keep Rows > Keep Errors filters the query to rows with an error in the selected column(s), so you can see what caused them. Remove Errors and Replace Errors change the data before you've investigated.",
+      "takeaway": "Investigate errors → Keep Errors."
+    },
+    {
+      "id": "PRE-072",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows an error after you change a Price column to Decimal Number.\n\nWhat is the best fix?",
+      "image": {
+        "src": "images/prepare/PRE-072.svg",
+        "alt": "Power Query error pane: DataFormat.Error, we couldn't convert to Number, details 1,250.00 USD. The Changed Type step is selected."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Replace the errors with 0"
+        },
+        {
+          "id": "B",
+          "text": "Remove the ' USD' text from Price, then change the type to Decimal Number"
+        },
+        {
+          "id": "C",
+          "text": "Change Price to Whole Number"
+        },
+        {
+          "id": "D",
+          "text": "Set the privacy level of the source to Public"
+        }
+      ],
+      "answer": "B",
+      "explanation": "DataFormat.Error means a value couldn't be converted. Here the text includes ' USD', so remove that suffix (Replace Values or Extract) and then change the type. Replacing the errors with 0 would throw away real prices.",
+      "takeaway": "DataFormat.Error → fix the text so it converts, then change type."
+    },
+    {
+      "id": "PRE-073",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The source team renamed a column from Revenue to Net Revenue. Refresh now fails with the error in the exhibit.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-073.svg",
+        "alt": "Power Query error pane: Expression.Error, the column Revenue of the table wasn't found. The Changed Type step is selected."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Update the steps that reference Revenue to use Net Revenue"
+        },
+        {
+          "id": "B",
+          "text": "Change the data source in Data source settings"
+        },
+        {
+          "id": "C",
+          "text": "Replace errors in Revenue with 0"
+        },
+        {
+          "id": "D",
+          "text": "Set the privacy level to Organizational"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Expression.Error saying a column wasn't found means a step still refers to the old name, here the Changed Type step. Edit that step (and any later steps) to use Net Revenue, or rename it back early in the query. Data source settings and privacy levels don't affect column names.",
+      "takeaway": "Column 'X' wasn't found → a step references a renamed or removed column."
+    },
+    {
+      "id": "PRE-074",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "multi",
+      "stem": "A query that worked yesterday now fails with DataSource.Error: Could not find file.\n\nWhat are two possible causes? Each correct answer presents a complete solution.",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The file was renamed or moved"
+        },
+        {
+          "id": "B",
+          "text": "A column in the file was renamed"
+        },
+        {
+          "id": "C",
+          "text": "The path uses a mapped drive letter that isn't available on this computer"
+        },
+        {
+          "id": "D",
+          "text": "The privacy level is set to Private"
+        }
+      ],
+      "selectCount": 2,
+      "answer": [
+        "A",
+        "C"
+      ],
+      "explanation": "This error means the path in the Source step doesn't lead to a file: it was moved, renamed or deleted, or the location isn't reachable from this computer, for example a mapped drive letter that doesn't exist here. A wrong privacy level or a renamed column produce different errors.",
+      "takeaway": "Could not find file → the path is wrong or unreachable."
+    },
+    {
+      "id": "PRE-075",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows a refresh error in Power BI Desktop.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/prepare/PRE-075.svg",
+        "alt": "Power Query error pane: DataSource.Error, could not find file C:\\Users\\amira\\Desktop\\Targets.xlsx. The Source step is selected."
+      },
+      "parts": [
+        {
+          "label": "The error category is",
+          "options": [
+            "DataFormat.Error",
+            "Expression.Error",
+            "DataSource.Error"
+          ]
+        },
+        {
+          "label": "The best fix is",
+          "options": [
+            "Change Source in Data source settings",
+            "Replace Errors with null",
+            "Change the column types"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          0
+        ]
+      },
+      "explanation": "DataSource.Error is about reaching the source, here a file that isn't at the stated path. Pointing the query at the file's new location with Data source settings > Change Source fixes it for every query that uses that file.",
+      "takeaway": "DataSource.Error = can't reach the source. Fix the path with Change Source."
+    },
+    {
+      "id": "PRE-076",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You add the custom column in the exhibit and every row shows an error.\n\nHow should you fix the formula?",
+      "image": {
+        "src": "images/prepare/PRE-076.svg",
+        "alt": "Power Query error pane: Expression.Error, we cannot apply operator ampersand to types Text and Number, from a custom column joining Product and Quantity."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Replace & with +"
+        },
+        {
+          "id": "B",
+          "text": "Change Product to the Number type"
+        },
+        {
+          "id": "C",
+          "text": "Use `[Product] & \" x \" & Text.From([Quantity])`"
+        },
+        {
+          "id": "D",
+          "text": "Replace errors with an empty string"
+        }
+      ],
+      "answer": "C",
+      "explanation": "In M, & joins text, and Quantity is a number, so the operation fails. Convert the number with Text.From (or Number.ToText) first. M has no automatic conversion between text and numbers.",
+      "takeaway": "Joining text and numbers in M → Text.From the number first."
+    },
+    {
+      "id": "PRE-077",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "After Close & Apply, Power BI Desktop reports that the Sales table loaded with errors in 12 rows.\n\nHow can you see which rows have the errors?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Open DAX query view"
+        },
+        {
+          "id": "B",
+          "text": "Select View errors, which creates a query listing the rows with errors"
+        },
+        {
+          "id": "C",
+          "text": "Use Performance Analyzer"
+        },
+        {
+          "id": "D",
+          "text": "Check the semantic model's refresh history in Desktop"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Select View errors in the load message. Power BI creates an 'Errors in Sales' query in Power Query Editor that lists the affected rows and columns. The cells with errors load as blanks in the model, so you won't see them in report visuals.",
+      "takeaway": "Load errors → View errors creates an 'Errors in …' query."
+    },
+    {
+      "id": "PRE-078",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Resolve errors",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about errors in Power Query, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Remove Errors deletes the rows that contain an error in the selected columns.",
+        "Replace Errors keeps the rows and substitutes a value of your choice.",
+        "A single cell-level error in a loaded column makes the whole refresh fail."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Remove Errors drops whole rows; Replace Errors keeps them with a new value. When a query loads, cell-level errors become blanks and Power BI reports how many rows were affected; the refresh itself doesn't fail because of them.",
+      "takeaway": "Cell errors load as blanks with a warning; they don't fail the refresh."
+    },
+    {
+      "id": "PRE-079",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "UK supplier files store dates as text in day/month/year order. When you change DeliveryDate to Date, 13/04/2026 shows as an error and 03/04/2026 becomes 4 March.\n\nWhat should you do?",
+      "image": {
+        "src": "images/prepare/PRE-079.svg",
+        "alt": "Power Query preview: DeliveryDate text 03/04/2026 converts to 04/03/2026, while 13/04/2026 and 28/04/2026 become Error."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Change Type > Using Locale, Date, English (United Kingdom)"
+        },
+        {
+          "id": "B",
+          "text": "Change the type to Date/Time/Timezone"
+        },
+        {
+          "id": "C",
+          "text": "Replace errors with null"
+        },
+        {
+          "id": "D",
+          "text": "Change the type to Text"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Your computer's locale reads dates as month/day. Change Type > Using Locale lets you set Date with the English (United Kingdom) locale, so the text is read as day/month. Splitting and rebuilding the date also works but takes more steps.",
+      "takeaway": "Dates or numbers in another country's format → Change Type > Using Locale."
+    },
+    {
+      "id": "PRE-080",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A German supplier's file shows amounts such as 1.234,50. Changing the column to Decimal Number produces wrong values.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Replace every dot with nothing"
+        },
+        {
+          "id": "B",
+          "text": "Change the type to Fixed decimal number"
+        },
+        {
+          "id": "C",
+          "text": "Change Type > Using Locale, Decimal Number, German"
+        },
+        {
+          "id": "D",
+          "text": "Change the type to Whole Number"
+        }
+      ],
+      "answer": "C",
+      "explanation": "In German formatting, the dot separates thousands and the comma is the decimal separator. Change Type > Using Locale with German reads 1.234,50 as one thousand two hundred thirty-four point five.",
+      "takeaway": "Number formats from other countries → Using Locale."
+    },
+    {
+      "id": "PRE-081",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Automatic type detection turned the ZipCode column into Whole Number, and codes such as 02134 became 2134.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Format the column with leading zeros in the report"
+        },
+        {
+          "id": "B",
+          "text": "Set ZipCode to Text in the Changed Type step"
+        },
+        {
+          "id": "C",
+          "text": "Change the type to Decimal Number"
+        },
+        {
+          "id": "D",
+          "text": "Add 0 in a custom column"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Codes such as ZIP codes, phone numbers and account IDs are labels, not quantities, so they should be Text. Change the type in (or replace) the automatic Changed Type step so the leading zeros are kept. Formatting in the report can't restore digits that were lost.",
+      "takeaway": "Identifiers with leading zeros → Text type."
+    },
+    {
+      "id": "PRE-082",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Every new query you create automatically gets a Changed Type step that converts ID columns to numbers. You want to choose types yourself in this file.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Query reduction options"
+        },
+        {
+          "id": "B",
+          "text": "Privacy levels"
+        },
+        {
+          "id": "C",
+          "text": "Auto date/time"
+        },
+        {
+          "id": "D",
+          "text": "Type Detection in the current file's Data Load options"
+        }
+      ],
+      "answer": "D",
+      "explanation": "In Options > Current File > Data Load, Type Detection controls whether column types are detected automatically for unstructured sources. Setting it to never detect stops the automatic Changed Type step for new queries in this file.",
+      "takeaway": "Stop automatic type detection → Options > Current File > Data Load > Type Detection."
+    },
+    {
+      "id": "PRE-083",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Finance reports invoice totals that are off by fractions of a cent because of floating-point rounding.\n\nWhich data type should the Amount column use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Decimal Number"
+        },
+        {
+          "id": "B",
+          "text": "Fixed decimal number"
+        },
+        {
+          "id": "C",
+          "text": "Whole Number"
+        },
+        {
+          "id": "D",
+          "text": "Text"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Fixed decimal number (shown as a currency type) stores values with exactly four decimal places, which avoids floating-point rounding errors in financial totals. Decimal Number is floating point; Whole Number drops the cents.",
+      "takeaway": "Money with exact totals → Fixed decimal number."
+    },
+    {
+      "id": "PRE-084",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Data types",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A Date/Time column OrderTimestamp always shows a time of 00:00:00, and reports only use the date.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Change the type to Date"
+        },
+        {
+          "id": "B",
+          "text": "Format the column to hide the time in the report"
+        },
+        {
+          "id": "C",
+          "text": "Change the type to Text"
+        },
+        {
+          "id": "D",
+          "text": "Split the column by delimiter"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Changing the type to Date drops the meaningless time part, which makes the column match a Date table's key and lets Power BI offer date hierarchies. Formatting only hides the time; the stored value would still be a date-time.",
+      "takeaway": "Only the date matters → change the type to Date."
+    },
+    {
+      "id": "PRE-085",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Shape imported files",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows an Excel sheet in Power Query Editor. A report title and a 'Generated' line sit above the real column headers.\n\nSelect the steps that produce a clean table.",
+      "image": {
+        "src": "images/prepare/PRE-085.svg",
+        "alt": "Power Query preview with columns Column1 to Column4. Rows 1 and 2 hold a report title and generated date, row 3 is blank, row 4 holds the headers Region, Month, Units, Revenue, and data starts at row 5."
+      },
+      "parts": [
+        {
+          "label": "Remove top rows",
+          "options": [
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "label": "Then",
+          "options": [
+            "Use First Row as Headers",
+            "Transpose",
+            "Fill Down"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0
+        ]
+      },
+      "explanation": "The first three rows (title, generated date, and a blank row) aren't data, so remove the top 3 rows. The header row then becomes the first row, and Use First Row as Headers turns it into column names.",
+      "takeaway": "Junk above the headers → Remove Top Rows, then Use First Row as Headers."
+    },
+    {
+      "id": "PRE-086",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Shape imported files",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A CSV file always has five lines of notes before the header row, but the number of notes might change in future.\n\nWhat is the most robust way to remove them?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Remove Top Rows: 5"
+        },
+        {
+          "id": "B",
+          "text": "Use First Row as Headers, then remove 4 rows"
+        },
+        {
+          "id": "C",
+          "text": "Remove rows until the row that contains the header text, using a condition"
+        },
+        {
+          "id": "D",
+          "text": "Transpose the table"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Remove Top Rows with a fixed count breaks if the number of note lines changes. Skipping rows until the header row appears adapts automatically: in M, Table.Skip accepts a condition, such as each [Column1] <> \"Region\", instead of a number. Promoting headers first would use a note line as headers.",
+      "takeaway": "Variable junk rows → remove rows by condition, not a fixed count."
+    },
+    {
+      "id": "PRE-087",
+      "domain": "prepare",
+      "topic": "Profile and clean the data",
+      "subtopic": "Shape imported files",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "A query imports an Excel table. Its Changed Type step converts DeliveryDays to Whole Number. Next month, the source table gains a new column named Notes.\n\nWhat happens to Notes after refresh?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Refresh fails with a column-not-found error"
+        },
+        {
+          "id": "B",
+          "text": "Notes appears, with no type change applied to it"
+        },
+        {
+          "id": "C",
+          "text": "Notes is converted to Whole Number"
+        },
+        {
+          "id": "D",
+          "text": "Notes is merged into DeliveryDays"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Steps refer to the columns they were written for. A new column in the source passes through with its default type (often text or Any) unless a step removes it or a step uses Remove Other Columns, which drops anything not listed. Nothing errors just because a column was added.",
+      "takeaway": "New source columns flow through unless a step removes them; removed or renamed columns cause errors."
+    }
+  ]
+}

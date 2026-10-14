@@ -1,0 +1,1526 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 7,
+  "title": "Create reports: choose, build and format visuals",
+  "domains": [
+    "visualize"
+  ],
+  "schemaVersion": 2,
+  "count": 45,
+  "questions": [
+    {
+      "id": "VIS-001",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows two years of monthly revenue as a column chart. Managers say it's hard to see the overall trend and the seasonal pattern.\n\nWhich visual should replace it?",
+      "image": {
+        "src": "images/visualize/VIS-001.svg",
+        "alt": "Column chart with 24 monthly bars from January 2025 to December 2026, rising through the year with peaks each December."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Pie chart"
+        },
+        {
+          "id": "B",
+          "text": "Line chart"
+        },
+        {
+          "id": "C",
+          "text": "Treemap"
+        },
+        {
+          "id": "D",
+          "text": "Multi-row card"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A line chart joins consecutive months, so the trend and the yearly seasonal shape are easy to follow. Columns for 24 periods emphasise individual months rather than movement over time. Pie and treemap visuals show part-to-whole, not change over time.",
+      "takeaway": "Change over time, many periods → line chart."
+    },
+    {
+      "id": "VIS-002",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to compare sales across 12 product categories with long names, so that users can quickly see which categories sell most.\n\nWhich visual should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Pie chart with 12 slices"
+        },
+        {
+          "id": "B",
+          "text": "Line chart"
+        },
+        {
+          "id": "C",
+          "text": "Bar chart sorted by sales descending"
+        },
+        {
+          "id": "D",
+          "text": "Gauge"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A horizontal bar chart has room for long labels, and sorting it by sales descending makes the ranking obvious. A pie chart with 12 slices is hard to compare; a line chart implies a sequence that categories don't have.",
+      "takeaway": "Compare many categories → bar chart, sorted."
+    },
+    {
+      "id": "VIS-003",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the visual that best meets each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Share of revenue from three sales channels this year",
+          "options": [
+            "Donut chart",
+            "100% stacked column chart",
+            "Waterfall chart"
+          ]
+        },
+        {
+          "label": "How each channel's share changed over 12 months",
+          "options": [
+            "Donut chart",
+            "100% stacked column chart",
+            "Waterfall chart"
+          ]
+        },
+        {
+          "label": "How price, volume and cost changes moved profit from last year to this year",
+          "options": [
+            "Donut chart",
+            "100% stacked column chart",
+            "Waterfall chart"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "A donut (or pie) works for a part-to-whole with only a few parts. A 100% stacked column shows how shares change across periods. A waterfall shows how increases and decreases build from a starting value to an ending value.",
+      "takeaway": "Few-part share → donut. Share over time → 100% stacked. Build-up of changes → waterfall."
+    },
+    {
+      "id": "VIS-004",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows sales by region per year. Users want to compare each region's share of the yearly total, but the totals change every year.\n\nWhat should you change?",
+      "image": {
+        "src": "images/visualize/VIS-004.svg",
+        "alt": "Stacked column chart for 2023 to 2026 with North, South and West segments. Total sales grow every year, from 270 to 535."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Change it to a 100% stacked column chart"
+        },
+        {
+          "id": "B",
+          "text": "Change it to a clustered column chart"
+        },
+        {
+          "id": "C",
+          "text": "Add data labels"
+        },
+        {
+          "id": "D",
+          "text": "Sort the axis by total sales"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A 100% stacked column chart scales every year to 100%, so the segments show each region's share and are directly comparable across years. A clustered chart compares absolute values; adding data labels doesn't fix the changing totals.",
+      "takeaway": "Compare shares across categories with different totals → 100% stacked."
+    },
+    {
+      "id": "VIS-005",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit plots stores by sales (x-axis) and profit margin (y-axis).\n\nWhich store has high sales but an unusually low margin?",
+      "image": {
+        "src": "images/visualize/VIS-005.svg",
+        "alt": "Scatter chart: stores A, B, C, E and F cluster at 190 to 400K sales with 26 to 37% margin; Store D sits at 610K sales and 9% margin."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Store A"
+        },
+        {
+          "id": "B",
+          "text": "Store B"
+        },
+        {
+          "id": "C",
+          "text": "Store C"
+        },
+        {
+          "id": "D",
+          "text": "Store D"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Store D sits far to the right (high sales) but near the bottom (low margin), away from the cluster of other stores. That separation is exactly what a scatter chart is good at revealing.",
+      "takeaway": "Scatter charts show relationships and outliers between two measures."
+    },
+    {
+      "id": "VIS-006",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need to show monthly revenue (in millions) and profit margin % (between 8% and 15%) in one visual, each readable on its own scale.\n\nWhat should you use?",
+      "image": {
+        "src": "images/visualize/VIS-006.svg",
+        "alt": "Line and clustered column chart: revenue columns from 2.1 to 3.3 million on the left axis and a margin % line between 9% and 15% on a right-hand secondary axis."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "A clustered column chart with both measures"
+        },
+        {
+          "id": "B",
+          "text": "Two pie charts"
+        },
+        {
+          "id": "C",
+          "text": "A line and clustered column chart, with margin % on the secondary axis"
+        },
+        {
+          "id": "D",
+          "text": "A 100% stacked column chart"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A line and clustered column chart (combo) shows revenue as columns on the primary axis and margin % as a line on a secondary axis, so both scales stay readable. On one shared axis the percentage line would sit flat at the bottom.",
+      "takeaway": "Two measures with very different scales → combo chart with a secondary axis."
+    },
+    {
+      "id": "VIS-007",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "You're building a KPI visual that compares this month's sales with the sales target and shows the monthly trend.\n\nSelect the field for each well.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Indicator",
+          "options": [
+            "[Sales]",
+            "Date[Month]",
+            "[Sales Target]"
+          ]
+        },
+        {
+          "label": "Trend axis",
+          "options": [
+            "[Sales]",
+            "Date[Month]",
+            "[Sales Target]"
+          ]
+        },
+        {
+          "label": "Target",
+          "options": [
+            "[Sales]",
+            "Date[Month]",
+            "[Sales Target]"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "Indicator is the value being evaluated, Trend axis is the field the background trend uses (usually a date field), and Target is what the indicator is compared against. The visual colours the value by whether it meets the target.",
+      "takeaway": "KPI visual: Indicator = value, Trend axis = time, Target = goal."
+    },
+    {
+      "id": "VIS-008",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a KPI visual. Higher values are better.\n\nWhat does it tell you?",
+      "image": {
+        "src": "images/visualize/VIS-008.svg",
+        "alt": "KPI visual showing 412K in red with the text Goal: 450K (-8.4%) and a shaded trend in the background."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Sales are 8.4% above target"
+        },
+        {
+          "id": "B",
+          "text": "Sales are 8.4% below target"
+        },
+        {
+          "id": "C",
+          "text": "Sales grew 8.4% since last month"
+        },
+        {
+          "id": "D",
+          "text": "The target is 412K"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The indicator (412K) is below the goal (450K) by 8.4%, which is why it's shown in red. The shaded background is the trend over the trend axis.",
+      "takeaway": "KPI visual: colour = meeting or missing the target."
+    },
+    {
+      "id": "VIS-009",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a gauge.\n\nWhich statement is true?",
+      "image": {
+        "src": "images/visualize/VIS-009.svg",
+        "alt": "Gauge from 0 to 1M with the arc filled to 620K and a target marker at 750K."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The target has been exceeded"
+        },
+        {
+          "id": "B",
+          "text": "The maximum value is 750K"
+        },
+        {
+          "id": "C",
+          "text": "The gauge shows a trend over time"
+        },
+        {
+          "id": "D",
+          "text": "Current value is 620K, below the 750K target"
+        }
+      ],
+      "answer": "D",
+      "explanation": "The gauge runs from 0 to 1M, the filled arc shows the current value of 620K, and the marker shows the target of 750K, so the value hasn't reached the target yet.",
+      "takeaway": "Gauge: value arc, min/max range and target marker."
+    },
+    {
+      "id": "VIS-010",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Sales leadership wants to see how many opportunities move through each stage: Lead, Qualified, Proposal, Negotiation and Won.\n\nWhich visual should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Funnel chart"
+        },
+        {
+          "id": "B",
+          "text": "Waterfall chart"
+        },
+        {
+          "id": "C",
+          "text": "Scatter chart"
+        },
+        {
+          "id": "D",
+          "text": "Ribbon chart"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A funnel chart shows a sequence of stages, each narrower than the last, making drop-off between stages visible. A waterfall shows increases and decreases to a total, not stage conversion.",
+      "takeaway": "Sequential stages with drop-off → funnel."
+    },
+    {
+      "id": "VIS-011",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need to shade each state on a map by total sales, darker for higher sales.\n\nWhich visual should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Map with bubbles sized by sales"
+        },
+        {
+          "id": "B",
+          "text": "Scatter chart"
+        },
+        {
+          "id": "C",
+          "text": "Filled map"
+        },
+        {
+          "id": "D",
+          "text": "Treemap"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A filled map (choropleth) shades whole geographic areas by value. A basic map places bubbles at locations; a scatter chart has no geography.",
+      "takeaway": "Shade areas by value → filled map."
+    },
+    {
+      "id": "VIS-012",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "An executive page must show Revenue, Profit, Orders and Margin % together as headline numbers in one compact visual.\n\nWhich visual should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Four gauges"
+        },
+        {
+          "id": "B",
+          "text": "A card visual with all four measures"
+        },
+        {
+          "id": "C",
+          "text": "A KPI visual"
+        },
+        {
+          "id": "D",
+          "text": "A table with one row"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The card visual can display several callout values (one per measure) in a single visual, so related headline numbers stay aligned and formatted together. A gauge or KPI visual shows one measure.",
+      "takeaway": "Several headline numbers together → card visual with multiple values."
+    },
+    {
+      "id": "VIS-013",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You need the same line chart of monthly sales repeated for each of eight regions, with shared axes so users can compare them.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Eight separate line charts"
+        },
+        {
+          "id": "B",
+          "text": "A ribbon chart"
+        },
+        {
+          "id": "C",
+          "text": "A field parameter"
+        },
+        {
+          "id": "D",
+          "text": "Small multiples using Region"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Small multiples split one visual into a grid of mini charts, one per region, with consistent axes, and new regions appear automatically. Eight separate charts would need maintaining and could drift apart in scale.",
+      "takeaway": "Same chart per category → small multiples."
+    },
+    {
+      "id": "VIS-014",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Choose a visual",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the slicer setup that meets each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Always show the last 30 days, rolling forward each day",
+          "options": [
+            "Between slider",
+            "Relative date slicer",
+            "Dropdown with search"
+          ]
+        },
+        {
+          "label": "Pick a unit price range from 10 to 50",
+          "options": [
+            "Between slider",
+            "Relative date slicer",
+            "Dropdown with search"
+          ]
+        },
+        {
+          "label": "Pick one of 300 customers by typing part of the name",
+          "options": [
+            "Between slider",
+            "Relative date slicer",
+            "Dropdown with search"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0,
+          2
+        ]
+      },
+      "explanation": "A relative date slicer keeps a rolling window such as the last 30 days. A Between (range) slicer lets users pick a numeric range. A dropdown slicer with search suits long lists such as 300 customers.",
+      "takeaway": "Rolling dates → relative date. Ranges → Between. Long lists → dropdown with search."
+    },
+    {
+      "id": "VIS-015",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Analytics pane",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows a line chart with a shaded forecast.\n\nWhere is the forecast configured, and what does the shaded area represent?",
+      "image": {
+        "src": "images/visualize/VIS-015.svg",
+        "alt": "Line chart of sales from January to September, followed by a dashed forecast line for three more months inside a shaded band that widens over time."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "The Analytics pane; the shaded area is the confidence interval"
+        },
+        {
+          "id": "B",
+          "text": "The Format pane; the shaded area is last year's sales"
+        },
+        {
+          "id": "C",
+          "text": "The Filters pane; the shaded area is filtered-out data"
+        },
+        {
+          "id": "D",
+          "text": "A quick measure; the shaded area is the running total"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Forecast is added from the Analytics pane of a line chart with a continuous date axis. The dashed line is the predicted value; the shaded band is the confidence interval around it.",
+      "takeaway": "Forecast → Analytics pane, line chart with continuous dates; band = confidence interval."
+    },
+    {
+      "id": "VIS-016",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Analytics pane",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows sales by representative with an average line from the Analytics pane.\n\nHow many representatives are above the average?",
+      "image": {
+        "src": "images/visualize/VIS-016.svg",
+        "alt": "Column chart of sales by representative: Ahmed 41, Bianca 61, Chen 74, Dev 38, Elena 40, Farah 58, with a dashed average line at 52."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "One"
+        },
+        {
+          "id": "B",
+          "text": "Two"
+        },
+        {
+          "id": "C",
+          "text": "Three"
+        },
+        {
+          "id": "D",
+          "text": "Four"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The dashed average line sits at 52K. Bianca (61K), Chen (74K) and Farah (58K) are above it; the other three are below.",
+      "takeaway": "Analytics lines are calculated from the data in the visual."
+    },
+    {
+      "id": "VIS-017",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Analytics pane",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a waterfall chart of profit from last year to this year.\n\nWhich factor reduced profit the most?",
+      "image": {
+        "src": "images/visualize/VIS-017.svg",
+        "alt": "Waterfall from last year's profit of 500K: Price +60K, Volume +45K, Cost of goods −90K, Returns −25K, ending at 490K this year."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Price"
+        },
+        {
+          "id": "B",
+          "text": "Cost of goods"
+        },
+        {
+          "id": "C",
+          "text": "Returns"
+        },
+        {
+          "id": "D",
+          "text": "Volume"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Red bars are decreases. Cost of goods (−90K) is the largest drop; returns took off 25K. Price and volume increased profit.",
+      "takeaway": "Waterfall: green = increase, red = decrease, blue = totals."
+    },
+    {
+      "id": "VIS-018",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "In the exhibit, the bars for two regions look very different, but their sales are almost the same.\n\nWhat should you change?",
+      "image": {
+        "src": "images/visualize/VIS-018.svg",
+        "alt": "Column chart where the axis starts at 900K: North at 960K looks less than half the height of South at 985K."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Add data labels"
+        },
+        {
+          "id": "B",
+          "text": "Change the colours"
+        },
+        {
+          "id": "C",
+          "text": "Sort by region name"
+        },
+        {
+          "id": "D",
+          "text": "Set the value axis to start at 0"
+        }
+      ],
+      "answer": "D",
+      "explanation": "The value axis starts at 900K, which exaggerates small differences. Setting the axis to start at 0 shows the bars in proportion to their values.",
+      "takeaway": "Bar and column axes should start at zero."
+    },
+    {
+      "id": "VIS-019",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Product sales range from 100 to 2,000,000. On a column chart, most products look like empty bars next to the biggest ones.\n\nWhich axis setting helps users compare them?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Logarithmic value axis"
+        },
+        {
+          "id": "B",
+          "text": "Start the axis at 0"
+        },
+        {
+          "id": "C",
+          "text": "Invert the axis"
+        },
+        {
+          "id": "D",
+          "text": "Turn off gridlines"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A logarithmic scale spaces values by orders of magnitude (100, 1K, 10K…), so small and large values are both readable. Note that log scales can't show zero or negative values.",
+      "takeaway": "Values spanning orders of magnitude → logarithmic axis."
+    },
+    {
+      "id": "VIS-020",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Conditional formatting",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a table visual. Which conditional formatting option produced the horizontal bars in the Sales column?",
+      "image": {
+        "src": "images/visualize/VIS-020.svg",
+        "alt": "Table of Sales by Product with blue bars inside the Sales cells and green, red and amber icons in the Trend column."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Background colour"
+        },
+        {
+          "id": "B",
+          "text": "Icons"
+        },
+        {
+          "id": "C",
+          "text": "Data bars"
+        },
+        {
+          "id": "D",
+          "text": "Field value"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Data bars draw a bar inside each cell, proportional to the value. Background colour shades the cell; icons add symbols; field value takes a colour from a field or measure.",
+      "takeaway": "Bars inside cells → data bars."
+    },
+    {
+      "id": "VIS-021",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Conditional formatting",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the conditional formatting style for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Red below 90% of target, amber to 100%, green above",
+          "options": [
+            "Gradient",
+            "Rules",
+            "Field value",
+            "Icons"
+          ]
+        },
+        {
+          "label": "Shade from light to dark as sales increase",
+          "options": [
+            "Gradient",
+            "Rules",
+            "Field value",
+            "Icons"
+          ]
+        },
+        {
+          "label": "Use the hex colour returned by a [Status Colour] measure",
+          "options": [
+            "Gradient",
+            "Rules",
+            "Field value",
+            "Icons"
+          ]
+        },
+        {
+          "label": "Show an up or down arrow beside each value",
+          "options": [
+            "Gradient",
+            "Rules",
+            "Field value",
+            "Icons"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0,
+          2,
+          3
+        ]
+      },
+      "explanation": "Rules apply colours by thresholds (red/amber/green). Gradient shades from low to high. Field value uses a colour a field or measure returns. Icons add symbols such as arrows.",
+      "takeaway": "Thresholds → Rules. Smooth shading → Gradient. Colour from a measure → Field value. Symbols → Icons."
+    },
+    {
+      "id": "VIS-022",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Conditional formatting",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A chart's title must read 'Sales for North' or 'Sales for South' depending on the selected region.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Type both titles and hide one"
+        },
+        {
+          "id": "B",
+          "text": "Use the fx button on the title and pick a measure that returns the text"
+        },
+        {
+          "id": "C",
+          "text": "Create a bookmark per region"
+        },
+        {
+          "id": "D",
+          "text": "Add the region to the legend"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Create a measure that builds the text (for example with SELECTEDVALUE), then select the fx button next to the visual's Title text and choose that measure. Many formatting properties accept a measure this way.",
+      "takeaway": "Dynamic titles → fx on Title text with a text measure."
+    },
+    {
+      "id": "VIS-023",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Conditional formatting",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "In a column chart, bars for products below target must be red and the others blue.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Use fx on the column colour with a rule or a colour measure"
+        },
+        {
+          "id": "B",
+          "text": "Put Product in the Legend"
+        },
+        {
+          "id": "C",
+          "text": "Apply a report theme"
+        },
+        {
+          "id": "D",
+          "text": "Add an average line"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Under Columns > Colours, select fx and use Rules or Field value with a measure such as a below-target flag or colour measure. Moving a field into Legend would colour by category, not by a condition.",
+      "takeaway": "Colour bars by a condition → fx on the series colour."
+    },
+    {
+      "id": "VIS-024",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A column chart of sales by month skips months that had no sales. Users must see every month, including empty ones.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Add 0 to the measure"
+        },
+        {
+          "id": "B",
+          "text": "Use a line chart"
+        },
+        {
+          "id": "C",
+          "text": "Turn on Show items with no data for the Month field"
+        },
+        {
+          "id": "D",
+          "text": "Turn on Auto date/time"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Turn on Show items with no data for the Month field in the visual's field well. Months without sales then appear with no bar instead of disappearing.",
+      "takeaway": "Show empty categories → 'Show items with no data'."
+    },
+    {
+      "id": "VIS-025",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A product table must show a small line of each product's monthly sales trend inside each row.\n\nWhat should you add?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A line chart beside the table"
+        },
+        {
+          "id": "B",
+          "text": "Data bars"
+        },
+        {
+          "id": "C",
+          "text": "A tooltip page"
+        },
+        {
+          "id": "D",
+          "text": "A sparkline in the table"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Sparklines in tables and matrices draw a tiny chart per row, for example sales over Month. They're added from the Values well's menu (Add a sparkline).",
+      "takeaway": "Mini trend per row → sparkline."
+    },
+    {
+      "id": "VIS-026",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A matrix has several measures, and users want each measure on its own row instead of as columns.\n\nWhich setting should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn off stepped layout"
+        },
+        {
+          "id": "B",
+          "text": "Turn on Switch values to rows"
+        },
+        {
+          "id": "C",
+          "text": "Transpose the data in Power Query"
+        },
+        {
+          "id": "D",
+          "text": "Use a table visual"
+        }
+      ],
+      "answer": "B",
+      "explanation": "In the matrix's Format pane, under Values, turn on Switch values to rows. Each measure then appears as a row under the row headers.",
+      "takeaway": "Measures as rows in a matrix → Switch values to rows."
+    },
+    {
+      "id": "VIS-027",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A matrix shows Category and Product indented in one column. Users want Category and Product in separate columns, like a spreadsheet.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Switch values to rows"
+        },
+        {
+          "id": "B",
+          "text": "Add a hierarchy"
+        },
+        {
+          "id": "C",
+          "text": "Turn off Stepped layout"
+        },
+        {
+          "id": "D",
+          "text": "Turn on word wrap"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Turning off Stepped layout (Row headers in the Format pane) shows each hierarchy level in its own column instead of indenting levels in one column.",
+      "takeaway": "Separate columns per row level → turn off stepped layout."
+    },
+    {
+      "id": "VIS-028",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Format visuals",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You've formatted one chart's colours, fonts and borders carefully and want another chart to look the same.\n\nWhat is the quickest way?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Format painter"
+        },
+        {
+          "id": "B",
+          "text": "Copy and paste the visual"
+        },
+        {
+          "id": "C",
+          "text": "Apply a theme"
+        },
+        {
+          "id": "D",
+          "text": "Export and import a template"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Format painter copies formatting from one visual to another in one click. Themes set defaults for the whole report rather than copying one visual's settings.",
+      "takeaway": "Copy one visual's formatting → Format painter."
+    },
+    {
+      "id": "VIS-029",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Accessibility",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Some users are colour-blind and can't tell the red and green status colours apart.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Use a darker green"
+        },
+        {
+          "id": "B",
+          "text": "Add icons or labels so meaning doesn't depend on colour"
+        },
+        {
+          "id": "C",
+          "text": "Remove all colour"
+        },
+        {
+          "id": "D",
+          "text": "Add a legend"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Don't rely on colour alone: add data labels, icons (such as arrows), markers or patterns, and choose colours with good contrast. Changing the theme only helps if the new colours are distinguishable, and still relies on colour.",
+      "takeaway": "Never rely on colour alone to convey meaning."
+    },
+    {
+      "id": "VIS-030",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Accessibility",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Screen-reader users need a description of what each chart shows.\n\nWhat should you set?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Tooltips"
+        },
+        {
+          "id": "B",
+          "text": "The visual title only"
+        },
+        {
+          "id": "C",
+          "text": "Tab order"
+        },
+        {
+          "id": "D",
+          "text": "Alt text for each visual"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Alt text (in the visual's General settings) is read by screen readers. It can be static or built from a measure so it describes the current values.",
+      "takeaway": "Screen readers read a visual's alt text."
+    },
+    {
+      "id": "VIS-031",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Custom visuals",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "IT wants report authors across the organisation to use only a few approved custom visuals, available to everyone without each author importing them.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Ask each author to import the visual from a file"
+        },
+        {
+          "id": "B",
+          "text": "Use only R visuals"
+        },
+        {
+          "id": "C",
+          "text": "Add them as organizational visuals in the admin portal"
+        },
+        {
+          "id": "D",
+          "text": "Put them in a report theme"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Power BI admins can add approved visuals as organizational visuals in the admin portal; they then appear for everyone in the visuals pane. Importing from a file per report doesn't centralise control.",
+      "takeaway": "Approved custom visuals for everyone → organizational visuals."
+    },
+    {
+      "id": "VIS-032",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the filter level for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Only one chart should exclude returned orders",
+          "options": [
+            "Visual level",
+            "Page level",
+            "Report level"
+          ]
+        },
+        {
+          "label": "Every page must show only the current year",
+          "options": [
+            "Visual level",
+            "Page level",
+            "Report level"
+          ]
+        },
+        {
+          "label": "Only the Europe page should show European countries",
+          "options": [
+            "Visual level",
+            "Page level",
+            "Report level"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          2,
+          1
+        ]
+      },
+      "explanation": "Visual-level filters affect one visual, page-level filters every visual on a page, and report-level filters every page.",
+      "takeaway": "Visual → one visual. Page → one page. Report (all pages) → everything."
+    },
+    {
+      "id": "VIS-033",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A bar chart must show only the 10 customers with the highest sales.\n\nWhat should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A visual-level Top N filter on Customer, by Sales"
+        },
+        {
+          "id": "B",
+          "text": "A page-level basic filter on Customer"
+        },
+        {
+          "id": "C",
+          "text": "A slicer on Customer"
+        },
+        {
+          "id": "D",
+          "text": "A calculated column ranking customers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A Top N filter on Customer, by the Sales measure with Show items: Top 10, in the visual's filters keeps the ten largest customers for the current context.",
+      "takeaway": "Top 10 in one visual → visual-level Top N filter."
+    },
+    {
+      "id": "VIS-034",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A chart has a Top 10 customers filter by Sales. A user selects Asia in a Region slicer.\n\nWhat does the chart show?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The overall top 10, filtered to those in Asia"
+        },
+        {
+          "id": "B",
+          "text": "The top 10 customers in Asia"
+        },
+        {
+          "id": "C",
+          "text": "No change"
+        },
+        {
+          "id": "D",
+          "text": "An error"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Top N is evaluated in the current filter context, so it shows the top 10 customers within Asia. To always rank across all regions, you'd need a measure-based approach.",
+      "takeaway": "Top N filters respect other filters."
+    },
+    {
+      "id": "VIS-035",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You need to show only customers whose Sales measure is above 10,000.\n\nAt which level can you filter on the measure's value?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Report level"
+        },
+        {
+          "id": "B",
+          "text": "Page level"
+        },
+        {
+          "id": "C",
+          "text": "Visual level"
+        },
+        {
+          "id": "D",
+          "text": "In a slicer"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Filters on measure values are available only at visual level, because a measure's value depends on the visual's grouping. Page and report filters work on columns.",
+      "takeaway": "Filtering by a measure's value → visual-level filter."
+    },
+    {
+      "id": "VIS-036",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A page must always show the previous three complete calendar months, updating automatically.\n\nWhich filter should you use on the Date column?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A basic filter with three months ticked"
+        },
+        {
+          "id": "B",
+          "text": "An advanced filter with fixed dates"
+        },
+        {
+          "id": "C",
+          "text": "A Top N filter on Date"
+        },
+        {
+          "id": "D",
+          "text": "A relative date filter: last 3 calendar months"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A relative date filter set to 'is in the last 3 calendar months' rolls forward automatically and uses complete months. A basic or advanced filter on fixed dates would need manual updates.",
+      "takeaway": "Rolling periods → relative date filter."
+    },
+    {
+      "id": "VIS-037",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Filters",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows the Filters pane. Report readers must not change the Year filter, and shouldn't see the Internal flag filter at all.\n\nWhat should you do?",
+      "image": {
+        "src": "images/visualize/VIS-037.svg",
+        "alt": "Filters pane with a page filter on Region and two all-pages filters: Year is 2026 and Internal flag is False."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Lock the Year filter and hide the Internal flag filter"
+        },
+        {
+          "id": "B",
+          "text": "Delete both filters"
+        },
+        {
+          "id": "C",
+          "text": "Hide both filters"
+        },
+        {
+          "id": "D",
+          "text": "Convert both to slicers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lock the Year filter so readers can see but not change it, and hide the Internal flag filter so it isn't shown in reading view. Both settings are on each filter card.",
+      "takeaway": "Visible but fixed → lock. Invisible → hide."
+    },
+    {
+      "id": "VIS-038",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Interactions",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A matrix shows categories with a Category → Product hierarchy. Users want to see every category with its products listed underneath at once.\n\nWhat should they use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Drill down on one category"
+        },
+        {
+          "id": "B",
+          "text": "Expand all down one level in the hierarchy"
+        },
+        {
+          "id": "C",
+          "text": "Go to the next level in the hierarchy"
+        },
+        {
+          "id": "D",
+          "text": "A drillthrough page"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Expand all down one level in the hierarchy shows the next level for every category at the same time, keeping the category rows. Drill down shows only one category's products.",
+      "takeaway": "See every parent with its children → Expand all down one level."
+    },
+    {
+      "id": "VIS-039",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Interactions",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A button must open the company intranet page about the sales process.\n\nWhich action type should you set?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Page navigation"
+        },
+        {
+          "id": "B",
+          "text": "Bookmark"
+        },
+        {
+          "id": "C",
+          "text": "Drillthrough"
+        },
+        {
+          "id": "D",
+          "text": "Web URL"
+        }
+      ],
+      "answer": "D",
+      "explanation": "The Web URL action opens a web address. Page navigation, bookmark and drillthrough actions only move within the report.",
+      "takeaway": "Open a website from a button → Web URL action."
+    },
+    {
+      "id": "VIS-040",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Interactions",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A visual shows the message 'Too many values. Not showing all data.'\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Refresh the semantic model"
+        },
+        {
+          "id": "B",
+          "text": "Turn on Auto date/time"
+        },
+        {
+          "id": "C",
+          "text": "Filter or summarise the field so fewer data points are needed"
+        },
+        {
+          "id": "D",
+          "text": "Increase the page size"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Power BI reduces the data points it plots for very high-cardinality fields. Filter or summarise the field (for example a Top N filter or a coarser level) so the visual shows a meaningful amount of data.",
+      "takeaway": "'Too many values' → filter or summarise to fewer data points."
+    },
+    {
+      "id": "VIS-041",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Interactions",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users export data from a matrix and need all the detail columns from the underlying rows, not just the matrix's grouped totals.\n\nWhich export option should they choose?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Summarized data"
+        },
+        {
+          "id": "B",
+          "text": "Underlying data"
+        },
+        {
+          "id": "C",
+          "text": "Export to PDF"
+        },
+        {
+          "id": "D",
+          "text": "Copy visual as image"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Underlying data exports the detail rows behind the visual's values. Summarized data exports what the visual shows. Admins and model owners can restrict underlying data export.",
+      "takeaway": "Detail rows → Underlying data. Visual's numbers → Summarized data."
+    },
+    {
+      "id": "VIS-042",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Interactions",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users need to drill into a chart by clicking a column, moving from Year to Quarter for the clicked year.\n\nWhat must be true?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The axis holds a Year → Quarter hierarchy and drill mode is on"
+        },
+        {
+          "id": "B",
+          "text": "The chart is a table"
+        },
+        {
+          "id": "C",
+          "text": "A drillthrough page exists"
+        },
+        {
+          "id": "D",
+          "text": "The year is a slicer"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The axis must hold a hierarchy (or several fields), and drill mode must be on (the single down-arrow in the visual header). Clicking a column then drills into that year.",
+      "takeaway": "Click-to-drill needs a hierarchy on the axis and drill mode on."
+    },
+    {
+      "id": "VIS-043",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Report layout",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A report page shows a slicer for Region. On a second page, you need the same selection applied automatically, without showing the slicer there.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Copy the slicer and hide it"
+        },
+        {
+          "id": "B",
+          "text": "Use a report-level filter"
+        },
+        {
+          "id": "C",
+          "text": "Use a bookmark"
+        },
+        {
+          "id": "D",
+          "text": "Sync the slicer to the second page without making it visible"
+        }
+      ],
+      "answer": "D",
+      "explanation": "In the Sync slicers pane, tick the second page under Sync but leave it unticked under Visible. The selection applies there without the slicer appearing.",
+      "takeaway": "Apply a slicer's selection elsewhere without showing it → sync, not visible."
+    },
+    {
+      "id": "VIS-044",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Report layout",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The report must look good on phones in portrait orientation.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A mobile layout for each page"
+        },
+        {
+          "id": "B",
+          "text": "A smaller page size"
+        },
+        {
+          "id": "C",
+          "text": "A paginated report"
+        },
+        {
+          "id": "D",
+          "text": "A dashboard"
+        }
+      ],
+      "answer": "A",
+      "explanation": "A mobile layout (View > Mobile layout) arranges selected visuals for portrait phone screens. The Power BI mobile app uses it automatically.",
+      "takeaway": "Phone-friendly report → mobile layout."
+    },
+    {
+      "id": "VIS-045",
+      "domain": "visualize",
+      "topic": "Create reports: choose, build and format visuals",
+      "subtopic": "Report layout",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You want a consistent header, logo position and grid for every new page in a report.\n\nWhat helps most?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn on gridlines"
+        },
+        {
+          "id": "B",
+          "text": "Use bookmarks"
+        },
+        {
+          "id": "C",
+          "text": "Build one template page and duplicate it for each new page"
+        },
+        {
+          "id": "D",
+          "text": "Use a different theme per page"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Duplicating a template page that already has the header, logo and layout (plus a report theme for colours and fonts) keeps every new page consistent. Themes don't place objects like logos on pages.",
+      "takeaway": "Consistent page layout → duplicate a template page (with a theme)."
+    }
+  ]
+}

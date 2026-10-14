@@ -1,0 +1,881 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 11,
+  "title": "Visualize and analyze: mixed-format practice",
+  "domains": [
+    "visualize"
+  ],
+  "schemaVersion": 2,
+  "count": 25,
+  "questions": [
+    {
+      "id": "VIS-082",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Read a chart",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "The exhibit shows quarterly sales with a constant line at the 500K target.\n\nFor each statement, select Yes if it is true.",
+      "image": {
+        "src": "images/visualize/VIS-082.svg",
+        "alt": "Column chart: Q1 420K, Q2 530K, Q3 480K, Q4 610K, with a dashed target line at 500K."
+      },
+      "statements": [
+        "Two quarters are above target.",
+        "Q3 is above target.",
+        "Q4 has the highest sales."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Q2 (530K) and Q4 (610K) are above the 500K line; Q1 (420K) and Q3 (480K) are below. Q4 is the highest quarter.",
+      "takeaway": "Read reference lines against each bar's value."
+    },
+    {
+      "id": "VIS-083",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Read a chart",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "The exhibit shows a gauge for monthly support tickets resolved.\n\nFor each statement, select Yes if it is true.",
+      "image": {
+        "src": "images/visualize/VIS-083.svg",
+        "alt": "Gauge from 0 to 12,000 with the arc filled to 8,400 and a target marker at 9,000."
+      },
+      "statements": [
+        "The target has been met.",
+        "The maximum value on the gauge is 12,000.",
+        "The filled arc represents the current value."
+      ],
+      "answer": [
+        false,
+        true,
+        true
+      ],
+      "explanation": "The value (8,400) hasn't reached the 9,000 target marker. The gauge's maximum is 12,000. The filled arc shows the current value against the range.",
+      "takeaway": "Gauge: arc = value, marker = target, ends = min and max."
+    },
+    {
+      "id": "VIS-084",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Read a chart",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows each region's share of sales per year.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/visualize/VIS-084.svg",
+        "alt": "100% stacked columns for 2023 to 2026. North's share is 44%, 47%, 49%, 49%; South's 34%, 28%, 23%, 19%; West's 22%, 25%, 28%, 32%."
+      },
+      "parts": [
+        {
+          "label": "The region with the largest share in 2026 is",
+          "options": [
+            "West",
+            "North",
+            "South"
+          ]
+        },
+        {
+          "label": "The region whose share grows every year is",
+          "options": [
+            "West",
+            "North",
+            "South"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0
+        ]
+      },
+      "explanation": "In a 100% stacked chart, each segment's height is its share of that year. North has the largest share in 2026 (about 49%). West's share rises every year (22% → 25% → 28% → 32%).",
+      "takeaway": "100% stacked: compare segment heights as shares."
+    },
+    {
+      "id": "VIS-085",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Read a chart",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "The exhibit plots products by units sold and average discount.\n\nFor each statement, select Yes if it is true.",
+      "image": {
+        "src": "images/visualize/VIS-085.svg",
+        "alt": "Scatter chart: Gaiters at 690 units and 6% discount; Daypack at 140 units and 34%; Trail Shoe, Rain Jacket, Sandal and Fleece between 300 and 420 units at 12 to 19%."
+      },
+      "statements": [
+        "Gaiters sells the most units with the smallest discount.",
+        "Daypack sells the most units.",
+        "Most products have an average discount between 10% and 20%."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Gaiters sells the most units at the lowest discount, so it doesn't need discounting to sell. Daypack has the highest discount but low units. Most products cluster between 10% and 20% discount.",
+      "takeaway": "Scatter: read each point on both axes."
+    },
+    {
+      "id": "VIS-086",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Read a chart",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "The exhibit shows a waterfall of cash from the start to the end of the quarter.\n\nSelect the answer that completes each statement.",
+      "image": {
+        "src": "images/visualize/VIS-086.svg",
+        "alt": "Waterfall from an opening balance of 300K: Collections +180K, Payroll −120K, Suppliers −40K, Interest +25K, then the closing balance."
+      },
+      "parts": [
+        {
+          "label": "The largest increase came from",
+          "options": [
+            "Collections",
+            "Interest",
+            "Payroll"
+          ]
+        },
+        {
+          "label": "The ending cash balance is",
+          "options": [
+            "300K",
+            "325K",
+            "345K"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          2
+        ]
+      },
+      "explanation": "Collections (+180K) is the largest increase. The ending balance is 300 + 180 − 120 − 40 + 25 = 345K.",
+      "takeaway": "Waterfall: start + every step = end."
+    },
+    {
+      "id": "VIS-087",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Read a chart",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "The exhibit shows a matrix with subtotals.\n\nFor each statement, select Yes if it is true.",
+      "image": {
+        "src": "images/visualize/VIS-087.svg",
+        "alt": "Matrix: Footwear 750 (Trail Shoe 500, Sandal 250), Bags 300 (Daypack 300), Apparel 450 (Rain Jacket 450), with the grand total cell left empty."
+      },
+      "statements": [
+        "The Footwear subtotal equals Trail Shoe plus Sandal.",
+        "Bags is the category with the lowest sales.",
+        "The grand total is 1,200."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Footwear's subtotal (750) is the sum of its products. Bags (300) is the smallest category. The grand total is 750 + 300 + 450 = 1,500, not 1,200.",
+      "takeaway": "Matrix subtotals and totals add up the rows beneath them (for additive measures)."
+    },
+    {
+      "id": "VIS-088",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Choose a visual",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the visual for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "How the distribution of order values looks (how many orders fall in each value band)",
+          "options": [
+            "Ribbon chart",
+            "Column chart of binned values",
+            "Shape map"
+          ]
+        },
+        {
+          "label": "How each product's sales ranking changed month by month",
+          "options": [
+            "Ribbon chart",
+            "Column chart of binned values",
+            "Shape map"
+          ]
+        },
+        {
+          "label": "Sales shaded by the company's own sales territories, drawn from a TopoJSON file",
+          "options": [
+            "Ribbon chart",
+            "Column chart of binned values",
+            "Shape map"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0,
+          2
+        ]
+      },
+      "explanation": "A ribbon chart shows how rankings change between periods. A histogram (a column chart over binned values) shows how values are distributed. A shape map shades custom regions defined by a TopoJSON file, such as sales territories.",
+      "takeaway": "Rank changes → ribbon. Distribution → binned column. Custom regions → shape map."
+    },
+    {
+      "id": "VIS-089",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Choose a visual",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the visual for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Total revenue as a single large number",
+          "options": [
+            "KPI",
+            "Gauge",
+            "Card"
+          ]
+        },
+        {
+          "label": "This month's revenue against target, with the monthly trend behind it",
+          "options": [
+            "KPI",
+            "Gauge",
+            "Card"
+          ]
+        },
+        {
+          "label": "Revenue so far as progress between 0 and the annual maximum, with a target marker",
+          "options": [
+            "KPI",
+            "Gauge",
+            "Card"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          0,
+          1
+        ]
+      },
+      "explanation": "A card shows one number. A KPI visual shows a value compared with a target, with a trend. A gauge shows progress within a range towards a target.",
+      "takeaway": "One number → card. Value vs target with trend → KPI. Progress in a range → gauge."
+    },
+    {
+      "id": "VIS-090",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Analytics pane",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the Analytics pane line for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "The mean of the values shown",
+          "options": [
+            "Average line",
+            "Constant line",
+            "Median line",
+            "Percentile line"
+          ]
+        },
+        {
+          "label": "A target returned by a [Target] measure",
+          "options": [
+            "Average line",
+            "Constant line",
+            "Median line",
+            "Percentile line"
+          ]
+        },
+        {
+          "label": "The middle value, unaffected by a few extreme values",
+          "options": [
+            "Average line",
+            "Constant line",
+            "Median line",
+            "Percentile line"
+          ]
+        },
+        {
+          "label": "The value below which 90% of the points fall",
+          "options": [
+            "Average line",
+            "Constant line",
+            "Median line",
+            "Percentile line"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "explanation": "Average and median lines are calculated from the data in the visual. A constant line can take a fixed value or a measure through fx. A percentile line marks a chosen percentile, such as the 90th.",
+      "takeaway": "Analytics lines: average, median, percentile from the data; constant from you or a measure."
+    },
+    {
+      "id": "VIS-091",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Filters",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the approach for each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Users pick a region from a control on the page",
+          "options": [
+            "Visual-level filter",
+            "Report-level filter",
+            "Slicer"
+          ]
+        },
+        {
+          "label": "Test accounts are excluded from every page",
+          "options": [
+            "Visual-level filter",
+            "Report-level filter",
+            "Slicer"
+          ]
+        },
+        {
+          "label": "One table shows only customers whose Sales is above 1,000",
+          "options": [
+            "Visual-level filter",
+            "Report-level filter",
+            "Slicer"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          1,
+          0
+        ]
+      },
+      "explanation": "Filtering on a measure's value, such as customers with sales over 1,000, is only possible at visual level. Report-level filters apply to every page. Slicers put the choice on the canvas for users.",
+      "takeaway": "Measure condition → visual filter. Everywhere → report filter. User's choice on canvas → slicer."
+    },
+    {
+      "id": "VIS-092",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Interactions",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "A user selects a region in a bar chart. Select the Edit interactions setting for each other visual.",
+      "image": null,
+      "parts": [
+        {
+          "label": "A line chart of monthly sales must show only the selected region's trend",
+          "options": [
+            "None",
+            "Highlight",
+            "Filter"
+          ]
+        },
+        {
+          "label": "A column chart must show the selected region's portion inside each month's total",
+          "options": [
+            "None",
+            "Highlight",
+            "Filter"
+          ]
+        },
+        {
+          "label": "A card of company-wide revenue must not change",
+          "options": [
+            "None",
+            "Highlight",
+            "Filter"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          1,
+          0
+        ]
+      },
+      "explanation": "None leaves a visual unchanged. Highlight keeps the totals visible and highlights the selection within them. Filter shows only the selection, and is the only option for line charts.",
+      "takeaway": "Unchanged → None. Selection within totals → Highlight. Only the selection → Filter."
+    },
+    {
+      "id": "VIS-093",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Format visuals",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the setting that meets each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Month names must appear January to December in every visual",
+          "options": [
+            "Sort the visual by Sales",
+            "Set Sort by column to Month Number"
+          ]
+        },
+        {
+          "label": "A bar chart must always show the best-selling product first",
+          "options": [
+            "Sort the visual by Sales, descending",
+            "Set Sort by column to Product ID"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          1,
+          0
+        ]
+      },
+      "explanation": "To make month names sort in calendar order everywhere, set the column's Sort by column to the month number. To keep a bar chart ranked by value, sort the visual by the measure, descending.",
+      "takeaway": "Text in a natural order → Sort by column. Rank in one visual → sort the visual by the measure."
+    },
+    {
+      "id": "VIS-094",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Report design",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the quickest way to meet each requirement.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Every visual uses the company's brand colours and font",
+          "options": [
+            "Duplicate a template page",
+            "Format painter",
+            "Apply a report theme"
+          ]
+        },
+        {
+          "label": "A new chart must look exactly like a chart you've already formatted",
+          "options": [
+            "Format painter",
+            "Apply a report theme",
+            "Duplicate a template page"
+          ]
+        },
+        {
+          "label": "Every new page has the same header bar, logo and title position",
+          "options": [
+            "Format painter",
+            "Duplicate a template page",
+            "Apply a report theme"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          2,
+          0,
+          1
+        ]
+      },
+      "explanation": "A report theme (JSON) sets colours and fonts for every visual. Format painter copies one visual's formatting to another. Duplicating a template page reuses a fixed layout, such as a header and logo.",
+      "takeaway": "Report-wide style → theme. One visual's style → Format painter. Repeated layout → template page."
+    },
+    {
+      "id": "VIS-095",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about bookmarks, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "A bookmark with the Data property on reapplies slicer selections.",
+        "Applying a bookmark refreshes the semantic model.",
+        "Readers can create personal bookmarks in the Power BI service."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "With Data turned on, a bookmark captures and reapplies filter and slicer state. Bookmarks don't refresh data. Report readers can create personal bookmarks in the Power BI service.",
+      "takeaway": "Bookmarks capture state, not data refreshes."
+    },
+    {
+      "id": "VIS-096",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Drillthrough",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about drillthrough, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Power BI adds a back button to a drillthrough page automatically.",
+        "A drillthrough page can use more than one drillthrough field.",
+        "Cross-report drillthrough works between reports that use different semantic models."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Adding a field to a page's Drill through well adds a back button automatically. A drillthrough page can have several drillthrough fields. Cross-report drillthrough only works between reports that use the same semantic model.",
+      "takeaway": "Drillthrough: back button added; several fields allowed; cross-report needs the same model."
+    },
+    {
+      "id": "VIS-097",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Slicers",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about slicers, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "A slicer can filter another page without being visible on it.",
+        "A slicer can filter directly on a measure's value, such as Sales above 1,000.",
+        "A relative date slicer set to the last 7 days updates automatically each day."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Sync slicers can apply a selection to other pages even where the slicer isn't visible. Slicers work on columns, not on measure values. A relative date slicer moves its window forward automatically.",
+      "takeaway": "Slicers use columns; sync can be invisible; relative dates roll."
+    },
+    {
+      "id": "VIS-098",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Conditional formatting",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about conditional formatting, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "A table's background colour can be based on a measure that isn't displayed in the table.",
+        "Icons are available as conditional formatting in table and matrix visuals.",
+        "Conditional formatting changes the values stored in the model."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Formatting can be based on any field or measure, even one not shown in the visual. Icons are available in tables and matrices. Conditional formatting changes only how values look; the data in the model is untouched.",
+      "takeaway": "Conditional formatting changes appearance only."
+    },
+    {
+      "id": "VIS-099",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Accessibility",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about accessible reports, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Screen readers read a visual's alt text.",
+        "Tab order for keyboard users is set in the Selection pane.",
+        "Using red and green alone is enough to show good and bad results."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Screen readers read alt text. The Selection pane's Tab order sets keyboard navigation. Colour alone isn't enough to convey meaning; add labels, icons or markers.",
+      "takeaway": "Alt text, tab order, and never colour alone."
+    },
+    {
+      "id": "VIS-100",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Tooltips",
+      "difficulty": 1,
+      "type": "yesno",
+      "stem": "For each statement about tooltips, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Fields added to a visual's Tooltips well appear when users hover over it.",
+        "A report page tooltip still works when its page is hidden.",
+        "A report page tooltip can be used by only one visual."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Fields in a visual's Tooltips well appear in its default tooltip. A tooltip page can be hidden from the page tabs and still work. One tooltip page can serve many visuals.",
+      "takeaway": "Tooltips well for default tooltips; tooltip pages are reusable and can be hidden."
+    },
+    {
+      "id": "VIS-101",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Mobile layout",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about mobile layouts, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Visuals not added to a page's mobile layout aren't shown on phones in portrait view.",
+        "A mobile layout must be created as a separate report.",
+        "Phone users can rotate to landscape to see the standard page layout."
+      ],
+      "answer": [
+        true,
+        false,
+        true
+      ],
+      "explanation": "Only visuals placed on a page's mobile layout appear when a phone shows that page in portrait. The mobile layout lives in the same report, not a separate one. Rotating the phone to landscape shows the standard layout.",
+      "takeaway": "Mobile layout = per page, inside the same report."
+    },
+    {
+      "id": "VIS-102",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Tooltips",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "You need a mini chart to appear when users hover over a product in a bar chart.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Add a new page"
+        },
+        {
+          "id": "B",
+          "text": "In Page information, turn on Allow use as tooltip and set the canvas to Tooltip size"
+        },
+        {
+          "id": "C",
+          "text": "Add the mini chart to the page"
+        },
+        {
+          "id": "D",
+          "text": "On the bar chart, set Tooltip type to Report page and select the new page"
+        },
+        {
+          "id": "E",
+          "text": "Add Product to the Drill through well"
+        },
+        {
+          "id": "F",
+          "text": "Create a bookmark of the page"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Create the page, turn on Allow use as tooltip (and set a small canvas), build the mini chart, then on the bar chart set Tooltip type to Report page and choose the new page. Drillthrough and bookmarks aren't involved.",
+      "takeaway": "Tooltip page → allow as tooltip → build → assign to the visual."
+    },
+    {
+      "id": "VIS-103",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "You need two buttons that switch between showing a chart and a table in the same position.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Place the chart and the table in the same position"
+        },
+        {
+          "id": "B",
+          "text": "Hide the table in the Selection pane, then add a bookmark named Chart view"
+        },
+        {
+          "id": "C",
+          "text": "Show the table and hide the chart, then add a bookmark named Table view"
+        },
+        {
+          "id": "D",
+          "text": "Turn off the Data property for both bookmarks"
+        },
+        {
+          "id": "E",
+          "text": "Set each button's action to its bookmark"
+        },
+        {
+          "id": "F",
+          "text": "Create a drillthrough page"
+        },
+        {
+          "id": "G",
+          "text": "Turn on Auto date/time"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "explanation": "Place both visuals, set visibility in the Selection pane and capture a bookmark for each state (with Data off so slicers aren't reset), then assign each bookmark to a button.",
+      "takeaway": "Set visibility → bookmark each state → link buttons."
+    },
+    {
+      "id": "VIS-104",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Field parameters",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "Users need a slicer to switch a column chart's axis between Region, Channel and Product.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Select Modeling > New parameter > Fields"
+        },
+        {
+          "id": "B",
+          "text": "Add Region, Channel and Product, and keep Add slicer to this page selected"
+        },
+        {
+          "id": "C",
+          "text": "Put the new parameter field on the column chart's X-axis"
+        },
+        {
+          "id": "D",
+          "text": "Create a calculation group"
+        },
+        {
+          "id": "E",
+          "text": "Create three bookmarks"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "Create a field parameter with the three fields (Modeling > New parameter > Fields), keep the option to add a slicer, then put the parameter on the chart's axis. A calculation group changes measures, not axis fields.",
+      "takeaway": "New parameter > Fields → slicer → parameter on the axis."
+    },
+    {
+      "id": "VIS-105",
+      "domain": "visualize",
+      "topic": "Create reports",
+      "subtopic": "Small multiples",
+      "difficulty": 1,
+      "type": "order",
+      "stem": "You need a line chart of monthly sales repeated for each region in a grid.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Add a line chart"
+        },
+        {
+          "id": "B",
+          "text": "Put Month on the X-axis and Sales on the Y-axis"
+        },
+        {
+          "id": "C",
+          "text": "Add Region to the Small multiples well"
+        },
+        {
+          "id": "D",
+          "text": "Set the grid's rows and columns in the Format pane"
+        },
+        {
+          "id": "E",
+          "text": "Add Region to the Legend"
+        },
+        {
+          "id": "F",
+          "text": "Create one line chart per region"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Add a line chart, put Month on the X-axis and Sales on the Y-axis, add Region to Small multiples, then adjust the grid layout in the Format pane.",
+      "takeaway": "Small multiples: build the chart, then add the splitting field."
+    },
+    {
+      "id": "VIS-106",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Decomposition tree",
+      "difficulty": 2,
+      "type": "order",
+      "stem": "Analysts want to break down total Sales by Region and Channel, then let Power BI choose the next level automatically.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Add a decomposition tree visual"
+        },
+        {
+          "id": "B",
+          "text": "Put Sales in Analyze, and Region, Channel and Product in Explain by"
+        },
+        {
+          "id": "C",
+          "text": "Expand the root by Region, then a region by Channel"
+        },
+        {
+          "id": "D",
+          "text": "Select + on a channel and choose High value"
+        },
+        {
+          "id": "E",
+          "text": "Turn on anomaly detection"
+        },
+        {
+          "id": "F",
+          "text": "Add Sales to the Tooltips well"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "Add the visual, put Sales in Analyze and the candidate fields in Explain by, expand by Region and Channel, then use the + on a node and choose High value to let AI pick the next level.",
+      "takeaway": "Analyze + Explain by → expand → AI split."
+    }
+  ]
+}

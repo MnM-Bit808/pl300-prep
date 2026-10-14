@@ -1,0 +1,1173 @@
+{
+  "bank": "PL-300 question bank",
+  "batch": 8,
+  "title": "Enhance reports for usability and analysis: interactivity, AI visuals and Copilot",
+  "domains": [
+    "visualize"
+  ],
+  "schemaVersion": 2,
+  "count": 36,
+  "questions": [
+    {
+      "id": "VIS-046",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows the Selection pane. You need one button that shows the chart and hides the table, and another that does the reverse.\n\nWhat should you create?",
+      "image": {
+        "src": "images/visualize/VIS-046.svg",
+        "alt": "Selection pane listing Sales chart (visible), Sales table (hidden), Show chart button and Show table button."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Two report pages"
+        },
+        {
+          "id": "B",
+          "text": "Two bookmarks capturing different visibility, each assigned to a button"
+        },
+        {
+          "id": "C",
+          "text": "A drillthrough page"
+        },
+        {
+          "id": "D",
+          "text": "A field parameter"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Create two bookmarks: one captured with the chart visible and the table hidden (eye icons in the Selection pane), the other the reverse. Assign each to a button's Bookmark action. Turn off the Data property if users' slicer choices should be kept.",
+      "takeaway": "Show/hide visuals with buttons → Selection pane + bookmarks."
+    },
+    {
+      "id": "VIS-047",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 2,
+      "type": "dropdown",
+      "stem": "Select the bookmark property that controls each behaviour.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Reapplies slicer and filter selections",
+          "options": [
+            "Data",
+            "Display",
+            "Current page"
+          ]
+        },
+        {
+          "label": "Reapplies which visuals are shown or hidden",
+          "options": [
+            "Data",
+            "Display",
+            "Current page"
+          ]
+        },
+        {
+          "label": "Takes the user to the page the bookmark was created on",
+          "options": [
+            "Data",
+            "Display",
+            "Current page"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "Data captures filters, slicers and sort order. Display captures visibility and spotlight/focus mode. Current page decides whether applying the bookmark also navigates to the page it was captured on.",
+      "takeaway": "Data = filters. Display = visibility. Current page = navigation."
+    },
+    {
+      "id": "VIS-048",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A bookmark should affect only the three visuals in a chart group, leaving other visuals on the page as they are.\n\nWhat should you do when updating the bookmark?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn off Current page"
+        },
+        {
+          "id": "B",
+          "text": "Turn off Display"
+        },
+        {
+          "id": "C",
+          "text": "Select the visuals and set the bookmark to apply to Selected visuals"
+        },
+        {
+          "id": "D",
+          "text": "Group all bookmarks"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Select the three visuals, then set the bookmark to apply to Selected visuals (instead of All visuals). Only those visuals' state is captured and reapplied.",
+      "takeaway": "Limit a bookmark's effect → Selected visuals."
+    },
+    {
+      "id": "VIS-049",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Report readers in the Power BI service want to save their own filter combinations and return to them later, without the report author creating bookmarks.\n\nWhat should they use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Personal bookmarks"
+        },
+        {
+          "id": "B",
+          "text": "Report bookmarks"
+        },
+        {
+          "id": "C",
+          "text": "Subscriptions"
+        },
+        {
+          "id": "D",
+          "text": "Sync slicers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Personal bookmarks let each reader capture their own view (filters, slicers, visual state) in the service and choose one as their default. Report bookmarks are created by the author and shared with everyone.",
+      "takeaway": "Readers' own saved views → personal bookmarks."
+    },
+    {
+      "id": "VIS-050",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Bookmarks",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "You've grouped five bookmarks named after regions. You want a set of buttons, one per bookmark, that updates automatically when bookmarks in the group change.\n\nWhat should you insert?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Five blank buttons"
+        },
+        {
+          "id": "B",
+          "text": "A page navigator"
+        },
+        {
+          "id": "C",
+          "text": "A slicer"
+        },
+        {
+          "id": "D",
+          "text": "A bookmark navigator for the group"
+        }
+      ],
+      "answer": "D",
+      "explanation": "A bookmark navigator (Insert > Buttons > Navigator > Bookmark navigator) creates one button per bookmark in the selected group and updates when the group changes. Building buttons one by one needs manual upkeep.",
+      "takeaway": "Buttons for a bookmark group → bookmark navigator."
+    },
+    {
+      "id": "VIS-051",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Navigation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Report pages are added and renamed often. You want navigation buttons for every page that stay up to date without editing.\n\nWhat should you insert?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "One button per page with a Page navigation action"
+        },
+        {
+          "id": "B",
+          "text": "A page navigator"
+        },
+        {
+          "id": "C",
+          "text": "A bookmark per page"
+        },
+        {
+          "id": "D",
+          "text": "A drillthrough button"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A page navigator creates a button for each page (optionally excluding hidden pages) and updates as pages are added, removed or renamed.",
+      "takeaway": "Automatic page buttons → page navigator."
+    },
+    {
+      "id": "VIS-052",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Navigation",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "In Power BI Desktop, clicking a button doesn't trigger its action while you're editing.\n\nHow do you test the action?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Publish first; buttons only work in the service"
+        },
+        {
+          "id": "B",
+          "text": "Double-click the button"
+        },
+        {
+          "id": "C",
+          "text": "Ctrl+click the button"
+        },
+        {
+          "id": "D",
+          "text": "Turn on drill mode"
+        }
+      ],
+      "answer": "C",
+      "explanation": "In Desktop editing mode, Ctrl+click a button to run its action (a plain click selects it for editing). In the service, a normal click works.",
+      "takeaway": "Test buttons in Desktop → Ctrl+click."
+    },
+    {
+      "id": "VIS-053",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Drillthrough",
+      "difficulty": 1,
+      "type": "order",
+      "stem": "You need users to right-click a product in any visual and open a Product Details page filtered to that product.\n\nSelect the actions you should perform and arrange them in order.",
+      "image": null,
+      "items": [
+        {
+          "id": "A",
+          "text": "Create a page named Product Details"
+        },
+        {
+          "id": "B",
+          "text": "Add the Product field to that page's Drill through well"
+        },
+        {
+          "id": "C",
+          "text": "Add the detail visuals to the page"
+        },
+        {
+          "id": "D",
+          "text": "Create a bookmark for each product"
+        },
+        {
+          "id": "E",
+          "text": "Set the page as a tooltip"
+        }
+      ],
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "Create the target page, add Product to its Drill through well (which also adds a back button), and build the detail visuals. Users then right-click a product anywhere and choose Drill through > Product Details. Bookmarks and tooltips aren't needed.",
+      "takeaway": "Drillthrough: target page + field in the Drill through well."
+    },
+    {
+      "id": "VIS-054",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Drillthrough",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "A Customer Details report is separate from the Sales report, but both use the same semantic model. Users must right-click a customer in the Sales report and open the details report filtered to that customer.\n\nWhat should you enable?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Cross-report drillthrough"
+        },
+        {
+          "id": "B",
+          "text": "Sync slicers"
+        },
+        {
+          "id": "C",
+          "text": "A report page tooltip"
+        },
+        {
+          "id": "D",
+          "text": "Personal bookmarks"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Cross-report drillthrough: turn on Allow visuals in this report to use drillthrough targets from other reports in the source report, and set the target page's drillthrough to cross-report. Both reports must use the same semantic model (in the same workspace or app).",
+      "takeaway": "Drill into another report → cross-report drillthrough."
+    },
+    {
+      "id": "VIS-055",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Drillthrough",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users drill through from a page that has Year and Region slicers set. The target page must respect both selections, not only the drilled-on product.\n\nWhich setting on the target page controls this?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Allow use as tooltip"
+        },
+        {
+          "id": "B",
+          "text": "Cross-report"
+        },
+        {
+          "id": "C",
+          "text": "Keep all filters"
+        },
+        {
+          "id": "D",
+          "text": "Show items with no data"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Keep all filters (on by default) passes every filter from the source visual and page into the drillthrough page. With it off, only the drillthrough field's value is passed.",
+      "takeaway": "Pass all source filters → Keep all filters."
+    },
+    {
+      "id": "VIS-056",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Tooltips",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You want a mini chart of a product's monthly sales to appear when users hover over that product in any visual.\n\nWhat should you build?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A drillthrough page"
+        },
+        {
+          "id": "B",
+          "text": "A report page tooltip"
+        },
+        {
+          "id": "C",
+          "text": "A bookmark"
+        },
+        {
+          "id": "D",
+          "text": "A sparkline"
+        }
+      ],
+      "answer": "B",
+      "explanation": "A report page tooltip: a page set to Allow use as tooltip (usually with the Tooltip canvas size) containing the mini chart, with Product as its tooltip field. Visuals using Product then show it on hover.",
+      "takeaway": "Rich hover content → report page tooltip."
+    },
+    {
+      "id": "VIS-057",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Interactions",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "When a user selects a month in a column chart, a card showing year-to-date sales must not change.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Add a visual-level filter to the card"
+        },
+        {
+          "id": "B",
+          "text": "Lock the card"
+        },
+        {
+          "id": "C",
+          "text": "Use a bookmark"
+        },
+        {
+          "id": "D",
+          "text": "Set the chart's interaction with the card to None"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Select the column chart, open Format > Edit interactions, and set the card's interaction to None. Other visuals can keep filter or highlight.",
+      "takeaway": "Stop one visual reacting to another → Edit interactions: None."
+    },
+    {
+      "id": "VIS-058",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Interactions",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Users want to Ctrl+click to select several columns in a chart and have other visuals filter to all of them.\n\nWhat does Power BI do by default?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Multi-selection works by default, and other visuals respond to all selected points"
+        },
+        {
+          "id": "B",
+          "text": "Only the last click counts"
+        },
+        {
+          "id": "C",
+          "text": "Multi-selection needs a bookmark"
+        },
+        {
+          "id": "D",
+          "text": "Multi-selection works only in slicers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Ctrl+click (or Shift+click in some visuals) adds data points to the selection, and other visuals cross-filter or cross-highlight to the combined selection. No configuration is needed.",
+      "takeaway": "Ctrl+click = multi-select for cross-filtering."
+    },
+    {
+      "id": "VIS-059",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Key influencers",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a Key influencers visual analysing what makes a customer churn.\n\nWhat does the top influencer mean?",
+      "image": {
+        "src": "images/visualize/VIS-059.svg",
+        "alt": "Key influencers visual: when Contract is Month-to-month, the likelihood of Churn being Yes increases 2.4 times; tenure under 6 months 1.9 times; more than 3 support tickets 1.6 times."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "2.4% of customers have month-to-month contracts"
+        },
+        {
+          "id": "B",
+          "text": "Customers on month-to-month contracts are 2.4 times more likely to churn"
+        },
+        {
+          "id": "C",
+          "text": "Month-to-month contracts cause 2.4 extra churned customers"
+        },
+        {
+          "id": "D",
+          "text": "Contract type explains 2.4% of churn"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Customers with a month-to-month contract are 2.4 times more likely to churn than customers without that contract type. The right panel compares the churn rate for that group with everyone else.",
+      "takeaway": "Key influencers: 'When X, the likelihood increases by N times'."
+    },
+    {
+      "id": "VIS-060",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Key influencers",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Instead of individual factors, you want Key influencers to find groups of customers with a combination of attributes that have a high churn rate.\n\nWhich tab should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Key influencers"
+        },
+        {
+          "id": "B",
+          "text": "Analyze"
+        },
+        {
+          "id": "C",
+          "text": "Top segments"
+        },
+        {
+          "id": "D",
+          "text": "Explain by"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The Top segments tab finds clusters of records defined by several attributes together (for example month-to-month contract and tenure under six months) where the outcome is much more common.",
+      "takeaway": "Combinations of factors → Top segments."
+    },
+    {
+      "id": "VIS-061",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Decomposition tree",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The exhibit shows a decomposition tree. Its last level was added using an AI split.\n\nWhich AI split was used, and what does it do?",
+      "image": {
+        "src": "images/visualize/VIS-061.svg",
+        "alt": "Decomposition tree: total sales 1,240 split by Region (West 520 highlighted), then Channel marked High value (Online 330 highlighted), then Product (Trail Shoe 160)."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "High value: it chose the field with the highest value at that level"
+        },
+        {
+          "id": "B",
+          "text": "Low value: it chose the smallest contributor"
+        },
+        {
+          "id": "C",
+          "text": "Key influencers: it chose the strongest correlation"
+        },
+        {
+          "id": "D",
+          "text": "Top segments: it grouped similar customers"
+        }
+      ],
+      "answer": "A",
+      "explanation": "The High value split picks, at that step, the field and value with the highest result, here the Online channel within the West region. Low value would pick the lowest.",
+      "takeaway": "Decomposition tree AI split: High value / Low value picks the next field for you."
+    },
+    {
+      "id": "VIS-062",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Decomposition tree",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "In a decomposition tree, you want AI splits to look for the biggest value relative to the other options at that level, rather than the absolute largest.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Lock the level"
+        },
+        {
+          "id": "B",
+          "text": "Set the AI split analysis type to Relative"
+        },
+        {
+          "id": "C",
+          "text": "Turn on drill mode"
+        },
+        {
+          "id": "D",
+          "text": "Use the Low value split"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The analysis type can be Absolute (pick the highest value) or Relative (pick the value that stands out most compared with its siblings). Relative helps find unusually strong small segments.",
+      "takeaway": "AI split analysis type: Absolute vs Relative."
+    },
+    {
+      "id": "VIS-063",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Anomaly detection",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows a line chart with anomaly detection turned on.\n\nWhat do the circled points and the shaded band represent?",
+      "image": {
+        "src": "images/visualize/VIS-063.svg",
+        "alt": "Line chart of daily orders inside a shaded expected range. Day 7 (210 orders) and day 14 (60 orders) are circled outside the band."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Forecast values and their confidence interval"
+        },
+        {
+          "id": "B",
+          "text": "Values below the average line"
+        },
+        {
+          "id": "C",
+          "text": "Anomalies outside the expected range shown by the band"
+        },
+        {
+          "id": "D",
+          "text": "Data points removed by filters"
+        }
+      ],
+      "answer": "C",
+      "explanation": "The band is the expected range calculated from the series; circled points fall outside it, so they're flagged as anomalies. Selecting one shows possible explanations based on the Explain by fields.",
+      "takeaway": "Anomaly detection: band = expected range, circles = anomalies."
+    },
+    {
+      "id": "VIS-064",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Anomaly detection",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Anomaly detection flags too many points as unusual.\n\nWhat should you change?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Lower the sensitivity"
+        },
+        {
+          "id": "B",
+          "text": "Raise the sensitivity"
+        },
+        {
+          "id": "C",
+          "text": "Add more Explain by fields"
+        },
+        {
+          "id": "D",
+          "text": "Switch to a column chart"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Lower the sensitivity in the anomaly settings. Higher sensitivity flags smaller deviations; lower sensitivity widens the expected range so only bigger deviations count.",
+      "takeaway": "Too many anomalies → lower the sensitivity."
+    },
+    {
+      "id": "VIS-065",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Anomaly detection",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "When users select an anomaly, you want Power BI to suggest which categories, such as Region or Channel, might explain it.\n\nWhat should you configure?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Tooltips"
+        },
+        {
+          "id": "B",
+          "text": "A drillthrough page"
+        },
+        {
+          "id": "C",
+          "text": "Key influencers"
+        },
+        {
+          "id": "D",
+          "text": "Explain by fields in the anomaly detection settings"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Add fields to Explain by in the anomaly detection settings. Power BI then ranks possible explanations, showing which values of those fields changed most at that point.",
+      "takeaway": "Explanations for anomalies → Explain by fields."
+    },
+    {
+      "id": "VIS-066",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Analyze feature",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users see a sharp rise in one month on a column chart and want Power BI to find which categories contributed most, without building a new visual.\n\nWhat can they use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Export data"
+        },
+        {
+          "id": "B",
+          "text": "Analyze > Explain the increase"
+        },
+        {
+          "id": "C",
+          "text": "Show as a table"
+        },
+        {
+          "id": "D",
+          "text": "Drill through"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Right-click the data point and choose Analyze > Explain the increase. Power BI looks across the model's fields for the biggest contributors and shows the results as visuals.",
+      "takeaway": "Why did this point rise? → Analyze > Explain the increase."
+    },
+    {
+      "id": "VIS-067",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "AI visuals",
+      "difficulty": 1,
+      "type": "dropdown",
+      "stem": "Select the visual that best answers each question.",
+      "image": null,
+      "parts": [
+        {
+          "label": "Which factors make an order more likely to be returned?",
+          "options": [
+            "Key influencers",
+            "Decomposition tree",
+            "Line chart with anomaly detection"
+          ]
+        },
+        {
+          "label": "Where does this quarter's revenue come from, by region, channel and product?",
+          "options": [
+            "Key influencers",
+            "Decomposition tree",
+            "Line chart with anomaly detection"
+          ]
+        },
+        {
+          "label": "Which days had unusually low website traffic?",
+          "options": [
+            "Key influencers",
+            "Decomposition tree",
+            "Line chart with anomaly detection"
+          ]
+        }
+      ],
+      "answer": {
+        "parts": [
+          0,
+          1,
+          2
+        ]
+      },
+      "explanation": "Key influencers ranks factors that drive an outcome. The decomposition tree breaks a total down step by step, letting users choose (or AI choose) the next level. A line chart with anomaly detection flags unusual points over time.",
+      "takeaway": "Drivers → Key influencers. Breakdown → decomposition tree. Unusual points over time → anomaly detection."
+    },
+    {
+      "id": "VIS-068",
+      "domain": "visualize",
+      "topic": "Identify patterns and trends",
+      "subtopic": "Q&A",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "Users type 'revenue by territory' in Q&A, but the model's measure is Sales Amount and the column is Region.\n\nWhat should you add so Q&A understands them?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Display folders"
+        },
+        {
+          "id": "B",
+          "text": "Descriptions only"
+        },
+        {
+          "id": "C",
+          "text": "Synonyms for Sales Amount and Region"
+        },
+        {
+          "id": "D",
+          "text": "A field parameter"
+        }
+      ],
+      "answer": "C",
+      "explanation": "Synonyms tell Q&A (and Copilot) that revenue means Sales Amount and territory means Region. Add them in Q&A setup or in the field's properties in Model view.",
+      "takeaway": "Users' words differ from field names → synonyms."
+    },
+    {
+      "id": "VIS-069",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "An executive page needs an AI-written summary of its visuals that updates when slicers change.\n\nWhat should you add?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A text box"
+        },
+        {
+          "id": "B",
+          "text": "A narrative visual with Copilot"
+        },
+        {
+          "id": "C",
+          "text": "A Q&A visual"
+        },
+        {
+          "id": "D",
+          "text": "A card visual"
+        }
+      ],
+      "answer": "B",
+      "explanation": "The narrative visual with Copilot generates a text summary of the page's visuals (or chosen visuals) and refreshes it as filters change. You can guide it with a custom prompt.",
+      "takeaway": "AI summary on a page → narrative visual with Copilot."
+    },
+    {
+      "id": "VIS-070",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The exhibit shows the Copilot pane in Power BI Desktop.\n\nWhat will Copilot do in response to this prompt?",
+      "image": {
+        "src": "images/visualize/VIS-070.svg",
+        "alt": "Copilot pane: the user asks to create a page that shows regional sales performance; Copilot replies that it has created a page with sales by region, a monthly trend and top products, with Keep it and Undo buttons."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Create a new report page with visuals about regional sales performance"
+        },
+        {
+          "id": "B",
+          "text": "Change the semantic model's relationships"
+        },
+        {
+          "id": "C",
+          "text": "Publish the report"
+        },
+        {
+          "id": "D",
+          "text": "Refresh the data"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Asked to create a page, Copilot builds a new report page with visuals based on the semantic model and the prompt. You can then edit the page like any other.",
+      "takeaway": "Copilot can create report pages from a prompt."
+    },
+    {
+      "id": "VIS-071",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 2,
+      "type": "single",
+      "stem": "The Copilot pane is greyed out for a report in Power BI Desktop.\n\nWhich two conditions must be met for Copilot to be available? Choose the option that lists both.",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A Pro licence and DirectQuery mode"
+        },
+        {
+          "id": "B",
+          "text": "Auto date/time and a marked date table"
+        },
+        {
+          "id": "C",
+          "text": "A certified semantic model and an app"
+        },
+        {
+          "id": "D",
+          "text": "The Copilot tenant setting turned on, and a workspace on a supported paid capacity"
+        }
+      ],
+      "answer": "D",
+      "explanation": "Copilot needs the admin tenant setting that allows Copilot (Azure OpenAI features) and a workspace on a supported paid capacity, such as Fabric F2 or higher, or Premium P1 or higher. In Desktop you sign in and choose such a workspace. Pro licences on shared capacity don't provide Copilot.",
+      "takeaway": "Copilot = tenant setting on + supported paid capacity workspace."
+    },
+    {
+      "id": "VIS-072",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "Your organisation's capacity is in a region where Azure OpenAI isn't available, and Copilot doesn't work.\n\nWhat can an admin enable?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A gateway in personal mode"
+        },
+        {
+          "id": "B",
+          "text": "Publish to web"
+        },
+        {
+          "id": "C",
+          "text": "The setting that allows data to be processed outside your capacity's geographic region"
+        },
+        {
+          "id": "D",
+          "text": "Large semantic model storage format"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A tenant setting allows data sent to Azure OpenAI to be processed outside your capacity's geographic region. Turning it on lets Copilot work, subject to your organisation's data-residency rules.",
+      "takeaway": "Azure OpenAI not in region → allow processing outside the geographic region."
+    },
+    {
+      "id": "VIS-073",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Copilot gives vague answers about a model with columns such as Amt, Cust_Nm and Dt_1.\n\nWhat should you do first?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Turn on Auto date/time"
+        },
+        {
+          "id": "B",
+          "text": "Rename fields clearly and add descriptions and synonyms"
+        },
+        {
+          "id": "C",
+          "text": "Convert to DirectQuery"
+        },
+        {
+          "id": "D",
+          "text": "Add more report pages"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Copilot works from the model's metadata. Clear field names, descriptions and synonyms (with a clean star schema and hidden technical columns) are the main ways to prepare a model for better answers.",
+      "takeaway": "Better Copilot answers → clear names, descriptions, synonyms."
+    },
+    {
+      "id": "VIS-074",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You want Copilot to ignore technical helper tables and columns, and to follow business rules such as 'fiscal year starts in July' when answering.\n\nWhich feature should you use?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Prep data for AI"
+        },
+        {
+          "id": "B",
+          "text": "Row-level security"
+        },
+        {
+          "id": "C",
+          "text": "Display folders"
+        },
+        {
+          "id": "D",
+          "text": "Bookmarks"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Prep data for AI lets model authors simplify the schema Copilot sees (AI data schema), add AI instructions with business context, and provide verified answers for common questions.",
+      "takeaway": "Steer Copilot on a model → Prep data for AI (schema, instructions, verified answers)."
+    },
+    {
+      "id": "VIS-075",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 2,
+      "type": "yesno",
+      "stem": "For each statement about Copilot in Power BI, select Yes if it is true.",
+      "image": null,
+      "statements": [
+        "Copilot respects row-level security for the user asking the question.",
+        "Copilot can help write DAX queries in DAX query view.",
+        "Copilot edits the source data to correct values it thinks are wrong."
+      ],
+      "answer": [
+        true,
+        true,
+        false
+      ],
+      "explanation": "Copilot works with the user's own permissions, so RLS and access rules still apply to its answers. It can write and explain DAX queries in DAX query view. It doesn't change the semantic model's data; review what it produces before relying on it.",
+      "takeaway": "Copilot respects permissions; helps with DAX; doesn't change source data."
+    },
+    {
+      "id": "VIS-076",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A report reader in the service wants a quick written summary of the report page they're viewing.\n\nWhat can they do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Export the page to PDF"
+        },
+        {
+          "id": "B",
+          "text": "Create a subscription"
+        },
+        {
+          "id": "C",
+          "text": "Add a narrative visual themselves"
+        },
+        {
+          "id": "D",
+          "text": "Ask Copilot in the service to summarise the page"
+        }
+      ],
+      "answer": "D",
+      "explanation": "In the Copilot pane in the service, readers can ask Copilot to summarise the current page (or report). It doesn't change the report.",
+      "takeaway": "Readers can ask Copilot for summaries of pages."
+    },
+    {
+      "id": "VIS-077",
+      "domain": "visualize",
+      "topic": "Copilot in Power BI",
+      "subtopic": "Copilot",
+      "difficulty": 3,
+      "type": "single",
+      "stem": "You want Copilot answers to a common question, such as 'What were total sales last quarter?', to always use a specific visual you've approved.\n\nWhat should you set up?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "A bookmark"
+        },
+        {
+          "id": "B",
+          "text": "A verified answer"
+        },
+        {
+          "id": "C",
+          "text": "A data alert"
+        },
+        {
+          "id": "D",
+          "text": "A featured table"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Verified answers (part of Prep data for AI) link a visual to trigger phrases, so Copilot returns that approved visual when users ask matching questions.",
+      "takeaway": "Approved responses to common questions → verified answers."
+    },
+    {
+      "id": "VIS-078",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Report usability",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "Report readers keep asking how to use a page's slicers and buttons.\n\nWhat is a simple built-in way to guide them on the page?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Hide the slicers"
+        },
+        {
+          "id": "B",
+          "text": "Publish to web"
+        },
+        {
+          "id": "C",
+          "text": "Add an info button or help overlay that explains the page"
+        },
+        {
+          "id": "D",
+          "text": "Turn on drill mode"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A text box or an information button with a tooltip (or a bookmark that shows a help overlay) explains the page in place. Many reports add an 'i' button that toggles a help layer with bookmarks.",
+      "takeaway": "In-report guidance → text, info buttons, help overlays."
+    },
+    {
+      "id": "VIS-079",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Report usability",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "A report has detail pages that should only be reached through drillthrough, not from the page tabs.\n\nWhat should you do?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Hide the pages"
+        },
+        {
+          "id": "B",
+          "text": "Delete the pages and recreate them as reports"
+        },
+        {
+          "id": "C",
+          "text": "Lock the pages"
+        },
+        {
+          "id": "D",
+          "text": "Move them to a dashboard"
+        }
+      ],
+      "answer": "A",
+      "explanation": "Hide those pages. Hidden pages don't appear as tabs in reading view, but drillthrough, buttons and bookmarks can still reach them.",
+      "takeaway": "Pages for drillthrough or tooltips only → hide them."
+    },
+    {
+      "id": "VIS-080",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Report usability",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "The matrix in the exhibit shows sales by category and product. Users want to see the products only for the category they're interested in, without expanding every category.\n\nWhat should they do?",
+      "image": {
+        "src": "images/visualize/VIS-080.svg",
+        "alt": "Matrix showing collapsed categories Apparel, Bags and Footwear with plus icons, and a total."
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": "Expand all down one level"
+        },
+        {
+          "id": "B",
+          "text": "Drill down into the selected category"
+        },
+        {
+          "id": "C",
+          "text": "Switch values to rows"
+        },
+        {
+          "id": "D",
+          "text": "Turn off stepped layout"
+        }
+      ],
+      "answer": "B",
+      "explanation": "Turn on drill mode and select one category to drill down into its products, or use the +/- icons to expand one category. Expand all down one level would show every category's products.",
+      "takeaway": "One branch only → drill down or expand that single item."
+    },
+    {
+      "id": "VIS-081",
+      "domain": "visualize",
+      "topic": "Enhance reports for usability",
+      "subtopic": "Report usability",
+      "difficulty": 1,
+      "type": "single",
+      "stem": "You want readers to be able to switch a chart between showing sales by Region, by Channel or by Product, using a slicer.\n\nWhat should you create?",
+      "image": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Three bookmarks"
+        },
+        {
+          "id": "B",
+          "text": "A drillthrough page"
+        },
+        {
+          "id": "C",
+          "text": "A field parameter"
+        },
+        {
+          "id": "D",
+          "text": "A calculation group"
+        }
+      ],
+      "answer": "C",
+      "explanation": "A field parameter with Region, Channel and Product lets a slicer swap the field on the chart's axis. Bookmarks would need three copies of the chart.",
+      "takeaway": "Let readers swap a visual's field → field parameter."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+dist/
+dev-dist/
+coverage/
+pl300-bank/
+package-lock.json
+BUILD_PROMPT.md

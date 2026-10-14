@@ -1,0 +1,11 @@
+node_modules/
+dist/
+dev-dist/
+coverage/
+*.tsbuildinfo
+.vite/
+.wrangler/
+*.zip
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
