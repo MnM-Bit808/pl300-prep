@@ -106,3 +106,29 @@ export const RetryIcon = (p: IconProps) => (
     <path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" />
   </Icon>
 );
+export const FlameIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 21c-3.9 0-6.5-2.6-6.5-6.2 0-3.6 2.7-5.6 3.9-8.8.4 2 1.6 3.1 2.6 3.4.2-2.6 1.4-4.9 3.6-6.4-.3 2.9 1 5 2.2 6.6 1.1 1.5 1.7 3 1.7 5.1C19.5 18.4 16 21 12 21z" />
+  </Icon>
+);
+export const BoltIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M13 3L5 13.5h6L10 21l8-10.5h-6z" />
+  </Icon>
+);
+export const HeartIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z" />
+  </Icon>
+);
+export const LockIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="5" y="10.5" width="14" height="9.5" rx="2" />
+    <path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" />
+  </Icon>
+);
+export const ChevronRightIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M9 6l6 6-6 6" />
+  </Icon>
+);

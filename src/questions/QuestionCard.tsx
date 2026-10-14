@@ -15,7 +15,7 @@ import { MultiChoice, SingleChoice } from './renderers/ChoiceList';
 import { Dropdowns } from './renderers/Dropdowns';
 import { OrderBuilder } from './renderers/OrderBuilder';
 import { YesNo } from './renderers/YesNo';
-import { verdictOf } from './scoring';
+import { scoreAnswer, verdictOf, type Score } from './scoring';
 import { useAttempt } from './useAttempt';
 import styles from './QuestionCard.module.css';
 
@@ -53,9 +53,19 @@ interface Props {
   /** Shown after checking. Omit to offer only "Try again" (the lab). */
   onContinue?: () => void;
   continueLabel?: string;
+  /** Called once when the answer is checked (lessons record it and adjust hearts). */
+  onCheck?: (score: Score) => void;
+  /** Offer "Try again" after checking. Lessons turn it off: a miss comes back later instead. */
+  allowRetry?: boolean;
 }
 
-export function QuestionCard({ question, onContinue, continueLabel = 'Continue' }: Props) {
+export function QuestionCard({
+  question,
+  onContinue,
+  continueLabel = 'Continue',
+  onCheck,
+  allowRetry = true,
+}: Props) {
   const uid = useId().replace(/:/g, '');
   const attempt = useAttempt(question);
   const { answer, layout, phase, score, complete, updateAnswer, check, retry } = attempt;
@@ -76,6 +86,7 @@ export function QuestionCard({ question, onContinue, continueLabel = 'Continue' 
     if (complete) {
       setNudge(false);
       check();
+      onCheck?.(scoreAnswer(question, answer));
     } else {
       setNudge(true);
       setStatus(`Not finished: ${progressText(question, answer).toLowerCase()}.`);
@@ -186,7 +197,7 @@ export function QuestionCard({ question, onContinue, continueLabel = 'Continue' 
             </p>
           )}
           <div className={styles.barActions}>
-            {revealed && onContinue && (
+            {revealed && onContinue && allowRetry && (
               <button type="button" className={styles.secondary} onClick={retry}>
                 <RetryIcon />
                 <span className={styles.collapsible}>Try again</span>

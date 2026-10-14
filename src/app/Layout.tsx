@@ -23,9 +23,9 @@ export function Layout() {
           </NavLink>
           <nav aria-label="Main" className={styles.nav}>
             <NavLink to="/" end>
-              Question lab
+              Learn
             </NavLink>
-            <NavLink to="/dev/bank">Bank check</NavLink>
+            <NavLink to="/lab">Question lab</NavLink>
           </nav>
           <label className={styles.theme}>
             <span className="sr-only">Theme</span>

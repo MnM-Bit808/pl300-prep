@@ -1,0 +1,57 @@
+.dialog {
+  width: min(420px, calc(100vw - 2 * var(--gutter)));
+  padding: var(--s-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.title {
+  margin: 0 0 var(--s-2);
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.body {
+  margin: 0 0 var(--s-5);
+  color: var(--ink-2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.cancel,
+.confirm {
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border-radius: var(--r-control);
+  font-weight: 800;
+}
+
+.cancel {
+  border: 0;
+  background: var(--indigo);
+  color: var(--on-indigo);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.confirm {
+  border: 2px solid var(--bad);
+  background: var(--surface);
+  color: var(--bad);
+}
+
+.cancel:active,
+.confirm:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}

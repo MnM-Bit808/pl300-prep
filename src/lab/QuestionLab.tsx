@@ -4,7 +4,7 @@
  * specific question can be linked to in a bug report.
  */
 import { useMemo, useState, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { QUESTION_TYPES, type QuestionType } from '@/bank/schema';
 import { useBank } from '@/bank/useBank';
 import { CaseFrame } from '@/case/CaseFrame';
@@ -108,6 +108,9 @@ export function QuestionLab() {
         <p>
           Every answer format in the bank. Answer, check, and step through all{' '}
           {bank.questions.length} questions.
+        </p>
+        <p>
+          <Link to="/dev/bank">Check the question bank</Link> for counts and image loading.
         </p>
       </header>
 

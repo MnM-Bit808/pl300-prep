@@ -1,0 +1,100 @@
+.strip {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: var(--s-3) var(--s-5);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+@media (max-width: 560px) {
+  .strip {
+    grid-template-columns: auto 1fr;
+  }
+  .goal {
+    grid-column: 1 / -1;
+  }
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  color: var(--ink-2);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.stat strong {
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.icon {
+  flex: none;
+  font-size: 22px;
+  color: var(--ink-3);
+}
+
+/* The streak flame is the one warm accent: lit only on a day you've practised. */
+.stat[data-lit] .icon {
+  color: var(--flame);
+  fill: var(--flame-fill);
+}
+
+.hint {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.goal {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.goalHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.goalHead strong {
+  color: var(--ink);
+}
+
+.goalPick select {
+  min-height: 36px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--surface-sunk);
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--indigo);
+  transition: width 400ms var(--ease-out);
+}

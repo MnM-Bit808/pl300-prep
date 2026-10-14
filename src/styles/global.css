@@ -42,6 +42,10 @@
   --partial: #8a5300;
   --partial-wash: #fcefd5;
 
+  /* Streak flame: the one warm accent, lit only on a day you've practised */
+  --flame: #c25a06;
+  --flame-fill: #f6b44a;
+
   --focus: #2b6cf0;
   --scrim: rgb(14 16 28 / 0.72);
 
@@ -103,6 +107,8 @@
     --partial: #f0bb62;
     --partial-wash: #3a2b12;
     --focus: #8fb4ff;
+    --flame: #ffa24d;
+    --flame-fill: #b8560a;
   }
 }
 
@@ -129,6 +135,8 @@
   --partial: #f0bb62;
   --partial-wash: #3a2b12;
   --focus: #8fb4ff;
+  --flame: #ffa24d;
+  --flame-fill: #b8560a;
 }
 
 *,

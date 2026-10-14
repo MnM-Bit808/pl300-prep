@@ -63,7 +63,7 @@ Each step ends with a review before the next starts.
 2. Scaffold, bank loader, validator; counts and image check. ✅
 3. Design system and question renderer for all five types, exhibits with zoom, code formatting, explanations; a test page cycling one question of each type. ✅
 4. Case-study panel. ✅
-5. Learn path, XP and streaks.
+5. Learn path, XP and streaks. ✅
 6. Practice, mistakes review, spaced repetition, flashcards.
 7. Mock exam mode.
 8. Progress dashboard.
@@ -101,3 +101,12 @@ Each step ends with a review before the next starts.
 - **Breakouts opt out with `data-contained`.** Wide exhibits and the two-zone order layout stay inside the question column in the split view.
 - **Dialog state updates where the close is triggered** (buttons, backdrop, Esc via `cancel`), not in the `close` event, which is queued as a task and can arrive late.
 - **Options that are all code** (DAX answers) render as one code block instead of a chain of inline chips.
+
+### Learn path and progress (Step 5)
+
+- **Course built from the bank** (`learn/course.ts`): units follow the exam's domain order, then case studies. Each topic is cut into lessons of about 9 questions, snapping each cut to a subtopic boundary within 2 of the ideal, so lessons cover whole subtopics where possible. Questions run easiest first within a lesson. One lesson per case study. 51 lessons in all, and a test checks that every question is used exactly once.
+- **Paath's rules, as pure functions:** lessons unlock in order within a unit and every unit is open. The session reducer handles 5 hearts, misses returning at the end, 10 XP for a first try, 5 for a retry and +10 for a perfect lesson. XP is banked when a run ends (finished or out of hearts); quitting forfeits it. Streaks and daily goals count local calendar days, with DST-safe day maths.
+- **Progress store:** one versioned document (XP, streak, lessons, a per-question summary) plus an append-only attempt log, in IndexedDB. It falls back to memory if storage is blocked. Everything is keyed by question id. Unrecognised saved data is backed up, not overwritten. React reads it through `useSyncExternalStore`, and writes are queued in order.
+- **Lesson ids are positional** (`model-3`), so a bank change can move lesson boundaries. Completion records also keep the question ids they covered, so later steps can reconcile.
+- **Lessons run in focus mode:** a separate route with no site navigation, just quit (with confirmation, also on Esc), progress and hearts.
+- **The Learn page borrows Power Query's "Applied steps" pane:** lessons are numbered steps on a connector line, rather than imitating a game path.
