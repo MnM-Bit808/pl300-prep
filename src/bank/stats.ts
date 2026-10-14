@@ -1,4 +1,11 @@
-import { DOMAINS, QUESTION_TYPES, type CaseStudy, type Domain, type Question, type QuestionType } from './schema';
+import {
+  DOMAINS,
+  QUESTION_TYPES,
+  type CaseStudy,
+  type Domain,
+  type Question,
+  type QuestionType,
+} from './schema';
 
 export interface BankStats {
   total: number;

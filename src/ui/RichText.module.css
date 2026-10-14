@@ -1,0 +1,20 @@
+.paragraph {
+  margin: 0;
+}
+
+.paragraph + .paragraph {
+  margin-top: 0.75em;
+}
+
+/* DAX can run to 200+ characters: let it wrap anywhere rather than push the layout sideways,
+   and keep the tinted box intact on every wrapped line. */
+.code {
+  padding: 0.08em 0.36em;
+  border-radius: var(--r-code);
+  background: var(--surface-sunk);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

@@ -16,11 +16,41 @@ function* walk(dir: string): Generator<string> {
   }
 }
 
+const SIZES_ID = 'virtual:exhibit-sizes';
+const RESOLVED_SIZES_ID = `\0${SIZES_ID}`;
+
+/** Reads each SVG's intrinsic size so the app can reserve space before the image loads. */
+function exhibitSizes(imagesDir: string): Record<string, [number, number]> {
+  const sizes: Record<string, [number, number]> = {};
+  for (const file of walk(imagesDir)) {
+    if (!file.endsWith('.svg')) continue;
+    const head = readFileSync(file, 'utf8').slice(0, 600);
+    const viewBox = /viewBox="[\d.]+\s+[\d.]+\s+([\d.]+)\s+([\d.]+)"/.exec(head);
+    const width = /\swidth="([\d.]+)"/.exec(head);
+    const height = /\sheight="([\d.]+)"/.exec(head);
+    const w = Number(viewBox?.[1] ?? width?.[1]);
+    const h = Number(viewBox?.[2] ?? height?.[1]);
+    if (w > 0 && h > 0) {
+      sizes[`images/${relative(imagesDir, file).split(sep).join('/')}`] = [w, h];
+    }
+  }
+  return sizes;
+}
+
 export function bankAssets(bankDir: string): Plugin {
   const imagesDir = join(bankDir, 'images');
 
   return {
     name: 'pl300-bank-assets',
+
+    resolveId(id) {
+      return id === SIZES_ID ? RESOLVED_SIZES_ID : undefined;
+    },
+
+    load(id) {
+      if (id !== RESOLVED_SIZES_ID) return undefined;
+      return `export default ${JSON.stringify(exhibitSizes(imagesDir))};`;
+    },
 
     configureServer(server) {
       server.middlewares.use((req, res, next) => {

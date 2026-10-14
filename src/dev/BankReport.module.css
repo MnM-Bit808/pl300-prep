@@ -12,7 +12,7 @@
 
 .eyebrow {
   margin: 0 0 4px;
-  color: var(--muted);
+  color: var(--ink-2);
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
@@ -20,11 +20,11 @@
 }
 
 .summary {
-  color: var(--muted);
+  color: var(--ink-2);
 }
 
 .summary strong {
-  color: var(--text);
+  color: var(--ink);
 }
 
 .checks ul {
@@ -50,7 +50,7 @@
   border-left-color: var(--bad);
 }
 .checks li[data-state='loading'] {
-  border-left-color: var(--muted);
+  border-left-color: var(--ink-2);
 }
 
 .tables {
@@ -65,7 +65,7 @@
   border-collapse: collapse;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--r-tile);
   overflow: hidden;
 }
 

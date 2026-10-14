@@ -1,0 +1,165 @@
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.list {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A tile is a pressable key: solid bottom edge, sinks when pressed. */
+.tile {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--s-3);
+  min-height: 56px;
+  padding: 14px var(--s-4);
+  border: 2px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+  font-size: var(--text-answer);
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    transform 120ms var(--ease-out),
+    box-shadow 120ms var(--ease-out),
+    border-color 120ms,
+    background-color 120ms;
+}
+
+@media (hover: hover) {
+  .tile:hover {
+    border-color: var(--indigo);
+  }
+}
+
+.tile:active:not(:has(:disabled)) {
+  transform: translateY(var(--press));
+  box-shadow: 0 0 0 var(--line-strong);
+}
+
+.tile:has(.input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.key {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-top: -2px;
+  border: 2px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  transition:
+    background-color 120ms,
+    color 120ms,
+    border-color 120ms;
+}
+
+.text {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.tile[data-chosen] {
+  border-color: var(--indigo);
+  background: var(--indigo-wash);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.tile[data-chosen] .key {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.tile:has(.input[aria-disabled='true']) {
+  cursor: not-allowed;
+}
+
+.tile:has(.input:disabled) {
+  cursor: default;
+}
+
+/* After checking. Every mark also carries an icon and words. */
+.mark {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.mark svg {
+  font-size: 18px;
+}
+
+.tile[data-mark='correct'],
+.tile[data-mark='missed'] {
+  border-color: var(--ok);
+  background: var(--ok-wash);
+  box-shadow: 0 var(--press) 0 var(--ok);
+}
+
+.tile[data-mark='missed'] {
+  border-style: dashed;
+}
+
+.tile[data-mark='correct'] .key,
+.tile[data-mark='missed'] .key {
+  border-color: var(--ok);
+  background: var(--ok);
+  color: var(--surface);
+}
+
+.tile[data-mark='correct'] .mark,
+.tile[data-mark='missed'] .mark {
+  color: var(--ok);
+}
+
+.tile[data-mark='wrong'] {
+  border-color: var(--bad);
+  background: var(--bad-wash);
+  box-shadow: 0 var(--press) 0 var(--bad);
+}
+
+.tile[data-mark='wrong'] .key {
+  border-color: var(--bad);
+  background: var(--bad);
+  color: var(--surface);
+}
+
+.tile[data-mark='wrong'] .mark {
+  color: var(--bad);
+}
+
+/* Options that weren't chosen and aren't the answer step back once the question is checked. */
+.tile:has(.input:disabled):not([data-mark]) {
+  /* Muted ink, not opacity, so the text keeps at least 4.5:1 contrast. */
+  color: var(--ink-2);
+  background: transparent;
+  box-shadow: 0 var(--press) 0 var(--line);
+}

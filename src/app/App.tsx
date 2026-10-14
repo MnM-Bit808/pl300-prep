@@ -1,11 +1,19 @@
-import { Suspense } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import { BankReport } from '@/dev/BankReport';
+import { QuestionLab } from '@/lab/QuestionLab';
+import { Layout } from './Layout';
 
-/** Step 2 shell: only the bank diagnostics screen. Routing arrives with the first real screens. */
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { index: true, element: <QuestionLab /> },
+      { path: 'dev/bank', element: <BankReport /> },
+    ],
+  },
+]);
+
 export function App() {
-  return (
-    <Suspense fallback={<p className="loading">Loading question bank…</p>}>
-      <BankReport />
-    </Suspense>
-  );
+  return <RouterProvider router={router} />;
 }

@@ -1,0 +1,156 @@
+.feedback {
+  display: grid;
+  gap: var(--s-4);
+  padding: 0 var(--s-4) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  overflow: hidden;
+  scroll-margin-top: var(--s-4);
+  scroll-margin-bottom: 120px;
+}
+
+.feedback:focus {
+  outline: none;
+}
+
+.feedback:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* The verdict is a tinted band across the top of the card. */
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin: 0 calc(-1 * var(--s-4));
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+[data-verdict='correct'] .verdict {
+  background: var(--ok-wash);
+  border-bottom-color: var(--ok);
+}
+[data-verdict='partial'] .verdict {
+  background: var(--partial-wash);
+  border-bottom-color: var(--partial);
+}
+[data-verdict='wrong'] .verdict {
+  background: var(--bad-wash);
+  border-bottom-color: var(--bad);
+}
+
+.verdictIcon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  font-size: 22px;
+  flex: none;
+}
+
+[data-verdict='correct'] .verdict {
+  color: var(--ok);
+}
+[data-verdict='correct'] .verdictIcon {
+  background: var(--surface);
+}
+[data-verdict='partial'] .verdict {
+  color: var(--partial);
+}
+[data-verdict='partial'] .verdictIcon {
+  background: var(--surface);
+}
+[data-verdict='wrong'] .verdict {
+  color: var(--bad);
+}
+[data-verdict='wrong'] .verdictIcon {
+  background: var(--surface);
+}
+
+.explanation {
+  color: var(--ink);
+  max-width: 68ch;
+}
+
+.subhead {
+  margin: 0 0 var(--s-2);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.sequence ol {
+  display: grid;
+  gap: var(--s-1);
+  margin: 0;
+  padding-left: 1.6em;
+}
+
+.sequence li::marker {
+  font-weight: 800;
+  color: var(--ok);
+}
+
+/*
+ * The takeaway as a formula bar: an "fx" well and a mono line, with a highlighter stroke
+ * that sweeps across once when the feedback opens. The app's one decorative motion.
+ */
+.takeaway {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: stretch;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.fx {
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  border-right: 1px solid var(--line-strong);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.rule {
+  margin: 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.mark {
+  padding: 0.1em 0.15em;
+  color: var(--mark-ink);
+  background: linear-gradient(transparent 12%, var(--mark) 12%, var(--mark) 88%, transparent 88%)
+    no-repeat 0 0 / 100% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: sweep 700ms 150ms var(--ease-out) both;
+}
+
+/* Code inside the takeaway is already mono; keep it on the highlighter. */
+.mark code {
+  background: transparent;
+  padding: 0;
+}
+
+@keyframes sweep {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}

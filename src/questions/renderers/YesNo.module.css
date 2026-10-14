@@ -1,0 +1,122 @@
+.list {
+  display: grid;
+  gap: var(--s-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 2px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+}
+
+@media (min-width: 560px) {
+  .row {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+.statement {
+  margin: 0;
+  font-size: var(--text-answer);
+  line-height: 1.4;
+}
+
+/* Segmented control: two keys in a well. */
+.toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  min-width: 168px;
+  padding: 4px;
+  border-radius: var(--r-control);
+  background: var(--surface-sunk);
+}
+
+.option {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    background-color 120ms,
+    color 120ms,
+    box-shadow 120ms;
+}
+
+@media (hover: hover) {
+  .option:hover:not(:has(:disabled)) {
+    color: var(--indigo-strong);
+  }
+}
+
+.option:has(.input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.option[data-chosen] {
+  background: var(--indigo);
+  color: var(--on-indigo);
+  box-shadow: 0 2px 0 var(--indigo-strong);
+}
+
+.option:has(.input:disabled) {
+  cursor: default;
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+@media (min-width: 560px) {
+  .mark {
+    grid-column: 1 / -1;
+  }
+}
+
+.mark svg {
+  font-size: 18px;
+}
+
+.row[data-mark='correct'] {
+  border-color: var(--ok);
+  background: var(--ok-wash);
+}
+
+.row[data-mark='correct'] .mark {
+  color: var(--ok);
+}
+
+.row[data-mark='wrong'] {
+  border-color: var(--bad);
+  background: var(--bad-wash);
+}
+
+.row[data-mark='wrong'] .mark {
+  color: var(--bad);
+}

@@ -1,0 +1,62 @@
+.figure {
+  /* Never wider than the exhibit was drawn, the screen, or the wide column. */
+  --exhibit-w: min(var(--natural-w), 100%);
+  width: var(--exhibit-w);
+  margin: 0;
+}
+
+/* In the question view a wide exhibit may break out of the 720px reading column. */
+.figure[data-breakout] {
+  --exhibit-w: min(var(--natural-w), calc(100vw - 2 * var(--gutter)), var(--wide));
+  margin-left: calc(50% - var(--exhibit-w) / 2);
+}
+
+.frame {
+  position: relative;
+  padding: var(--s-2);
+  border: 1px solid var(--exhibit-line);
+  border-radius: var(--r-tile);
+  background: var(--exhibit-ground);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+.enlarge {
+  position: absolute;
+  right: var(--s-2);
+  bottom: var(--s-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #b9bdcc;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.94);
+  color: #2b2f8c;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  box-shadow: 0 1px 0 #b9bdcc;
+}
+
+.enlarge:hover {
+  background: #e6e7fa;
+}
+
+/* Bigger target on touch screens, where text in the thumbnail is too small to read. */
+@media (pointer: coarse) {
+  .enlarge {
+    min-height: 44px;
+    padding: 0 16px;
+  }
+}
+
+.failed {
+  margin: 0;
+  padding: var(--s-5);
+  color: #555b72;
+}

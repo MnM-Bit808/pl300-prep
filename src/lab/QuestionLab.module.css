@@ -1,0 +1,140 @@
+.lab {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.intro h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.intro p {
+  margin: var(--s-1) 0 0;
+  color: var(--ink-2);
+}
+
+.formats {
+  display: flex;
+  gap: var(--s-2);
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 2px var(--gutter) var(--s-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.format {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 14px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.format:hover {
+  border-color: var(--indigo);
+}
+
+.format[aria-pressed='true'] {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.count {
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.stepBtn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-size: 20px;
+}
+
+.stepBtn:hover {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
+}
+
+.position {
+  display: grid;
+  min-width: 92px;
+  margin: 0;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.position span {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.jump {
+  display: flex;
+  gap: var(--s-2);
+  margin-left: auto;
+}
+
+.jump input {
+  width: 200px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.jump input[aria-invalid] {
+  border-color: var(--bad);
+}
+
+.jump button {
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .jump {
+    width: 100%;
+    margin-left: 0;
+  }
+  .jump input {
+    flex: 1;
+    width: auto;
+  }
+}
+
+.error {
+  margin: 0;
+  color: var(--bad);
+  font-weight: 600;
+}

@@ -74,12 +74,14 @@ export function checkQuestionRules(q: Question): string[] {
     case 'multi': {
       const ids = q.options.map((o) => o.id);
       if (hasDuplicates(ids)) problems.push('duplicate option ids');
-      if (q.selectCount >= q.options.length) problems.push('selectCount must be below option count');
+      if (q.selectCount >= q.options.length)
+        problems.push('selectCount must be below option count');
       if (q.answer.length !== q.selectCount) {
         problems.push(`answer has ${q.answer.length} ids but selectCount is ${q.selectCount}`);
       }
       if (hasDuplicates(q.answer)) problems.push('duplicate ids in answer');
-      for (const a of q.answer) if (!ids.includes(a)) problems.push(`answer "${a}" is not an option id`);
+      for (const a of q.answer)
+        if (!ids.includes(a)) problems.push(`answer "${a}" is not an option id`);
       break;
     }
     case 'yesno': {
@@ -93,7 +95,8 @@ export function checkQuestionRules(q: Question): string[] {
       if (hasDuplicates(ids)) problems.push('duplicate item ids');
       if (hasDuplicates(q.answer)) problems.push('duplicate ids in answer');
       if (q.answer.length > q.items.length) problems.push('answer is longer than the item list');
-      for (const a of q.answer) if (!ids.includes(a)) problems.push(`answer "${a}" is not an item id`);
+      for (const a of q.answer)
+        if (!ids.includes(a)) problems.push(`answer "${a}" is not an item id`);
       break;
     }
     case 'dropdown': {
@@ -154,7 +157,8 @@ export function validateBank(raw: unknown): ValidatedBank {
     }
 
     for (const key of Object.keys(rawQuestion as object)) {
-      if (!KNOWN_FIELDS.has(key)) issues.push({ level: 'warning', ref, message: `unknown field "${key}"` });
+      if (!KNOWN_FIELDS.has(key))
+        issues.push({ level: 'warning', ref, message: `unknown field "${key}"` });
     }
 
     seen.add(q.id);

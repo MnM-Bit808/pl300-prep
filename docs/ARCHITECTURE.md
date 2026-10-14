@@ -61,7 +61,7 @@ Each step ends with a review before the next starts.
 
 1. Inspect Paath and agree the architecture. ✅
 2. Scaffold, bank loader, validator; counts and image check. ✅
-3. Design system and question renderer for all five types, exhibits with zoom, code formatting, explanations; a test page cycling one question of each type.
+3. Design system and question renderer for all five types, exhibits with zoom, code formatting, explanations; a test page cycling one question of each type. ✅
 4. Case-study panel.
 5. Learn path, XP and streaks.
 6. Practice, mistakes review, spaced repetition, flashcards.
@@ -77,3 +77,17 @@ Each step ends with a review before the next starts.
 - **The bank folder is the source of truth.** Images are served from it in dev and copied at build time, not duplicated into `public/`.
 - **Exhibit SVGs keep their embedded provenance metadata.** It adds roughly 60% to the raw file size but only about 3 KB per file after gzip.
 - **Exhibits always sit on a light surface**, even in dark mode. They are drawn for a light background; recolouring them would misrepresent the product screens they depict.
+
+### Design system (Step 3)
+
+- **Identity: an analyst's workbench.** Cool paper ground, indigo for anything the learner controls, and one highlighter colour reserved for the takeaway. The takeaway is drawn as a formula bar (`fx`), with one highlighter sweep when feedback opens: the app's only decorative motion.
+- **One type family:** Atkinson Hyperlegible Next for text, Atkinson Hyperlegible Mono for DAX/M and the formula bar. It was designed for legibility, which matters when reading scenarios under time pressure. Fonts are self-hosted (Fontsource) so they work offline.
+- **Right and wrong are never colour alone.** Every mark is an icon plus words ("Your answer, incorrect"). All measured text passes WCAG AA (4.5:1) in both themes.
+
+### Interaction (Step 3)
+
+- **Native controls first.** Single/multi use real radios and checkboxes inside the tiles, yes/no uses radio pairs, and drop-downs use native `<select>`. Keyboard support, form semantics and screen-reader output come from the platform, and phones get their own pickers.
+- **Answers are changed through updater functions**, never finished values, so taps that land before the next render (fast double taps) each apply to the latest answer. Covered by a regression test.
+- **Order questions:** tap to place, then reorder by drag (dnd-kit: pointer, touch and keyboard, with announcements that use the step text) or with move buttons. The number of steps needed is never revealed. On wide screens the two zones break out of the reading column; each step lays itself out with a container query on its zone's width.
+- **Exhibit viewer:** a native modal `<dialog>` (focus trap, Esc, inert background) with hand-written Pointer Events pan/zoom: pinch, drag, wheel or trackpad, double-tap, and `+ − 0 1` and arrow keys. Exhibit sizes are read from the SVGs at build time (`virtual:exhibit-sizes`) so thumbnails reserve space and never shift the layout.
+- **Shortcuts:** A–J or 1–9 pick an option, Enter checks or continues. They stand down inside text fields and selects, and while a dialog is open.

@@ -12,7 +12,9 @@ import { bankStats } from '../src/bank/stats';
 import { validateBank, type BankIssue } from '../src/bank/validate';
 
 const BANK_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'pl300-bank');
-const raw: unknown = JSON.parse(readFileSync(join(BANK_DIR, 'questions', 'all_questions.json'), 'utf8'));
+const raw: unknown = JSON.parse(
+  readFileSync(join(BANK_DIR, 'questions', 'all_questions.json'), 'utf8'),
+);
 
 const bank = validateBank(raw);
 const issues: BankIssue[] = [...bank.issues];
@@ -40,11 +42,14 @@ console.log(`\nBy type\n${table(stats.byType)}`);
 console.log(`\nBy difficulty\n${table(stats.byDifficulty)}`);
 console.log('\nCases');
 for (const c of stats.cases) {
-  console.log(`  ${c.id.padEnd(4)} ${c.title.padEnd(22)} ${String(c.questions).padStart(2)} questions · ${c.tabs.join(' | ')}`);
+  console.log(
+    `  ${c.id.padEnd(4)} ${c.title.padEnd(22)} ${String(c.questions).padStart(2)} questions · ${c.tabs.join(' | ')}`,
+  );
 }
 
 const errors = issues.filter((i) => i.level === 'error');
 const warnings = issues.filter((i) => i.level === 'warning');
-for (const i of [...errors, ...warnings]) console.log(`${i.level.toUpperCase().padEnd(7)} ${i.ref}: ${i.message}`);
+for (const i of [...errors, ...warnings])
+  console.log(`${i.level.toUpperCase().padEnd(7)} ${i.ref}: ${i.message}`);
 console.log(`\n${errors.length} errors, ${warnings.length} warnings`);
 process.exit(errors.length ? 1 : 0);

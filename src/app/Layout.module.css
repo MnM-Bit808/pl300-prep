@@ -1,0 +1,93 @@
+.skip {
+  position: absolute;
+  left: var(--s-3);
+  top: -100px;
+  z-index: 100;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--r-control);
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-weight: 700;
+}
+
+.skip:focus {
+  top: var(--s-3);
+}
+
+.header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: var(--s-2) var(--gutter);
+  padding-top: max(var(--s-2), env(safe-area-inset-top));
+}
+
+.brand {
+  color: var(--ink);
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: var(--s-1);
+  flex: 1;
+  overflow-x: auto;
+}
+
+.nav a {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-control);
+  color: var(--ink-2);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  color: var(--ink);
+}
+
+.nav a[aria-current='page'] {
+  color: var(--indigo-strong);
+  background: var(--indigo-wash);
+}
+
+.theme select {
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s-5) var(--gutter) 0;
+}
+
+.main:focus {
+  outline: none;
+}
+
+@media (max-width: 520px) {
+  .brand {
+    display: none;
+  }
+}

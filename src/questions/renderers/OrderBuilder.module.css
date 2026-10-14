@@ -1,0 +1,249 @@
+.zones {
+  display: grid;
+  gap: var(--s-4);
+}
+
+/* Side by side when there's room, like the exam's two columns. The reading column is too
+   narrow for two, so on wide screens the zones break out to the wide width, as exhibits do. */
+@media (min-width: 1040px) {
+  .zones {
+    --zones-w: min(var(--wide), calc(100vw - 2 * var(--gutter)));
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    width: var(--zones-w);
+    margin-left: calc(50% - var(--zones-w) / 2);
+  }
+}
+
+.zone {
+  /* Steps lay themselves out by the zone's width, not the window's. */
+  container: zone / inline-size;
+  min-width: 0;
+  padding: var(--s-3);
+  border-radius: var(--r-panel);
+  background: var(--surface-sunk);
+}
+
+.zone[data-answer] {
+  border: 2px dashed var(--line-strong);
+  background: transparent;
+}
+
+.zoneTitle {
+  margin: var(--s-1) var(--s-2) var(--s-3);
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.pool,
+.sequence {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.poolItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--s-3);
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 2px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+  font-size: var(--text-base);
+  line-height: 1.4;
+  text-align: left;
+  transition:
+    transform 120ms var(--ease-out),
+    box-shadow 120ms var(--ease-out),
+    border-color 120ms;
+}
+
+@media (hover: hover) {
+  .poolItem:hover:not(:disabled) {
+    border-color: var(--indigo);
+  }
+}
+
+.poolItem:active:not(:disabled) {
+  transform: translateY(var(--press));
+  box-shadow: 0 0 0 var(--line-strong);
+}
+
+.poolItem:disabled {
+  color: var(--ink-2);
+  cursor: default;
+}
+
+.plus {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--indigo-wash);
+  color: var(--indigo-strong);
+  font-size: 18px;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: start;
+  gap: var(--s-2);
+  padding: 10px;
+  border: 2px solid var(--indigo);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+  line-height: 1.4;
+  touch-action: manipulation;
+}
+
+.step[data-dragging] {
+  z-index: 2;
+  box-shadow: 0 14px 28px -10px rgb(26 29 46 / 0.4);
+  cursor: grabbing;
+}
+
+/* The slot number is real information: this list is a sequence. */
+.slot {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.grip {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 44px;
+  margin: -7px 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 20px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.grip:hover {
+  background: var(--indigo-wash);
+  color: var(--indigo-strong);
+}
+
+.stepText {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding-top: 3px;
+}
+
+.stepActions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+@container zone (min-width: 460px) {
+  .step {
+    grid-template-columns: auto auto 1fr auto;
+  }
+  .stepActions {
+    grid-column: auto;
+  }
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 18px;
+}
+
+@media (pointer: coarse) {
+  .iconBtn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.iconBtn:hover:not(:disabled) {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
+}
+
+.iconBtn:disabled {
+  color: var(--ink-3);
+  opacity: 0.45;
+  cursor: default;
+}
+
+.empty {
+  margin: 0;
+  padding: var(--s-4) var(--s-2);
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.mark svg {
+  font-size: 18px;
+}
+
+.step[data-mark='correct'] {
+  border-color: var(--ok);
+  background: var(--ok-wash);
+  box-shadow: 0 var(--press) 0 var(--ok);
+}
+
+.step[data-mark='correct'] .slot {
+  background: var(--ok);
+  color: var(--surface);
+}
+
+.step[data-mark='correct'] .mark {
+  color: var(--ok);
+}
+
+.step[data-mark='wrong'] {
+  border-color: var(--bad);
+  background: var(--bad-wash);
+  box-shadow: 0 var(--press) 0 var(--bad);
+}
+
+.step[data-mark='wrong'] .slot {
+  background: var(--bad);
+  color: var(--surface);
+}
+
+.step[data-mark='wrong'] .mark {
+  color: var(--bad);
+}

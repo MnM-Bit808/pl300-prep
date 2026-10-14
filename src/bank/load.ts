@@ -33,7 +33,8 @@ function report(issues: readonly BankIssue[]) {
   console.groupCollapsed(
     `[bank] ${errors.length} errors, ${issues.length - errors.length} warnings (bad questions are skipped)`,
   );
-  for (const i of issues) (i.level === 'error' ? console.error : console.warn)(`${i.ref}: ${i.message}`);
+  for (const i of issues)
+    (i.level === 'error' ? console.error : console.warn)(`${i.ref}: ${i.message}`);
   console.groupEnd();
 }
 

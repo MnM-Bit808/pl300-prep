@@ -1,0 +1,233 @@
+.card {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.meta li {
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.meta .format {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
+  background: var(--indigo-wash);
+  font-weight: 800;
+}
+
+.meta li[data-difficulty='3'] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.stem {
+  font-size: var(--text-stem);
+  line-height: 1.5;
+  max-width: 64ch;
+}
+
+/* The final paragraph of a stem is usually the actual ask; give it weight. */
+.stem p:last-child:not(:first-child) {
+  font-weight: 700;
+}
+
+.answers {
+  min-width: 0;
+}
+
+/* Sticky check bar: always reachable with a thumb, never covers the last answer. */
+.bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: var(--s-3) var(--gutter);
+  padding-bottom: max(var(--s-3), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.bar[data-verdict='correct'] {
+  background: var(--ok-wash);
+  border-top-color: var(--ok);
+}
+.bar[data-verdict='partial'] {
+  background: var(--partial-wash);
+  border-top-color: var(--partial);
+}
+.bar[data-verdict='wrong'] {
+  background: var(--bad-wash);
+  border-top-color: var(--bad);
+}
+
+.barInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+.barProgress {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.barProgress[data-nudge] {
+  color: var(--bad);
+  animation: nudge 320ms var(--ease-out);
+}
+
+@keyframes nudge {
+  20%,
+  60% {
+    translate: -4px 0;
+  }
+  40%,
+  80% {
+    translate: 4px 0;
+  }
+}
+
+.barVerdict {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  font-weight: 800;
+}
+
+[data-verdict='correct'] .barVerdict {
+  color: var(--ok);
+}
+[data-verdict='partial'] .barVerdict {
+  color: var(--partial);
+}
+[data-verdict='wrong'] .barVerdict {
+  color: var(--bad);
+}
+
+.barIcon {
+  font-size: 22px;
+  display: grid;
+}
+
+.barActions {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.primary,
+.secondary {
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border-radius: var(--r-control);
+  font-weight: 800;
+  font-size: var(--text-base);
+  transition:
+    transform 120ms var(--ease-out),
+    box-shadow 120ms var(--ease-out);
+}
+
+.primary {
+  min-width: 132px;
+  border: 0;
+  background: var(--indigo);
+  color: var(--on-indigo);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.primary:active:not([aria-disabled]) {
+  transform: translateY(var(--press));
+  box-shadow: 0 0 0 var(--indigo-strong);
+}
+
+.primary[aria-disabled] {
+  background: var(--line);
+  color: var(--ink-2);
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+  cursor: not-allowed;
+}
+
+.secondary {
+  border: 2px solid var(--line-strong);
+  background: var(--surface);
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+}
+
+.secondary:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
+
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+
+.secondary svg {
+  font-size: 18px;
+}
+
+.primary {
+  white-space: nowrap;
+}
+
+.verdictShort {
+  display: none;
+}
+
+@media (max-width: 420px) {
+  .primary {
+    min-width: 96px;
+  }
+  .primary,
+  .secondary {
+    padding: 0 var(--s-4);
+  }
+  .verdictLong {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .verdictShort {
+    display: inline;
+  }
+  /* Icon-only "Try again"; the label stays available to screen readers. */
+  .collapsible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .secondary {
+    min-width: 48px;
+    padding: 0;
+    justify-content: center;
+  }
+}

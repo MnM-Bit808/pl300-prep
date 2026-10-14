@@ -66,8 +66,8 @@ export function BankReport() {
         <p className={styles.eyebrow}>Developer check</p>
         <h1>Question bank</h1>
         <p className={styles.summary}>
-          <strong>{stats.total}</strong> questions · <strong>{stats.cases.length}</strong> case studies ·{' '}
-          <strong>{stats.withImages}</strong> with an exhibit
+          <strong>{stats.total}</strong> questions · <strong>{stats.cases.length}</strong> case
+          studies · <strong>{stats.withImages}</strong> with an exhibit
         </p>
       </header>
 
@@ -75,7 +75,9 @@ export function BankReport() {
         <h2 id="checks">Checks</h2>
         <ul>
           <li data-state={bank.issues.length ? 'failed' : 'ok'}>
-            {bank.issues.length ? `${bank.issues.length} validation issues (see console)` : 'Validation: no issues'}
+            {bank.issues.length
+              ? `${bank.issues.length} validation issues (see console)`
+              : 'Validation: no issues'}
           </li>
           <li data-state={!done ? 'loading' : failed.length ? 'failed' : 'ok'} aria-live="polite">
             Images: {ok} of {srcs.length} loaded
