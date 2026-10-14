@@ -4,7 +4,7 @@ import { useTheme, type ThemePref } from './theme';
 import styles from './Layout.module.css';
 
 const THEMES: { value: ThemePref; label: string }[] = [
-  { value: 'system', label: 'Auto' },
+  { value: 'system', label: 'Match device' },
   { value: 'light', label: 'Light' },
   { value: 'dark', label: 'Dark' },
 ];
@@ -27,17 +27,8 @@ export function Layout() {
             </NavLink>
             <NavLink to="/practice">Practice</NavLink>
             <NavLink to="/mock">Mock</NavLink>
+            <NavLink to="/progress">Progress</NavLink>
           </nav>
-          <label className={styles.theme}>
-            <span className="sr-only">Theme</span>
-            <select value={theme} onChange={(e) => setTheme(e.target.value as ThemePref)}>
-              {THEMES.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
-          </label>
         </div>
       </header>
       <main id="main" className={styles.main} tabIndex={-1}>
@@ -46,6 +37,16 @@ export function Layout() {
         </Suspense>
       </main>
       <footer className={styles.footer}>
+        <label className={styles.theme}>
+          Theme
+          <select value={theme} onChange={(e) => setTheme(e.target.value as ThemePref)}>
+            {THEMES.map((t) => (
+              <option key={t.value} value={t.value}>
+                {t.label}
+              </option>
+            ))}
+          </select>
+        </label>
         <Link to="/lab">Question lab</Link>
         <Link to="/dev/bank">Bank check</Link>
       </footer>

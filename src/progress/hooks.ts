@@ -1,5 +1,5 @@
-import { createContext, use, useSyncExternalStore } from 'react';
-import { openStorage } from '@/storage/db';
+import { createContext, use, useEffect, useState, useSyncExternalStore } from 'react';
+import { openStorage, type AttemptRecord } from '@/storage/db';
 import { ProgressStore, type ProgressDoc } from './store';
 
 export const StoreContext = createContext<ProgressStore | null>(null);
@@ -12,6 +12,24 @@ export function useProgressStore(): ProgressStore {
   const store = use(StoreContext);
   if (!store) throw new Error('useProgressStore needs a <ProgressProvider>');
   return store;
+}
+
+/** The attempt log, re-read whenever progress changes; null while loading. */
+export function useAttemptLog(): AttemptRecord[] | null {
+  const store = useProgressStore();
+  const doc = useProgress();
+  const [log, setLog] = useState<AttemptRecord[] | null>(null);
+  useEffect(() => {
+    let live = true;
+    store.attempts().then(
+      (list) => live && setLog(list),
+      () => live && setLog([]),
+    );
+    return () => {
+      live = false;
+    };
+  }, [store, doc]);
+  return log;
 }
 
 /** The progress document; re-renders on every change. */

@@ -175,6 +175,9 @@ export class ProgressStore {
   /** Waits for pending writes (tests, export). */
   flush = () => this.writes;
 
+  /** The full attempt log, read after pending writes so the latest answers are included. */
+  attempts = () => this.writes.then(() => this.storage.attempts());
+
   /**
    * Record one checked answer: always in the log and the question's summary; then, for a first
    * try only, in the review schedule and the mistakes queue.

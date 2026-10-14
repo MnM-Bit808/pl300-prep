@@ -10,6 +10,7 @@ import { ResultsPage } from '@/mock/ResultsPage';
 import { FlashcardsPage } from '@/practice/FlashcardsPage';
 import { PracticePage } from '@/practice/PracticePage';
 import { PracticeRun } from '@/practice/PracticeRun';
+import { ProgressPage } from '@/progress/ProgressPage';
 import { ProgressProvider } from '@/progress/ProgressProvider';
 import { Layout } from './Layout';
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: 'practice', element: <PracticePage /> },
       { path: 'mock', element: <MockPage /> },
       { path: 'mock/results/:id', element: <ResultsPage /> },
+      { path: 'progress', element: <ProgressPage /> },
       { path: 'lab', element: <QuestionLab /> },
       { path: 'dev/bank', element: <BankReport /> },
     ],

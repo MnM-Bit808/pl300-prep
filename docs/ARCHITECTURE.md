@@ -66,7 +66,7 @@ Each step ends with a review before the next starts.
 5. Learn path, XP and streaks. ✅
 6. Practice, mistakes review, spaced repetition, flashcards. ✅
 7. Mock exam mode. ✅
-8. Progress dashboard.
+8. Progress dashboard. ✅
 9. My workings, export/import, settings.
 10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake).
 11. Offline/PWA install, accessibility pass, end-to-end tests, CI, deploy.
@@ -131,3 +131,12 @@ Each step ends with a review before the next starts.
 - **Progress document v3** adds mock history (the last 50, each with its answers and shuffle seeds so the full review can be rebuilt), migrating from v1 and v2. The exam in progress is stored separately (`mock.current`), so answering doesn't re-render every progress subscriber.
 - **`QuestionBody`** was split out of `QuestionCard`, so the exam and its results review render questions without the check bar.
 - **Sticky headers publish their height** as `--sticky-offset`, so the case bar and panel pin below the focus-mode header. Browser testing found the case bar sliding under the header, in the exam and in case lessons.
+
+### Progress dashboard (Step 8)
+
+- **All numbers come from one pure module** (`progress/analytics.ts`) over the attempt log, so each figure can be explained in a sentence on the page and is unit-tested.
+- **Mastery is recency-weighted accuracy:** an attempt's weight halves every 14 days, and credit is per part (2 of 3 yes/no statements is 2/3). It's reported per exam domain, with case questions under the domain they test. Coverage (questions seen / total) is shown alongside, never blended into the bar.
+- **Weakest subtopics** need at least 3 answers before being judged, so one unlucky miss doesn't brand a subtopic. Each links straight into a 10-question practice run on it.
+- **The readiness estimate** blends 60% mocks (the last 3, weighted 3:2:1 towards the latest) with 40% practice (per domain, mastery × coverage, where coverage counts in full at 60% seen, weighted by exam share). With only one source, that source is used. It's banded around the pass mark (≥700 on track, 600–699 getting close) and labelled an estimate, with a prompt to take more mocks below three.
+- **The mock trend chart** is hand-built SVG to the dataviz rules: one series and no legend, recessive grid, a dashed pass line, a 2px line, dots with a surface ring, a crosshair tooltip on hover, ←/→ keyboard stepping with live announcements, and a table view.
+- **The theme picker moved to the footer** so four nav items fit at 375px. Settings (Step 9) will own it.
