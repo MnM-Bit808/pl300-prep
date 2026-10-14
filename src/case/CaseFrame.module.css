@@ -1,0 +1,192 @@
+.kind {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.position {
+  margin: 0 0 var(--s-3);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+/* ---------- Wide: case and question side by side ---------- */
+
+.frame[data-layout='split'] {
+  --frame-w: min(1280px, calc(100vw - 2 * var(--gutter)));
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: var(--s-6);
+  align-items: start;
+  width: var(--frame-w);
+  margin-left: calc(50% - var(--frame-w) / 2);
+}
+
+.panel {
+  position: sticky;
+  top: var(--s-4);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: calc(100dvh - 2 * var(--s-4));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.heading {
+  padding: var(--s-4) var(--s-4) var(--s-3);
+  background: var(--surface-sunk);
+}
+
+.scroller {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.question {
+  min-width: 0;
+}
+
+/* ---------- Narrow: sticky bar + bottom sheet ---------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin: 0 calc(-1 * var(--gutter)) var(--s-4);
+  padding: var(--s-2) var(--gutter);
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--surface-sunk);
+}
+
+.barText {
+  display: grid;
+  margin: 0;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.barText strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.open {
+  flex: none;
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-weight: 800;
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.open:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 720px;
+  height: 88dvh;
+  max-height: none;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-panel) var(--r-panel) 0 0;
+  background: var(--surface);
+  color: var(--ink);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.sheet:not([open]) {
+  display: none;
+}
+
+.sheet[open] {
+  animation: rise 240ms var(--ease-out);
+}
+
+.sheet::backdrop {
+  background: var(--scrim);
+}
+
+@keyframes rise {
+  from {
+    translate: 0 40px;
+    opacity: 0.4;
+  }
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  background: var(--surface-sunk);
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: var(--s-3);
+  border: 0;
+  border-radius: var(--r-control);
+  background: transparent;
+  font-size: 22px;
+}
+
+.close:hover {
+  background: var(--indigo-wash);
+}
+
+.sheetBody {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sheetFoot {
+  padding: var(--s-3) var(--gutter);
+  padding-bottom: max(var(--s-3), env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+}
+
+.back {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 800;
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+}
+
+.back:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}

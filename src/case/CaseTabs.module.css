@@ -1,0 +1,105 @@
+/* Tabs read like file tabs on a binder: the selected one joins the page below it. */
+.tablist {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  gap: 2px;
+  padding: 0 var(--s-4);
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--surface-sunk);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab {
+  position: relative;
+  flex: none;
+  min-height: 44px;
+  margin-top: var(--s-2);
+  padding: 0 var(--s-4);
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: var(--r-control) var(--r-control) 0 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab[aria-selected='true'] {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--indigo-strong);
+}
+
+/* Cover the tab list's bottom rule under the selected tab, and mark it with an indigo cap. */
+.tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--surface);
+}
+
+.tab[aria-selected='true']::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 3px;
+  border-radius: var(--r-control) var(--r-control) 0 0;
+  background: var(--indigo);
+}
+
+.tab:focus-visible {
+  outline-offset: -3px;
+}
+
+/* Narrow (phone sheet, slim panel): every tab stays visible. Tabs share the width equally and
+   long labels wrap, instead of scrolling off the edge where nobody would find them. */
+@container case-tabs (max-width: 460px) {
+  .tablist {
+    display: grid;
+    grid-auto-flow: column;
+    /* Content-sized: long single words ("Requirements") keep their width, two-word labels
+       wrap, and spare space is shared out. */
+    grid-auto-columns: auto;
+    gap: 2px;
+    padding: 0 var(--s-2);
+  }
+  .tab {
+    min-height: 48px;
+    padding: 4px 6px;
+    font-size: var(--text-sm);
+    line-height: 1.2;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.wrap {
+  container: case-tabs / inline-size;
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--s-4) var(--s-6);
+  line-height: 1.6;
+}
+
+.panel:focus-visible {
+  outline-offset: -3px;
+}
+
+.paragraph {
+  max-width: 68ch;
+}

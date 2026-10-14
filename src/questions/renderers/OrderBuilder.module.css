@@ -15,6 +15,13 @@
   }
 }
 
+/* In the case split view the question column is too narrow for two zones: stack them. */
+[data-contained] .zones {
+  grid-template-columns: minmax(0, 1fr);
+  width: auto;
+  margin-left: 0;
+}
+
 .zone {
   /* Steps lay themselves out by the zone's width, not the window's. */
   container: zone / inline-size;

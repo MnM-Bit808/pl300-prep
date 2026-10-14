@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { RichText } from './RichText';
+import { InlineText, RichText } from './RichText';
 
 describe('RichText', () => {
   it('splits paragraphs, keeps line breaks and renders backtick code', () => {
@@ -13,5 +13,12 @@ describe('RichText', () => {
     // Bank text is never parsed as HTML.
     expect(ps[1]!.querySelector('b')).toBeNull();
     expect(ps[1]).toHaveTextContent('Which <b>result</b>?');
+  });
+
+  it('renders text that is only code as a single block', () => {
+    const { container } = render(<InlineText text="`SUM ( Sales[Amount] )`" />);
+    const codes = container.querySelectorAll('code');
+    expect(codes).toHaveLength(1);
+    expect(codes[0]!.className).toMatch(/codeBlock/);
   });
 });

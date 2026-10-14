@@ -11,6 +11,12 @@
   margin-left: calc(50% - var(--exhibit-w) / 2);
 }
 
+/* Inside a container that opts out of breakouts (the case split view), stay in the column. */
+[data-contained] .figure[data-breakout] {
+  --exhibit-w: min(var(--natural-w), 100%);
+  margin-left: 0;
+}
+
 .frame {
   position: relative;
   padding: var(--s-2);

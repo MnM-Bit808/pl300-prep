@@ -1,19 +1,25 @@
 /**
- * Question lab (Step 3 test page): one question of each format, with controls to step through
- * every question of that format or jump to any id. State lives in the URL (?type=&id=) so a
+ * Question lab (test page): one question of each format plus the case studies, with controls to
+ * step through every question in a group or jump to any id. State lives in the URL (?type=&id=) so a
  * specific question can be linked to in a bug report.
  */
 import { useMemo, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router';
 import { QUESTION_TYPES, type QuestionType } from '@/bank/schema';
 import { useBank } from '@/bank/useBank';
+import { CaseFrame } from '@/case/CaseFrame';
 import { FORMAT_LABEL } from '@/questions/labels';
 import { QuestionCard } from '@/questions/QuestionCard';
 import { ArrowLeftIcon, ArrowRightIcon } from '@/ui/icons';
 import styles from './QuestionLab.module.css';
 
 /** Start each format on a question that exercises the most: exhibits, code, distractors. */
-const SAMPLES: Record<QuestionType, string> = {
+type Group = QuestionType | 'case';
+const GROUPS: readonly Group[] = [...QUESTION_TYPES, 'case'];
+const GROUP_LABEL = (g: Group) => (g === 'case' ? 'Case studies' : FORMAT_LABEL[g]);
+
+const SAMPLES: Record<Group, string> = {
+  case: 'CASE-001',
   single: 'PRE-076',
   multi: 'MOD-045',
   yesno: 'VIS-082',
@@ -21,7 +27,7 @@ const SAMPLES: Record<QuestionType, string> = {
   dropdown: 'MOD-002',
 };
 
-const isType = (v: string | null): v is QuestionType => QUESTION_TYPES.includes(v as QuestionType);
+const isGroup = (v: string | null): v is Group => GROUPS.includes(v as Group);
 
 export function QuestionLab() {
   const bank = useBank();
@@ -30,24 +36,30 @@ export function QuestionLab() {
   const [jumpError, setJumpError] = useState('');
 
   const byType = useMemo(() => {
-    const groups = Object.fromEntries(QUESTION_TYPES.map((t) => [t, [] as string[]])) as Record<
-      QuestionType,
+    const groups = Object.fromEntries(GROUPS.map((g) => [g, [] as string[]])) as Record<
+      Group,
       string[]
     >;
-    for (const q of bank.questions) groups[q.type].push(q.id);
+    for (const q of bank.questions) {
+      groups[q.type].push(q.id);
+      if (q.caseId) groups.case.push(q.id);
+    }
     return groups;
   }, [bank]);
 
   const requested = params.get('id');
   const fromId = requested ? bank.questionById.get(requested) : undefined;
-  const type: QuestionType =
-    fromId?.type ?? (isType(params.get('type')) ? (params.get('type') as QuestionType) : 'single');
+  const asked = params.get('type');
+  const type: Group =
+    asked === 'case' && fromId?.caseId
+      ? 'case'
+      : (fromId?.type ?? (isGroup(asked) ? asked : 'single'));
   const ids = byType[type];
   const id = fromId?.id ?? (bank.questionById.has(SAMPLES[type]) ? SAMPLES[type] : ids[0]);
   const question = id ? bank.questionById.get(id) : undefined;
   const index = id ? ids.indexOf(id) : -1;
 
-  const go = (next: { type?: QuestionType; id?: string }) => {
+  const go = (next: { type?: Group; id?: string }) => {
     const p = new URLSearchParams();
     p.set('type', next.type ?? type);
     if (next.id) p.set('id', next.id);
@@ -69,8 +81,25 @@ export function QuestionLab() {
     }
     setJumpError('');
     setJump('');
-    go({ type: target.type, id: target.id });
+    go({ type: target.caseId ? 'case' : target.type, id: target.id });
   };
+
+  const caseStudy = question?.caseId ? bank.caseById.get(question.caseId) : undefined;
+  const caseIds = caseStudy
+    ? bank.questions.filter((q) => q.caseId === caseStudy.id).map((q) => q.id)
+    : [];
+  const casePosition =
+    caseStudy && question
+      ? `Question ${caseIds.indexOf(question.id) + 1} of ${caseIds.length} in this case`
+      : undefined;
+  const card = question && (
+    <QuestionCard
+      key={question.id}
+      question={question}
+      onContinue={() => step(1)}
+      continueLabel="Next"
+    />
+  );
 
   return (
     <div className={styles.lab}>
@@ -83,7 +112,7 @@ export function QuestionLab() {
       </header>
 
       <nav className={styles.formats} aria-label="Answer formats">
-        {QUESTION_TYPES.map((t) => (
+        {GROUPS.map((t) => (
           <button
             key={t}
             type="button"
@@ -91,7 +120,7 @@ export function QuestionLab() {
             aria-pressed={t === type}
             onClick={() => go({ type: t })}
           >
-            {FORMAT_LABEL[t]}
+            {GROUP_LABEL(t)}
             <span className={styles.count}>{byType[t].length}</span>
           </button>
         ))}
@@ -144,12 +173,13 @@ export function QuestionLab() {
       )}
 
       {question ? (
-        <QuestionCard
-          key={question.id}
-          question={question}
-          onContinue={() => step(1)}
-          continueLabel="Next"
-        />
+        caseStudy ? (
+          <CaseFrame key={caseStudy.id} caseStudy={caseStudy} position={casePosition}>
+            {card}
+          </CaseFrame>
+        ) : (
+          card
+        )
       ) : (
         <p>No questions of this format are in the bank.</p>
       )}

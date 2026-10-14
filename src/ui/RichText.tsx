@@ -6,6 +6,10 @@ import { Fragment } from 'react';
 import styles from './RichText.module.css';
 
 export function InlineText({ text }: { text: string }) {
+  // Text that is nothing but code (a DAX option, say) reads as one block, not a chain of chips.
+  const whole = /^`([^`]+)`$/.exec(text.trim());
+  if (whole) return <code className={styles.codeBlock}>{whole[1]}</code>;
+
   // split with a capture group alternates plain text and code: [text, code, text, code, …]
   const pieces = text.split(/`([^`]+)`/);
   return (

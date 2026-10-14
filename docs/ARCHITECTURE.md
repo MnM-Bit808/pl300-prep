@@ -62,7 +62,7 @@ Each step ends with a review before the next starts.
 1. Inspect Paath and agree the architecture. ✅
 2. Scaffold, bank loader, validator; counts and image check. ✅
 3. Design system and question renderer for all five types, exhibits with zoom, code formatting, explanations; a test page cycling one question of each type. ✅
-4. Case-study panel.
+4. Case-study panel. ✅
 5. Learn path, XP and streaks.
 6. Practice, mistakes review, spaced repetition, flashcards.
 7. Mock exam mode.
@@ -91,3 +91,13 @@ Each step ends with a review before the next starts.
 - **Order questions:** tap to place, then reorder by drag (dnd-kit: pointer, touch and keyboard, with announcements that use the step text) or with move buttons. The number of steps needed is never revealed. On wide screens the two zones break out of the reading column; each step lays itself out with a container query on its zone's width.
 - **Exhibit viewer:** a native modal `<dialog>` (focus trap, Esc, inert background) with hand-written Pointer Events pan/zoom: pinch, drag, wheel or trackpad, double-tap, and `+ − 0 1` and arrow keys. Exhibit sizes are read from the SVGs at build time (`virtual:exhibit-sizes`) so thumbnails reserve space and never shift the layout.
 - **Shortcuts:** A–J or 1–9 pick an option, Enter checks or continues. They stand down inside text fields and selects, and while a dialog is open.
+
+### Case studies (Step 4)
+
+- **`CaseFrame` puts the case next to its question.** At 1040px and wider it's a sticky side panel that scrolls on its own; narrower, a sticky "Read case" bar opens a bottom sheet. The sheet is a native modal `<dialog>` that stays mounted while closed, so its tab and scroll position survive between looks.
+- **One tree for both layouts.** The question sits at a stable key, so crossing the breakpoint (rotating a tablet) never remounts it or loses the answer. Covered by a test.
+- **Tabs follow the WAI-ARIA tabs pattern:** one tab stop, arrow keys, Home and End, automatic activation. Each tab remembers its own scroll position. On narrow widths (a container query) the tabs share the row, sized by content, so no tab is ever hidden off the edge.
+- **The open tab carries across questions in the same case** (the frame is keyed by case id), as in the exam.
+- **Breakouts opt out with `data-contained`.** Wide exhibits and the two-zone order layout stay inside the question column in the split view.
+- **Dialog state updates where the close is triggered** (buttons, backdrop, Esc via `cancel`), not in the `close` event, which is queued as a task and can arrive late.
+- **Options that are all code** (DAX answers) render as one code block instead of a chain of inline chips.
