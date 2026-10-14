@@ -65,7 +65,7 @@ Each step ends with a review before the next starts.
 4. Case-study panel. ✅
 5. Learn path, XP and streaks. ✅
 6. Practice, mistakes review, spaced repetition, flashcards. ✅
-7. Mock exam mode.
+7. Mock exam mode. ✅
 8. Progress dashboard.
 9. My workings, export/import, settings.
 10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake).
@@ -120,3 +120,14 @@ Each step ends with a review before the next starts.
 - **Progress document v2** adds `srs` and `mistakes`, with a tested `migrate()` from v1. Unknown shapes are still backed up rather than overwritten.
 - **Custom practice filters live in the URL** (`?domain=&topic=&subtopic=&d=&n=`), so a practice selection, its run and its flashcards are all linkable. Questions are ranked mistakes first, then unseen, then the rest (Paath's order), shuffled within each group.
 - **Flashcards are a study aid and don't touch the review schedule:** that's driven by answering questions. The card flips in 3D (a simple swap under reduced motion) and, once turned, swipes with Pointer Events, with a threshold, tilt and a cue label. Keyboard: Space flips, ←/→ decide. The hidden face is `inert`, so screen readers only meet the visible side. Case questions are left out because their stems need the case study.
+
+### Mock exam (Step 7)
+
+- **Building** (`mock/build.ts`): 50 questions. The case study is section 2, always the case used least recently, so all four come round in turn. Section 1 fills the rest to the exam weight midpoints (27.5 / 27.5 / 27.5 / 17.5%) with largest-remainder rounding, which gives 12 / 12 / 12 / 8 alongside a 6-question case. Within a domain, questions are spread across topics in proportion to topic size, and questions from the last two mocks are picked last.
+- **The exam is a pure, serialisable reducer** (`mock/exam.ts`), saved after every change. A reload resumes on the same question with answers, marks and section lock intact. The clock is an absolute end time, so reloads and throttled background tabs can't stretch it, and a late resume submits straight away.
+- **Exam rules:** no feedback or topic hints while answering (only the answer format shows); free movement within a section; mark for review; a question map; a review screen ends each section; finishing section 1 locks it before the case study; time up or "End exam" submits everything. The time is announced to screen readers at 30, 10, 5 and 1 minutes.
+- **Scoring** (`mock/score.ts`): every question is worth one mark, split across its parts (single and order are all or nothing; multi, yes/no and drop-down score per part). The score out of 1,000 is the share of marks scaled to 1,000, labelled as an estimate because Microsoft doesn't publish its scaling. Case questions count towards the domain they test.
+- **Mock answers count as first tries:** they update reviews and the mistakes queue (BUILD_PROMPT: "every wrong answer goes into a queue"). Unanswered questions aren't attempts and aren't recorded. This reverses the Step 6 plan to keep mocks out of reviews.
+- **Progress document v3** adds mock history (the last 50, each with its answers and shuffle seeds so the full review can be rebuilt), migrating from v1 and v2. The exam in progress is stored separately (`mock.current`), so answering doesn't re-render every progress subscriber.
+- **`QuestionBody`** was split out of `QuestionCard`, so the exam and its results review render questions without the check bar.
+- **Sticky headers publish their height** as `--sticky-offset`, so the case bar and panel pin below the focus-mode header. Browser testing found the case bar sliding under the header, in the exam and in case lessons.

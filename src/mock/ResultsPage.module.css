@@ -1,0 +1,377 @@
+.page {
+  display: grid;
+  gap: var(--s-5);
+  padding-bottom: var(--s-7);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+
+.banner {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border: 2px solid var(--partial);
+  border-radius: var(--r-control);
+  background: var(--partial-wash);
+  color: var(--partial);
+  font-weight: 700;
+}
+
+.h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.sub {
+  margin: var(--s-1) 0 0;
+  color: var(--ink-2);
+}
+
+/* ---------- Hero: the number ---------- */
+
+.hero {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.context {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.scoreLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin: 0;
+}
+
+.score {
+  font-size: clamp(3.5rem, 14vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.outOf {
+  color: var(--ink-2);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  color: var(--bad);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.verdict svg {
+  font-size: 22px;
+}
+
+.hero[data-pass] .verdict {
+  color: var(--ok);
+}
+
+.scale {
+  position: relative;
+  height: 14px;
+  margin: var(--s-4) 0 var(--s-2);
+  border-radius: 999px;
+  background: var(--surface-sunk);
+}
+
+.scaleFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: var(--bad);
+}
+
+.hero[data-pass] .scaleFill {
+  background: var(--ok);
+}
+
+.scalePass {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  width: 2px;
+  background: var(--ink);
+}
+
+.scalePass span {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  translate: -50% 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.estimate {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+  margin: var(--s-2) 0 0;
+}
+
+.facts div {
+  display: grid;
+  padding: var(--s-3);
+  border-radius: var(--r-tile);
+  background: var(--surface-sunk);
+}
+
+.facts dt {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Domain bars: one hue, labelled directly ---------- */
+
+.domains {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.bars {
+  display: grid;
+  gap: var(--s-4);
+  margin: var(--s-4) 0 var(--s-3);
+  padding: 0;
+  list-style: none;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px var(--s-3);
+}
+
+.barLabel {
+  font-weight: 700;
+}
+
+.barValue {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.barMarks {
+  margin-left: var(--s-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.track {
+  position: relative;
+  grid-column: 1 / -1;
+  height: 12px;
+  border-radius: 4px;
+  background: var(--surface-sunk);
+}
+
+.fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 4px;
+  background: var(--indigo);
+}
+
+.passLine {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ink-2);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.keyLine {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--ink-2);
+}
+
+/* ---------- Every question ---------- */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: var(--s-3) 0 var(--s-4);
+}
+
+.filter {
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.filter[aria-pressed='true'] {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.list {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--line-strong);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+}
+
+.item[data-verdict='correct'] {
+  border-left-color: var(--ok);
+}
+.item[data-verdict='partial'] {
+  border-left-color: var(--partial);
+}
+.item[data-verdict='wrong'] {
+  border-left-color: var(--bad);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary:focus-visible {
+  outline-offset: -3px;
+}
+
+.num {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-sunk);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.summaryText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemVerdict {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+}
+
+[data-verdict='correct'] .itemVerdict {
+  color: var(--ok);
+}
+[data-verdict='partial'] .itemVerdict {
+  color: var(--partial);
+}
+[data-verdict='wrong'] .itemVerdict {
+  color: var(--bad);
+}
+
+.markedTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: var(--s-2);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.stemLine {
+  overflow: hidden;
+  color: var(--ink-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Open, the full question is right below: the one-line preview would repeat it. */
+details[open] .stemLine {
+  display: none;
+}
+
+.itemBody {
+  display: grid;
+  gap: var(--s-4);
+  padding: 0 var(--s-4) var(--s-4);
+}
+
+.caseNote {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.actions {
+  display: grid;
+  gap: var(--s-2);
+}

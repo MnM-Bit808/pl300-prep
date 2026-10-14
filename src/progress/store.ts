@@ -7,12 +7,19 @@
  * The store is a tiny external store for React (subscribe / getSnapshot). Each change replaces
  * the snapshot immutably and is written through to storage in order.
  */
+import type { MockSection } from '@/mock/build';
+import type { ExamState } from '@/mock/exam';
+import type { MockScore } from '@/mock/score';
+import type { Answer } from '@/questions/answer';
 import type { Storage } from '@/storage/db';
 import { schedule, type SrsCard } from './srs';
 import { addXp, emptyXp, localDay, rollDay, type XpState } from './xp';
 
 export const PROGRESS_KEY = 'progress';
-const VERSION = 2;
+export const MOCK_DRAFT_KEY = 'mock.current';
+const VERSION = 3;
+/** Mock history kept (oldest dropped first). */
+const MAX_MOCKS = 50;
 
 export interface LessonRecord {
   bestAccuracy: number;
@@ -31,6 +38,21 @@ export interface QuestionRecord {
   lastAt: string;
 }
 
+/** A finished mock exam: enough to show history and rebuild the full review. */
+export interface MockRecord {
+  id: string;
+  startedAt: string;
+  submittedAt: string;
+  timedOut: boolean;
+  caseId: string;
+  sections: MockSection[];
+  answers: Record<string, Answer>;
+  seeds: Record<string, number>;
+  marked: string[];
+  score: MockScore;
+  xp: number;
+}
+
 export interface ProgressDoc {
   version: typeof VERSION;
   xp: XpState;
@@ -40,6 +62,8 @@ export interface ProgressDoc {
   srs: Record<string, SrsCard>;
   /** The mistakes queue: question id → when it was last missed. */
   mistakes: Record<string, string>;
+  /** Finished mock exams, oldest first. */
+  mocks: MockRecord[];
 }
 
 export const emptyProgress = (): ProgressDoc => ({
@@ -49,6 +73,7 @@ export const emptyProgress = (): ProgressDoc => ({
   questions: {},
   srs: {},
   mistakes: {},
+  mocks: [],
 });
 
 function isProgressDoc(v: unknown): v is ProgressDoc {
@@ -60,7 +85,8 @@ function isProgressDoc(v: unknown): v is ProgressDoc {
     typeof d.lessons === 'object' &&
     typeof d.questions === 'object' &&
     typeof d.srs === 'object' &&
-    typeof d.mistakes === 'object'
+    typeof d.mistakes === 'object' &&
+    Array.isArray(d.mocks)
   );
 }
 
@@ -84,6 +110,10 @@ export function migrate(saved: unknown, today: string): ProgressDoc | undefined 
     }
     doc = { ...doc, version: 2, srs, mistakes };
   }
+  if (doc.version === 2) {
+    // v3 adds mock exam history.
+    doc = { ...doc, version: 3, mocks: [] };
+  }
   return isProgressDoc(doc) ? doc : undefined;
 }
 
@@ -101,6 +131,9 @@ export class ProgressStore {
     private storage: Storage,
     initial: ProgressDoc,
     private now: () => Date,
+    /** The mock exam in progress, if any. Kept out of the document (and its subscribers): it
+     * changes on every answer and only the exam screen reads it. */
+    private draft: ExamState | null = null,
   ) {
     this.doc = { ...initial, xp: rollDay(initial.xp, localDay(now())) };
   }
@@ -113,7 +146,8 @@ export class ProgressStore {
       console.warn('[progress] Saved progress not recognised; a backup was kept.');
       await storage.set(`${PROGRESS_KEY}.backup`, saved).catch(() => {});
     }
-    return new ProgressStore(storage, doc ?? emptyProgress(), now);
+    const draft = await storage.get<ExamState>(MOCK_DRAFT_KEY).catch(() => undefined);
+    return new ProgressStore(storage, doc ?? emptyProgress(), now, draft ?? null);
   }
 
   get persistent() {
@@ -192,6 +226,31 @@ export class ProgressStore {
     this.writes = this.writes
       .then(() => this.storage.addAttempt({ questionId, at, mode, ...score }))
       .catch((e) => console.error('[progress] Could not log attempt', e));
+  }
+
+  /** The mock exam in progress (survives reloads), or null. */
+  getMockDraft = (): ExamState | null => this.draft;
+
+  saveMockDraft(state: ExamState | null) {
+    this.draft = state;
+    this.writes = this.writes
+      .then(() => this.storage.set(MOCK_DRAFT_KEY, state))
+      .catch((e) => console.error('[progress] Could not save the mock exam', e));
+  }
+
+  /**
+   * File a finished mock: add it to the history, record every answered question like any
+   * first try (so misses join the mistakes queue and reviews), bank its XP and clear the draft.
+   * Unanswered questions aren't attempts and aren't recorded.
+   */
+  submitMock(record: MockRecord, results: readonly { questionId: string; score: ScoreLike }[]) {
+    for (const r of results) this.recordAnswer(r.questionId, r.score, 'mock');
+    this.commit({
+      ...this.doc,
+      xp: addXp(this.doc.xp, record.xp, this.today()),
+      mocks: [...this.doc.mocks, record].slice(-MAX_MOCKS),
+    });
+    this.saveMockDraft(null);
   }
 
   /** Bank XP from a practice or review run. */

@@ -54,7 +54,7 @@ describe('Leitner schedule', () => {
   });
 });
 
-describe('migration v1 → v2', () => {
+describe('migration v1 → v3', () => {
   it('schedules everything already answered for today', () => {
     const v1 = {
       version: 1,
@@ -63,7 +63,8 @@ describe('migration v1 → v2', () => {
       questions: { 'PRE-001': rec(1, 1), 'PRE-002': rec(0, 1) },
     };
     const doc = migrate(v1, '2026-10-14')!;
-    expect(doc.version).toBe(2);
+    expect(doc.version).toBe(3);
+    expect(doc.mocks).toEqual([]);
     expect(doc.srs).toEqual({
       'PRE-001': { box: 2, due: '2026-10-14' },
       'PRE-002': { box: 1, due: '2026-10-14' },

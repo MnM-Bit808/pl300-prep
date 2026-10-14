@@ -4,6 +4,9 @@ import { BankReport } from '@/dev/BankReport';
 import { LearnPage } from '@/learn/LearnPage';
 import { LessonScreen } from '@/learn/LessonScreen';
 import { QuestionLab } from '@/lab/QuestionLab';
+import { ExamScreen } from '@/mock/ExamScreen';
+import { MockPage } from '@/mock/MockPage';
+import { ResultsPage } from '@/mock/ResultsPage';
 import { FlashcardsPage } from '@/practice/FlashcardsPage';
 import { PracticePage } from '@/practice/PracticePage';
 import { PracticeRun } from '@/practice/PracticeRun';
@@ -19,6 +22,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LearnPage /> },
       { path: 'practice', element: <PracticePage /> },
+      { path: 'mock', element: <MockPage /> },
+      { path: 'mock/results/:id', element: <ResultsPage /> },
       { path: 'lab', element: <QuestionLab /> },
       { path: 'dev/bank', element: <BankReport /> },
     ],
@@ -37,6 +42,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={loading}>
         <PracticeRun />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/mock/exam',
+    element: (
+      <Suspense fallback={loading}>
+        <ExamScreen />
       </Suspense>
     ),
   },

@@ -132,3 +132,22 @@ export const ChevronRightIcon = (p: IconProps) => (
     <path d="M9 6l6 6-6 6" />
   </Icon>
 );
+export const FlagIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M6 21V4M6 4.5h10.5l-2 3.75 2 3.75H6" />
+  </Icon>
+);
+export const ClockIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="M12 7.5V12l3 2" />
+  </Icon>
+);
+export const GridIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+    <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+  </Icon>
+);

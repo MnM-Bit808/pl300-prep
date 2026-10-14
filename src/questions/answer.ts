@@ -16,6 +16,12 @@ export type Answer =
 
 export type AnswerOf<T extends QuestionType> = Extract<Answer, { type: T }>;
 
+/** Applies a change to the latest answer. Renderers pass updaters, never finished values, so
+ * input that lands before the next render is never lost. */
+export type AnswerUpdater = <T extends QuestionType>(
+  update: (prev: AnswerOf<T>) => AnswerOf<T>,
+) => void;
+
 export function emptyAnswer(q: Question): Answer {
   switch (q.type) {
     case 'single':
@@ -46,6 +52,22 @@ export function isComplete(q: Question, a: Answer): boolean {
       return a.sequence.length > 0;
     case 'dropdown':
       return a.picks.every((p) => p !== null);
+  }
+}
+
+/** True once any part has been answered: the answer counts as an attempt. */
+export function hasInput(a: Answer): boolean {
+  switch (a.type) {
+    case 'single':
+      return a.choice !== null;
+    case 'multi':
+      return a.choices.length > 0;
+    case 'yesno':
+      return a.values.some((v) => v !== null);
+    case 'order':
+      return a.sequence.length > 0;
+    case 'dropdown':
+      return a.picks.some((p) => p !== null);
   }
 }
 

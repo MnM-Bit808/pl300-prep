@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import { useTheme, type ThemePref } from './theme';
 import styles from './Layout.module.css';
 
@@ -26,7 +26,7 @@ export function Layout() {
               Learn
             </NavLink>
             <NavLink to="/practice">Practice</NavLink>
-            <NavLink to="/lab">Lab</NavLink>
+            <NavLink to="/mock">Mock</NavLink>
           </nav>
           <label className={styles.theme}>
             <span className="sr-only">Theme</span>
@@ -45,6 +45,10 @@ export function Layout() {
           <Outlet />
         </Suspense>
       </main>
+      <footer className={styles.footer}>
+        <Link to="/lab">Question lab</Link>
+        <Link to="/dev/bank">Bank check</Link>
+      </footer>
     </>
   );
 }

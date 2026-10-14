@@ -1,0 +1,140 @@
+.page {
+  display: grid;
+  gap: var(--s-5);
+  padding-bottom: var(--s-7);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.h2,
+.format h2,
+.live h2 {
+  margin: 0 0 var(--s-3);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.format,
+.live {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.live {
+  border: 2px solid var(--indigo);
+  background: var(--indigo-wash);
+}
+
+.live p {
+  margin: 0 0 var(--s-4);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+  margin: 0 0 var(--s-4);
+  padding: 0;
+  list-style: none;
+}
+
+.facts li {
+  display: grid;
+  padding: var(--s-3);
+  border-radius: var(--r-tile);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.facts strong {
+  color: var(--ink);
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* These really are a sequence: what happens, in order. */
+.steps {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding-left: 1.4em;
+}
+
+.steps li::marker {
+  color: var(--indigo-strong);
+  font-weight: 800;
+}
+
+.actions {
+  display: grid;
+  gap: var(--s-2);
+}
+
+.note {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.history {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+}
+
+.row:hover {
+  border-color: var(--indigo);
+}
+
+.score {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.rowText {
+  display: grid;
+  line-height: 1.3;
+}
+
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--bad);
+  font-weight: 800;
+}
+
+.row[data-pass] .verdict {
+  color: var(--ok);
+}
+
+.meta {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}

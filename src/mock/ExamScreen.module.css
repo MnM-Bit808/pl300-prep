@@ -1,0 +1,341 @@
+.screen {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* ---------- Exam header: where you are, the clock, the map ---------- */
+
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--surface);
+}
+
+.topInner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--s-2) var(--gutter);
+  padding-top: max(var(--s-2), env(safe-area-inset-top));
+}
+
+.where {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.25;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.section {
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The clock: calm, then amber under 10 minutes, red under 5 (with words in the label too). */
+.timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  margin: 0;
+  padding: 6px 12px;
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer svg {
+  font-size: 18px;
+}
+
+.timer[data-urgency='soon'] {
+  border-color: var(--partial);
+  background: var(--partial-wash);
+  color: var(--partial);
+}
+
+.timer[data-urgency='urgent'] {
+  border-color: var(--bad);
+  background: var(--bad-wash);
+  color: var(--bad);
+}
+
+.topActions {
+  display: flex;
+  gap: 4px;
+  flex: none;
+}
+
+.topBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.topBtn svg {
+  font-size: 18px;
+}
+
+.topBtn:hover {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
+}
+
+@media (max-width: 640px) {
+  .collapsible {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .topBtn {
+    padding: 0;
+  }
+}
+
+/* ---------- Body ---------- */
+
+.main {
+  width: 100%;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s-5) var(--gutter) var(--s-6);
+}
+
+.question {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.question:focus,
+.review:focus {
+  outline: none;
+}
+
+/* ---------- Footer: previous, mark, next ---------- */
+
+.bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  border-top: 1px solid var(--line-strong);
+  background: var(--surface);
+}
+
+.barInner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s-3) var(--gutter);
+  padding-bottom: max(var(--s-3), env(safe-area-inset-bottom));
+}
+
+.navBtn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-size: 20px;
+}
+
+.navBtn:disabled {
+  color: var(--ink-3);
+  opacity: 0.45;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.mark svg {
+  font-size: 18px;
+}
+
+.mark[aria-pressed='true'] {
+  border-color: var(--partial);
+  background: var(--partial-wash);
+  color: var(--partial);
+}
+
+.progress {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.next {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border: 0;
+  border-radius: var(--r-control);
+  background: var(--indigo);
+  color: var(--on-indigo);
+  font-weight: 800;
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.next svg {
+  font-size: 18px;
+}
+
+.next:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .progress {
+    display: none;
+  }
+  .mark {
+    flex: 1;
+    justify-content: center;
+  }
+  .next {
+    padding: 0 var(--s-4);
+  }
+}
+
+/* ---------- Section review ---------- */
+
+.review {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.reviewTitle {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+}
+
+.reviewText {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.reviewActions {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+}
+
+@media (min-width: 560px) {
+  .reviewActions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Question map dialog ---------- */
+
+.map {
+  display: grid;
+  gap: var(--s-4);
+  width: min(560px, calc(100vw - 2 * var(--gutter)));
+  max-height: min(86dvh, 720px);
+  padding: var(--s-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  color: var(--ink);
+  overflow-y: auto;
+}
+
+.map:not([open]) {
+  display: none;
+}
+
+.map::backdrop {
+  background: var(--scrim);
+}
+
+.mapHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mapHead h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.locked {
+  margin: 0;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-control);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.none {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--s-7) var(--gutter);
+  text-align: center;
+}
+
+.none h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+
+.none p {
+  margin: 0 0 var(--s-3);
+  color: var(--ink-2);
+}

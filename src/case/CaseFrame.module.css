@@ -31,12 +31,13 @@
   margin-left: calc(50% - var(--frame-w) / 2);
 }
 
+/* --sticky-offset: the height of any sticky screen header above (set by focus-mode screens). */
 .panel {
   position: sticky;
-  top: var(--s-4);
+  top: calc(var(--sticky-offset, 0px) + var(--s-4));
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  max-height: calc(100dvh - 2 * var(--s-4));
+  max-height: calc(100dvh - var(--sticky-offset, 0px) - 2 * var(--s-4));
   border: 1px solid var(--line-strong);
   border-radius: var(--r-panel);
   background: var(--surface);
@@ -62,7 +63,7 @@
 
 .bar {
   position: sticky;
-  top: 0;
+  top: var(--sticky-offset, 0px);
   z-index: 6;
   display: flex;
   align-items: center;

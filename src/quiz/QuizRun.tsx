@@ -9,6 +9,7 @@
 import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import { useBank } from '@/bank/useBank';
+import { useStickyOffset } from '@/lib/useStickyOffset';
 import { CaseFrame } from '@/case/CaseFrame';
 import { useProgressStore } from '@/progress/hooks';
 import { QuestionCard } from '@/questions/QuestionCard';
@@ -61,6 +62,9 @@ export function QuizRun({
   );
   const [confirmQuit, setConfirmQuit] = useState(false);
   const finishedOnce = useRef(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
+  useStickyOffset(headerRef, screenRef);
   const finished = session.status !== 'active';
 
   useEffect(() => {
@@ -109,8 +113,8 @@ export function QuizRun({
   );
 
   return (
-    <div className={styles.screen}>
-      <header className={styles.top}>
+    <div ref={screenRef} className={styles.screen}>
+      <header ref={headerRef} className={styles.top}>
         <button
           type="button"
           className={styles.quit}

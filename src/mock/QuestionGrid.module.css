@@ -1,0 +1,104 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* State is in the label and the fill pattern, not colour alone: answered is solid, part
+   answered is half-filled, not answered is an outline; marked adds a flag. */
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 48px;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.tile:hover {
+  border-color: var(--indigo);
+}
+
+.tile[data-state='answered'] {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.tile[data-state='partial'] {
+  border-color: var(--indigo);
+  background: linear-gradient(135deg, var(--indigo-wash) 50%, var(--surface) 50%);
+  color: var(--indigo-strong);
+}
+
+.tile[data-current] {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.flag {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--partial);
+  color: var(--surface);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.swatch[data-state='answered'] {
+  border-color: var(--indigo);
+  background: var(--indigo);
+}
+
+.swatch[data-state='partial'] {
+  border-color: var(--indigo);
+  background: linear-gradient(135deg, var(--indigo-wash) 50%, var(--surface) 50%);
+}
+
+.legendFlag {
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--partial);
+  color: var(--surface);
+}
