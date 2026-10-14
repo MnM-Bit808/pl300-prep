@@ -5,6 +5,7 @@ import { buildCourse, cutPoints, lessonTitle } from './course';
 import { lessonState, upNext } from './rules';
 import {
   MAX_HEARTS,
+  PRACTICE_OPTIONS,
   XP_FIRST_TRY,
   XP_PERFECT_BONUS,
   XP_RETRY,
@@ -12,7 +13,7 @@ import {
   sessionReducer,
   startSession,
   type Session,
-} from './session';
+} from '@/quiz/session';
 
 const bank = buildBank(rawBank);
 const course = buildCourse(bank.questions, bank.cases);
@@ -124,8 +125,26 @@ describe('lesson session', () => {
   });
 
   it('ends when hearts run out', () => {
-    const s = run(startSession(['a'], 2), false, false);
+    const s = run(startSession(['a'], { hearts: 2, perfectBonus: true }), false, false);
     expect(s.status).toBe('out-of-hearts');
+  });
+
+  it('practice runs have no hearts and no perfect bonus', () => {
+    let s = run(
+      startSession(['a', 'b'], PRACTICE_OPTIONS),
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    );
+    expect(s.status).toBe('active');
+    expect(s.hearts).toBeNull();
+    s = run(s, true, true);
+    expect(s.status).toBe('complete');
+    expect(s.xp).toBe(2 * XP_RETRY);
+    expect(run(startSession(['a'], PRACTICE_OPTIONS), true).xp).toBe(XP_FIRST_TRY);
   });
 
   it('ignores a check for a question that is not on screen, or a double check', () => {

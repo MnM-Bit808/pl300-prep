@@ -25,7 +25,8 @@ export function Layout() {
             <NavLink to="/" end>
               Learn
             </NavLink>
-            <NavLink to="/lab">Question lab</NavLink>
+            <NavLink to="/practice">Practice</NavLink>
+            <NavLink to="/lab">Lab</NavLink>
           </nav>
           <label className={styles.theme}>
             <span className="sr-only">Theme</span>

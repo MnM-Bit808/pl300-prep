@@ -64,7 +64,7 @@ Each step ends with a review before the next starts.
 3. Design system and question renderer for all five types, exhibits with zoom, code formatting, explanations; a test page cycling one question of each type. ✅
 4. Case-study panel. ✅
 5. Learn path, XP and streaks. ✅
-6. Practice, mistakes review, spaced repetition, flashcards.
+6. Practice, mistakes review, spaced repetition, flashcards. ✅
 7. Mock exam mode.
 8. Progress dashboard.
 9. My workings, export/import, settings.
@@ -110,3 +110,13 @@ Each step ends with a review before the next starts.
 - **Lesson ids are positional** (`model-3`), so a bank change can move lesson boundaries. Completion records also keep the question ids they covered, so later steps can reconcile.
 - **Lessons run in focus mode:** a separate route with no site navigation, just quit (with confirmation, also on Esc), progress and hearts.
 - **The Learn page borrows Power Query's "Applied steps" pane:** lessons are numbered steps on a connector line, rather than imitating a game path.
+
+### Practice, reviews and flashcards (Step 6)
+
+- **One quiz engine** (`quiz/session.ts` + `quiz/QuizRun.tsx`) runs lessons and every practice mode. They differ only in options (lessons: 5 hearts and a perfect bonus; practice: neither), in the mode filed with each attempt, and in the finish screen.
+- **Spaced repetition is Leitner boxes** with intervals of 1, 3, 7, 14 and 30 days. A first-try right answer moves a card up a box (a first sighting answered right starts in box 2); anything less resets it to box 1, due tomorrow. Partial credit counts as a miss.
+- **The retry rule:** a missed question returns later in the same run, but getting it right then shows short-term memory, not learning. So a same-run retry is logged but neither promotes the card nor clears the mistake. Browser testing found this: when mistakes were derived from the latest attempt, the queue was almost always empty, because every run re-asks misses until they're right.
+- **The mistakes queue is explicit** (question id → when missed). A miss adds to it; a first-try right answer in a later run removes it. Mock exams (`schedule: false`) log answers without touching reviews or mistakes.
+- **Progress document v2** adds `srs` and `mistakes`, with a tested `migrate()` from v1. Unknown shapes are still backed up rather than overwritten.
+- **Custom practice filters live in the URL** (`?domain=&topic=&subtopic=&d=&n=`), so a practice selection, its run and its flashcards are all linkable. Questions are ranked mistakes first, then unseen, then the rest (Paath's order), shuffled within each group.
+- **Flashcards are a study aid and don't touch the review schedule:** that's driven by answering questions. The card flips in 3D (a simple swap under reduced motion) and, once turned, swipes with Pointer Events, with a threshold, tilt and a cue label. Keyboard: Space flips, ←/→ decide. The hidden face is `inert`, so screen readers only meet the visible side. Case questions are left out because their stems need the case study.

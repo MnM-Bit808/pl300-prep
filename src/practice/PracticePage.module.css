@@ -1,0 +1,172 @@
+.page {
+  display: grid;
+  gap: var(--s-5);
+  padding-bottom: var(--s-7);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.queues {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s-3);
+}
+
+.queue {
+  display: grid;
+  align-content: start;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.queue h2,
+.builder h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.big {
+  margin: 0;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.big strong {
+  color: var(--ink);
+  font-size: 2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  margin-right: 4px;
+}
+
+.note {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.queue > a {
+  margin-top: var(--s-2);
+}
+
+/* ---------- Builder ---------- */
+
+.builder {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.fields {
+  display: grid;
+  /* minmax(0, …): a <select> is as wide as its longest option, which must not widen the page. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.field select {
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 600;
+  width: 100%;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+.field select:disabled {
+  color: var(--ink-2);
+  background: var(--surface-sunk);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.chips legend {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 0;
+  font-weight: 700;
+}
+
+/* A chip is a real checkbox or radio, styled as a toggle. */
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chip input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.chip:has(input:checked) {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.chip:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.hint {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.summary {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-control);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+}
+
+.summary strong {
+  color: var(--ink);
+}
+
+.actions {
+  display: grid;
+  gap: var(--s-2);
+}

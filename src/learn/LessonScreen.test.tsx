@@ -9,7 +9,7 @@ import { ProgressStore } from '@/progress/store';
 import { memoryStorage } from '@/storage/db';
 import { buildCourse } from './course';
 import { LessonScreen } from './LessonScreen';
-import { XP_FIRST_TRY, XP_PERFECT_BONUS, XP_RETRY } from './session';
+import { XP_FIRST_TRY, XP_PERFECT_BONUS, XP_RETRY } from '@/quiz/session';
 
 const bank = buildBank(rawBank);
 const course = buildCourse(bank.questions, bank.cases);

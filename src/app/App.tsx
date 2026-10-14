@@ -4,6 +4,9 @@ import { BankReport } from '@/dev/BankReport';
 import { LearnPage } from '@/learn/LearnPage';
 import { LessonScreen } from '@/learn/LessonScreen';
 import { QuestionLab } from '@/lab/QuestionLab';
+import { FlashcardsPage } from '@/practice/FlashcardsPage';
+import { PracticePage } from '@/practice/PracticePage';
+import { PracticeRun } from '@/practice/PracticeRun';
 import { ProgressProvider } from '@/progress/ProgressProvider';
 import { Layout } from './Layout';
 
@@ -15,16 +18,33 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <LearnPage /> },
+      { path: 'practice', element: <PracticePage /> },
       { path: 'lab', element: <QuestionLab /> },
       { path: 'dev/bank', element: <BankReport /> },
     ],
   },
-  // Lessons run in focus mode, outside the site layout.
+  // Lessons, practice runs and flashcards run in focus mode, outside the site layout.
   {
     path: '/learn/:lessonId',
     element: (
       <Suspense fallback={loading}>
         <LessonScreen />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/practice/run',
+    element: (
+      <Suspense fallback={loading}>
+        <PracticeRun />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/practice/cards',
+    element: (
+      <Suspense fallback={loading}>
+        <FlashcardsPage />
       </Suspense>
     ),
   },

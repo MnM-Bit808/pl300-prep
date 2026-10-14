@@ -1,0 +1,320 @@
+.screen {
+  min-height: 100dvh;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s-3) var(--gutter);
+  padding-top: max(var(--s-3), env(safe-area-inset-top));
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-control);
+  color: var(--ink-2);
+  font-size: 24px;
+}
+
+.close:hover {
+  background: var(--surface-sunk);
+  color: var(--ink);
+}
+
+.progress {
+  flex: 1;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--surface-sunk);
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--indigo);
+  transition: width 420ms var(--ease-out);
+}
+
+.count {
+  flex: none;
+  margin: 0;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.count span {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.main {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--s-3) var(--gutter) var(--s-6);
+}
+
+/* ---------- The card ---------- */
+
+.deck {
+  position: relative;
+  perspective: 1400px;
+}
+
+/* The next card peeking out underneath: the deck has depth. */
+.under {
+  position: absolute;
+  inset: 10px 14px -10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface-sunk);
+}
+
+.card {
+  position: relative;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+  transition: transform 260ms var(--ease-out);
+}
+
+.card[data-dragging] {
+  transition: none;
+  cursor: grabbing;
+}
+
+.card[data-leaving] {
+  transition:
+    transform 260ms ease-in,
+    opacity 260ms ease-in;
+  opacity: 0;
+}
+
+/* Both faces share one grid cell, so the card is as tall as its taller face. */
+.flipper {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 420ms var(--ease-out);
+}
+
+.flipper[data-flipped] {
+  transform: rotateY(180deg);
+}
+
+.face {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: start;
+  gap: var(--s-4);
+  min-height: min(56dvh, 460px);
+  padding: var(--s-5);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  box-shadow: 0 var(--press) 0 var(--line-strong);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY(180deg);
+  border-color: var(--indigo);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-2);
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.stem {
+  font-size: var(--text-stem);
+  line-height: 1.5;
+}
+
+.stem p:last-child:not(:first-child) {
+  font-weight: 700;
+}
+
+.backLabel {
+  margin: 0 0 calc(-1 * var(--s-2));
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+/* The takeaway as a formula bar, matching the question feedback. */
+.rule {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  overflow: hidden;
+}
+
+.fx {
+  display: grid;
+  place-items: center;
+  padding: 0 14px;
+  border-right: 1px solid var(--line-strong);
+  background: var(--surface-sunk);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.rule p {
+  margin: 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.answers {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.answers li {
+  padding: 10px 14px;
+  border-left: 4px solid var(--ok);
+  border-radius: 0 var(--r-control) var(--r-control) 0;
+  background: var(--ok-wash);
+  font-size: var(--text-answer);
+  line-height: 1.4;
+}
+
+/* Swipe cue: grows clearer as the card nears the threshold. */
+.cue {
+  position: absolute;
+  top: var(--s-5);
+  padding: 6px 14px;
+  border: 3px solid currentColor;
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-size: 1.25rem;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.cue[data-cue='got'] {
+  left: var(--s-5);
+  rotate: -8deg;
+  color: var(--ok);
+}
+
+.cue[data-cue='again'] {
+  right: var(--s-5);
+  rotate: 8deg;
+  color: var(--partial);
+}
+
+/* ---------- Controls ---------- */
+
+.controls {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--s-3);
+  margin-top: var(--s-2);
+}
+
+.again,
+.got {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 52px;
+  border-radius: var(--r-control);
+  font-weight: 800;
+  font-size: 1.0625rem;
+}
+
+.again svg,
+.got svg {
+  font-size: 20px;
+}
+
+.again {
+  border: 2px solid var(--partial);
+  background: var(--surface);
+  color: var(--partial);
+  box-shadow: 0 var(--press) 0 var(--partial);
+}
+
+.got {
+  border: 0;
+  background: var(--ok);
+  color: var(--surface);
+  box-shadow: 0 var(--press) 0 color-mix(in srgb, var(--ok) 70%, black);
+}
+
+.again:active,
+.got:active {
+  transform: translateY(var(--press));
+  box-shadow: none;
+}
+
+.hint {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.empty {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--s-7) var(--gutter);
+  text-align: center;
+}
+
+.empty h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+}
+
+.empty p {
+  margin: 0 0 var(--s-3);
+  color: var(--ink-2);
+}
+
+/* Reduced motion: no flip or fly-out, the faces simply swap. */
+@media (prefers-reduced-motion: reduce) {
+  .flipper,
+  .flipper[data-flipped] {
+    transform: none;
+  }
+  .back {
+    transform: none;
+  }
+  .flipper:not([data-flipped]) .back,
+  .flipper[data-flipped] .face:not(.back) {
+    visibility: hidden;
+  }
+}

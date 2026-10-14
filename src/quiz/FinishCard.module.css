@@ -1,0 +1,85 @@
+.finish {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--gutter);
+}
+
+.card {
+  display: grid;
+  gap: var(--s-4);
+  width: min(520px, 100%);
+  padding: var(--s-6) var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  text-align: center;
+}
+
+.context {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 6vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+[data-tone='good'] .title {
+  color: var(--ok);
+}
+
+[data-tone='bad'] .title {
+  color: var(--bad);
+}
+
+.text {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-2);
+  margin: var(--s-2) 0;
+}
+
+.stats div {
+  display: grid;
+  gap: 2px;
+  padding: var(--s-3) var(--s-2);
+  border-radius: var(--r-tile);
+  background: var(--surface-sunk);
+}
+
+.stats dt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: grid;
+  gap: var(--s-2);
+}

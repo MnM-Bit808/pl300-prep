@@ -3,7 +3,9 @@
  * are steps applied in order, joined by a line, ticked off as they're done.
  */
 import { Link } from 'react-router';
+import { dueIds, mistakeIds } from '@/practice/select';
 import { useProgress } from '@/progress/hooks';
+import { localDay } from '@/progress/xp';
 import { StatsStrip } from '@/progress/StatsStrip';
 import { CheckIcon, ChevronRightIcon, LockIcon } from '@/ui/icons';
 import { lessonTitle, type Lesson, type Unit } from './course';
@@ -105,6 +107,30 @@ function UnitSection({ unit, open }: { unit: Unit; open: boolean }) {
   );
 }
 
+/** Today's review queues, on the home screen (BUILD_PROMPT 4.4). Hidden until there's history. */
+function ReviewStrip() {
+  const { bank } = useCourse();
+  const doc = useProgress();
+  if (!Object.keys(doc.questions).length) return null;
+  const due = dueIds(bank, doc, localDay()).length;
+  const mistakes = mistakeIds(bank, doc).length;
+  return (
+    <section className={styles.review} aria-label="Reviews">
+      <Link to={due ? '/practice/run?mode=review' : '/practice'} className={styles.reviewItem}>
+        <strong>{due}</strong>
+        <span>{due === 1 ? 'review due today' : 'reviews due today'}</span>
+      </Link>
+      <Link
+        to={mistakes ? '/practice/run?mode=mistakes' : '/practice'}
+        className={styles.reviewItem}
+      >
+        <strong>{mistakes}</strong>
+        <span>{mistakes === 1 ? 'mistake to fix' : 'mistakes to fix'}</span>
+      </Link>
+    </section>
+  );
+}
+
 export function LearnPage() {
   const { course } = useCourse();
   const doc = useProgress();
@@ -144,6 +170,8 @@ export function LearnPage() {
           </div>
         </section>
       )}
+
+      <ReviewStrip />
 
       <div className={styles.units}>
         {course.units.map((u) => (
