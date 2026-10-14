@@ -2,6 +2,8 @@
 
 A study app for the Microsoft PL-300 (Power BI Data Analyst) exam: short lessons, targeted practice with spaced repetition, full timed mock exams with case studies, and interactive concept simulators. Mobile-first, installable, and it works offline.
 
+**Live: [pl300-prep.pages.dev](https://pl300-prep.pages.dev)**. Open it on a phone and add it to your home screen to install it.
+
 Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. All 440 questions and 94 exhibits are original.
 
 <p>
@@ -78,6 +80,12 @@ The first time, install Playwright's Chromium (`npx playwright install chromium`
 
 ```bash
 PW_CHANNEL=msedge npm run test:e2e
+```
+
+To run the same suite against a deployed site instead of a local build, set `PW_BASE_URL`:
+
+```bash
+PW_BASE_URL=https://test.pl300-prep.pages.dev npm run test:e2e
 ```
 
 CI (`.github/workflows/ci.yml`) runs the full gate and the end-to-end suite on every push and pull request.

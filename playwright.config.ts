@@ -2,6 +2,9 @@
  * End-to-end tests against the production build (`npm run build` first), served by
  * `vite preview` with the same security headers as Cloudflare Pages.
  *
+ * To test a deployed site instead, set PW_BASE_URL (e.g. https://test.pl300-prep.pages.dev): no
+ * local server is started.
+ *
  * Browsers: CI installs Playwright's Chromium. Locally, `npx playwright install chromium` once, or
  * point at an installed browser with PW_CHANNEL=msedge (or chrome).
  */
@@ -9,6 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 4174; // not 4173, so a preview you already have open isn't reused by mistake
 const channel = process.env.PW_CHANNEL;
+const external = process.env.PW_BASE_URL;
 
 export default defineConfig({
   testDir: 'e2e',
@@ -17,7 +21,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list']],
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: external ?? `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
     // Most tests want the network as it is; the offline spec turns the service worker on.
     serviceWorkers: 'block',
@@ -42,10 +46,12 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    command: `npx vite preview --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
-  },
+  webServer: external
+    ? undefined
+    : {
+        command: `npx vite preview --port ${PORT} --strictPort`,
+        url: `http://localhost:${PORT}`,
+        reuseExistingServer: !process.env.CI,
+        timeout: 60_000,
+      },
 });
