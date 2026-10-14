@@ -123,8 +123,7 @@ export function QuestionLab() {
             aria-pressed={t === type}
             onClick={() => go({ type: t })}
           >
-            {GROUP_LABEL(t)}
-            <span className={styles.count}>{byType[t].length}</span>
+            {GROUP_LABEL(t)} <span className={styles.count}>{byType[t].length}</span>
           </button>
         ))}
       </nav>

@@ -1,0 +1,116 @@
+.dialog {
+  width: min(480px, calc(100vw - 2 * var(--gutter)));
+  max-height: 90dvh;
+  padding: var(--s-5);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  color: var(--ink);
+  overflow-y: auto;
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.form {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.kinds {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.kinds legend {
+  margin-bottom: var(--s-2);
+  padding: 0;
+  font-weight: 800;
+}
+
+.kind {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  border: 2px solid var(--line);
+  border-radius: var(--r-control);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.kind input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--indigo);
+}
+
+.kind:has(input:checked) {
+  border-color: var(--indigo);
+  background: var(--indigo-wash);
+}
+
+.details {
+  display: grid;
+  gap: 6px;
+  font-weight: 800;
+}
+
+.details textarea {
+  padding: var(--s-3);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 400;
+  resize: vertical;
+}
+
+.error {
+  margin: 0;
+  color: var(--bad);
+  font-weight: 700;
+}
+
+.note {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.cancel,
+.submit {
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border-radius: var(--r-control);
+  font-weight: 800;
+}
+
+.cancel {
+  border: 2px solid var(--line-strong);
+  background: var(--surface);
+}
+
+.submit {
+  border: 0;
+  background: var(--indigo);
+  color: var(--on-indigo);
+  box-shadow: 0 var(--press) 0 var(--indigo-strong);
+}

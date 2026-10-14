@@ -12,6 +12,8 @@ import { PracticePage } from '@/practice/PracticePage';
 import { PracticeRun } from '@/practice/PracticeRun';
 import { ProgressPage } from '@/progress/ProgressPage';
 import { ProgressProvider } from '@/progress/ProgressProvider';
+import { SettingsPage } from '@/settings/SettingsPage';
+import { WorkingsPage } from '@/workings/WorkingsPage';
 import { Layout } from './Layout';
 
 const loading = <p className="loading">Loading questions…</p>;
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
       { path: 'mock', element: <MockPage /> },
       { path: 'mock/results/:id', element: <ResultsPage /> },
       { path: 'progress', element: <ProgressPage /> },
+      { path: 'workings', element: <WorkingsPage /> },
+      { path: 'settings', element: <SettingsPage /> },
       { path: 'lab', element: <QuestionLab /> },
       { path: 'dev/bank', element: <BankReport /> },
     ],

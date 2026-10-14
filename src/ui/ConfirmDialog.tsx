@@ -2,7 +2,7 @@
  * A small modal confirmation. Native <dialog> for focus trapping and Esc; the safe choice is
  * focused first, so an accidental Enter never destroys anything.
  */
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import styles from './ConfirmDialog.module.css';
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
   cancelLabel: string;
   onConfirm: () => void;
   onCancel: () => void;
+  /** Extra content between the message and the buttons (e.g. an option). */
+  children?: ReactNode;
 }
 
 export function ConfirmDialog({
@@ -21,6 +23,7 @@ export function ConfirmDialog({
   cancelLabel,
   onConfirm,
   onCancel,
+  children,
 }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -50,6 +53,7 @@ export function ConfirmDialog({
       <p id="confirm-body" className={styles.body}>
         {body}
       </p>
+      {children}
       <div className={styles.actions}>
         <button ref={cancelRef} type="button" className={styles.cancel} onClick={onCancel}>
           {cancelLabel}

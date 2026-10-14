@@ -1,12 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
-import { applyTheme, readTheme } from './app/theme';
+import { applyPrefs } from './app/prefs';
 import '@fontsource-variable/atkinson-hyperlegible-next';
 import '@fontsource-variable/atkinson-hyperlegible-mono';
 import './styles/global.css';
 
-applyTheme(readTheme());
+// Theme, text size and motion before the first paint, so nothing flashes.
+applyPrefs();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('#root missing from index.html');

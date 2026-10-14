@@ -1,0 +1,186 @@
+.page {
+  display: grid;
+  gap: var(--s-4);
+  padding-bottom: var(--s-6);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.card {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+}
+
+.h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.h3 {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 800;
+}
+
+.text {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.hint {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+}
+
+.toast {
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border: 2px solid var(--ok);
+  border-radius: var(--r-control);
+  background: var(--ok-wash);
+  color: var(--ok);
+  font-weight: 700;
+}
+
+/* A setting is a real radio group, drawn as segmented chips. */
+.choice {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.choice legend {
+  margin-bottom: var(--s-2);
+  padding: 0;
+  font-weight: 800;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  border: 2px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option:has(input:checked) {
+  border-color: var(--indigo);
+  background: var(--indigo);
+  color: var(--on-indigo);
+}
+
+.option:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Text size options preview their own size. */
+.option[data-size='large'] {
+  font-size: 1.125rem;
+}
+
+.option[data-size='larger'] {
+  font-size: 1.25rem;
+}
+
+.dataActions {
+  display: grid;
+  gap: var(--s-2);
+}
+
+@media (min-width: 560px) {
+  .dataActions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.btnInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.inline {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  font-weight: 700;
+}
+
+.error {
+  margin: 0;
+  color: var(--bad);
+  font-weight: 700;
+}
+
+.danger {
+  display: grid;
+  gap: var(--s-2);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.dangerBtn {
+  justify-self: start;
+  min-height: 48px;
+  padding: 0 var(--s-5);
+  border: 2px solid var(--bad);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--bad);
+  font-weight: 800;
+}
+
+.dangerBtn:hover {
+  background: var(--bad-wash);
+}
+
+.also {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  font-weight: 700;
+}
+
+.also input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--bad);
+}

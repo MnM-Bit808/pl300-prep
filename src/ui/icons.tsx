@@ -151,3 +151,57 @@ export const GridIcon = (p: IconProps) => (
     <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
   </Icon>
 );
+export const StepsIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="6" cy="6" r="2.2" />
+    <circle cx="6" cy="18" r="2.2" />
+    <path d="M6 8.2v7.6M11 6h9M11 18h9M11 12h6" />
+  </Icon>
+);
+export const TargetIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="8.5" />
+    <circle cx="12" cy="12" r="4.5" />
+    <circle cx="12" cy="12" r="0.8" fill="currentColor" />
+  </Icon>
+);
+export const ChartIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 20h16M7 16v-4M12 16V8M17 16v-7" />
+  </Icon>
+);
+export const NoteIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M6 3.5h9l3.5 3.5V20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5z" />
+    <path d="M14.5 3.5V7.5h4M8.5 12h7M8.5 16h5" />
+  </Icon>
+);
+export const GearIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 2.8v2.4M12 18.8v2.4M21.2 12h-2.4M5.2 12H2.8M18.5 5.5l-1.7 1.7M7.2 16.8l-1.7 1.7M18.5 18.5l-1.7-1.7M7.2 7.2 5.5 5.5" />
+    <circle cx="12" cy="12" r="6.6" />
+  </Icon>
+);
+export const DownloadIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />
+  </Icon>
+);
+export const UploadIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 16V5M7 9.5l5-5 5 5M5 20h14" />
+  </Icon>
+);
+export const SearchIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="10.5" cy="10.5" r="6.5" />
+    <path d="M15.5 15.5 20 20" />
+  </Icon>
+);
+export const PencilIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z" />
+    <path d="M13.5 7l3 3" />
+  </Icon>
+);

@@ -30,6 +30,7 @@
 }
 
 .brand {
+  flex: none;
   color: var(--ink);
   font-size: 1.125rem;
   font-weight: 800;
@@ -38,16 +39,18 @@
   white-space: nowrap;
 }
 
+/* ---------- Wide: navigation in the header ---------- */
+
 .nav {
   display: flex;
   gap: var(--s-1);
   flex: 1;
-  overflow-x: auto;
 }
 
-.nav a {
-  display: inline-grid;
-  place-items: center;
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   min-height: 44px;
   padding: 0 var(--s-3);
   border-radius: var(--r-control);
@@ -57,31 +60,40 @@
   white-space: nowrap;
 }
 
-.nav a:hover {
+.navIcon {
+  font-size: 18px;
+  flex: none;
+}
+
+.navLink:hover {
   color: var(--ink);
 }
 
-.nav a[aria-current='page'] {
+.navLink[aria-current='page'] {
   color: var(--indigo-strong);
   background: var(--indigo-wash);
 }
 
-.theme {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
+.settings {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border-radius: var(--r-control);
   color: var(--ink-2);
-  font-weight: 700;
+  font-size: 22px;
 }
 
-.theme select {
-  min-height: 40px;
-  padding: 0 var(--s-3);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-control);
-  background: var(--surface);
-  font-size: var(--text-sm);
-  font-weight: 700;
+.settings:hover {
+  color: var(--ink);
+  background: var(--surface-sunk);
+}
+
+.settings[aria-current='page'] {
+  color: var(--indigo-strong);
+  background: var(--indigo-wash);
 }
 
 .main {
@@ -94,24 +106,66 @@
   outline: none;
 }
 
-@media (max-width: 520px) {
-  .brand {
-    display: none;
-  }
-}
-
 .footer {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--s-4);
+  gap: var(--s-2) var(--s-4);
   max-width: var(--measure);
   margin: 0 auto;
   padding: var(--s-6) var(--gutter) var(--s-5);
+  color: var(--ink-2);
   font-size: var(--text-sm);
+  text-align: center;
 }
 
 .footer a {
   color: var(--ink-2);
+}
+
+/* ---------- Narrow: a bottom tab bar ---------- */
+
+@media (max-width: 759px) {
+  .nav {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    padding: 4px 4px max(4px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line-strong);
+    background: var(--surface);
+  }
+
+  .navLink {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 56px;
+    padding: 4px 2px;
+    font-size: 0.75rem;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+  .navLink span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .navIcon {
+    font-size: 22px;
+  }
+
+  /* Room for the bar under the last content. */
+  .main {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .footer {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  }
 }

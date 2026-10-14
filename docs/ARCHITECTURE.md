@@ -67,7 +67,7 @@ Each step ends with a review before the next starts.
 6. Practice, mistakes review, spaced repetition, flashcards. ✅
 7. Mock exam mode. ✅
 8. Progress dashboard. ✅
-9. My workings, export/import, settings.
+9. My workings, export/import, settings. ✅
 10. Concept simulators (Append vs Merge, join kinds, filter context and context transition, star vs snowflake).
 11. Offline/PWA install, accessibility pass, end-to-end tests, CI, deploy.
 
@@ -140,3 +140,15 @@ Each step ends with a review before the next starts.
 - **The readiness estimate** blends 60% mocks (the last 3, weighted 3:2:1 towards the latest) with 40% practice (per domain, mastery × coverage, where coverage counts in full at 60% seen, weighted by exam share). With only one source, that source is used. It's banded around the pass mark (≥700 on track, 600–699 getting close) and labelled an estimate, with a prompt to take more mocks below three.
 - **The mock trend chart** is hand-built SVG to the dataviz rules: one series and no legend, recessive grid, a dashed pass line, a 2px line, dots with a surface ring, a crosshair tooltip on hover, ←/→ keyboard stepping with live announcements, and a table view.
 - **The theme picker moved to the footer** so four nav items fit at 375px. Settings (Step 9) will own it.
+
+### My workings, backup and settings (Step 9)
+
+- **Workings is its own versioned document** (notes on questions and topics, flags, reports), separate from progress, so resetting progress keeps your notes unless you also tick "delete notes". One `Storage` is opened once and shared by both stores through `openAppData()`. Building this turned up that the old `reset()` called `storage.clear()`, which would have wiped notes; reset now clears only progress, attempts and the exam in progress, and a test proves notes survive.
+- **Notes support a Markdown subset** (`lib/markdown.ts`) parsed to a tree and rendered as React elements, never as HTML strings, so a note can't inject markup. Links are allowed only for `http(s)` and `mailto`. A test feeds it an `<img onerror>`.
+- **The note editor saves itself** 500 ms after typing stops and on blur, with a live "Saving… / Saved" status and a Write / Preview toggle.
+- **Question tools** (flag, note, report) appear once a question has been answered (lessons, practice, the lab, mock results), never during a mock. They render nothing where no saved data is provided.
+- **Reports stay on the device** and export on their own as JSON with each question's topic, type, stem and exhibit, ready to fix in the bank.
+- **One backup file** (`data/backup.ts`) holds progress, the full attempt log, workings, any exam in progress and display settings. Import validates the envelope with Zod, migrates older progress and workings, shows a summary to confirm, writes, then reloads. Unknown setting names or values are ignored. Errors are written in plain words ("This is a reports export, not a backup"). Round-trip, migration and rejection are all tested.
+- **Settings** cover theme, text size (the root font size, since every type token is in rem) and an app-level Reduce motion that applies on top of the device setting. All are stored in localStorage and applied before the first paint. There's no sound setting because the app (like Paath) makes no sound. Storage status shows, with an option to ask the browser to keep data (`navigator.storage.persist()`).
+- **Phone navigation is a bottom tab bar** below 760px (five sections with icon and label); wide screens keep it in the header. Settings is a gear in the header.
+- **Accessibility fix found by tests:** count badges sat flush against button labels, so names read as "Notes2" (also in the lab's format buttons since Step 3). They now read "Notes 2".

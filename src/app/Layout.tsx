@@ -1,16 +1,23 @@
-import { Suspense } from 'react';
+/**
+ * The site frame. One navigation, two shapes: a row in the header on wide screens, and a
+ * bottom tab bar on phones (where five sections don't fit across the top, and a thumb
+ * reaches the bottom anyway). Settings is the gear in the header.
+ */
+import { Suspense, type ComponentType, type SVGProps } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
-import { useTheme, type ThemePref } from './theme';
+import { ChartIcon, ClockIcon, GearIcon, NoteIcon, StepsIcon, TargetIcon } from '@/ui/icons';
 import styles from './Layout.module.css';
 
-const THEMES: { value: ThemePref; label: string }[] = [
-  { value: 'system', label: 'Match device' },
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' },
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+const SECTIONS: { to: string; label: string; icon: Icon; end?: boolean }[] = [
+  { to: '/', label: 'Learn', icon: StepsIcon, end: true },
+  { to: '/practice', label: 'Practice', icon: TargetIcon },
+  { to: '/mock', label: 'Mock', icon: ClockIcon },
+  { to: '/progress', label: 'Progress', icon: ChartIcon },
+  { to: '/workings', label: 'Workings', icon: NoteIcon },
 ];
 
 export function Layout() {
-  const [theme, setTheme] = useTheme();
   return (
     <>
       <a className={styles.skip} href="#main">
@@ -22,13 +29,16 @@ export function Layout() {
             PL-300 Prep
           </NavLink>
           <nav aria-label="Main" className={styles.nav}>
-            <NavLink to="/" end>
-              Learn
-            </NavLink>
-            <NavLink to="/practice">Practice</NavLink>
-            <NavLink to="/mock">Mock</NavLink>
-            <NavLink to="/progress">Progress</NavLink>
+            {SECTIONS.map(({ to, label, icon: Icon, end }) => (
+              <NavLink key={to} to={to} end={end ?? false} className={styles.navLink ?? ''}>
+                <Icon className={styles.navIcon} aria-hidden="true" />
+                <span>{label}</span>
+              </NavLink>
+            ))}
           </nav>
+          <NavLink to="/settings" className={styles.settings ?? ''} aria-label="Settings">
+            <GearIcon aria-hidden="true" />
+          </NavLink>
         </div>
       </header>
       <main id="main" className={styles.main} tabIndex={-1}>
@@ -37,18 +47,9 @@ export function Layout() {
         </Suspense>
       </main>
       <footer className={styles.footer}>
-        <label className={styles.theme}>
-          Theme
-          <select value={theme} onChange={(e) => setTheme(e.target.value as ThemePref)}>
-            {THEMES.map((t) => (
-              <option key={t.value} value={t.value}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-        </label>
         <Link to="/lab">Question lab</Link>
         <Link to="/dev/bank">Bank check</Link>
+        <span>Not affiliated with Microsoft. All questions are original.</span>
       </footer>
     </>
   );

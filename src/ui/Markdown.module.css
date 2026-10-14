@@ -1,0 +1,56 @@
+.md {
+  display: grid;
+  gap: var(--s-2);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.md p,
+.md ul,
+.md ol,
+.md blockquote {
+  margin: 0;
+}
+
+.md ul,
+.md ol {
+  padding-left: 1.4em;
+}
+
+.md blockquote {
+  padding-left: var(--s-3);
+  border-left: 3px solid var(--line-strong);
+  color: var(--ink-2);
+}
+
+.md a {
+  color: var(--indigo-strong);
+  font-weight: 700;
+}
+
+.heading {
+  font-weight: 800;
+}
+
+.heading[data-level='1'] {
+  font-size: 1.125rem;
+}
+
+.code {
+  padding: 0.08em 0.36em;
+  border-radius: var(--r-code);
+  background: var(--surface-sunk);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.pre {
+  margin: 0;
+  padding: var(--s-3);
+  border-radius: var(--r-control);
+  background: var(--surface-sunk);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

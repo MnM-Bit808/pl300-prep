@@ -16,6 +16,7 @@ import { verdictText } from '@/questions/labels';
 import { QuestionBody } from '@/questions/QuestionBody';
 import { CheckIcon, CrossIcon, FlagIcon } from '@/ui/icons';
 import buttons from '@/ui/buttons.module.css';
+import { QuestionTools } from '@/workings/QuestionTools';
 import { EXAM_DOMAINS, PASS_MARK } from './build';
 import { fullyCorrect, scoreQuestions, type QuestionResult } from './score';
 import styles from './ResultsPage.module.css';
@@ -248,6 +249,7 @@ function ReviewItem({
             onChange={() => {}}
           />
           <Feedback question={q} score={result.score} />
+          <QuestionTools questionId={q.id} />
         </div>
       </details>
     </li>

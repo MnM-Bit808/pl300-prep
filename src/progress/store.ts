@@ -297,9 +297,21 @@ export class ProgressStore {
     if (rolled !== this.doc.xp) this.commit({ ...this.doc, xp: rolled });
   }
 
+  /**
+   * Start progress again: the document, the attempt log and any exam in progress. Your notes,
+   * flags and reports live in their own document and are untouched.
+   */
   async reset() {
     await this.writes;
-    await this.storage.clear();
+    await this.storage.replaceAttempts([]);
+    this.saveMockDraft(null);
     this.commit(emptyProgress());
+    await this.writes;
+  }
+
+  /** Replace everything with imported progress (attempts are written by the importer). */
+  replace(doc: ProgressDoc, draft: ExamState | null) {
+    this.commit(doc);
+    this.saveMockDraft(draft);
   }
 }

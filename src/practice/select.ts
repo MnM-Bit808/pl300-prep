@@ -13,6 +13,7 @@ import type { Domain, Question } from '@/bank/schema';
 import { shuffled } from '@/lib/random';
 import { isDue } from '@/progress/srs';
 import type { ProgressDoc } from '@/progress/store';
+import type { WorkingsDoc } from '@/workings/store';
 
 export interface PracticeFilter {
   domain?: Domain | undefined;
@@ -76,4 +77,12 @@ export function outline(questions: readonly Question[]) {
     t.subtopics.set(q.subtopic, (t.subtopics.get(q.subtopic) ?? 0) + 1);
   }
   return topics;
+}
+
+/** Flagged questions still in the bank, most recently flagged first. */
+export function flaggedIds(bank: Bank, workings: WorkingsDoc): string[] {
+  return Object.entries(workings.flags)
+    .filter(([id]) => bank.questionById.has(id))
+    .sort((a, b) => b[1].localeCompare(a[1]))
+    .map(([id]) => id);
 }

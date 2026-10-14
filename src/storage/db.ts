@@ -25,6 +25,8 @@ export interface Storage {
   set(key: string, value: unknown): Promise<void>;
   addAttempt(a: AttemptRecord): Promise<void>;
   attempts(): Promise<AttemptRecord[]>;
+  /** Swap the whole attempt log in one transaction (reset, import). */
+  replaceAttempts(list: readonly AttemptRecord[]): Promise<void>;
   clear(): Promise<void>;
   /** False when running on the in-memory fallback. */
   persistent: boolean;
@@ -66,6 +68,19 @@ function idbStorage(db: IDBDatabase): Storage {
       await request(store('attempts', 'readwrite').add(a));
     },
     attempts: () => request(store('attempts', 'readonly').getAll()) as Promise<AttemptRecord[]>,
+    replaceAttempts: (list) =>
+      new Promise<void>((resolve, reject) => {
+        const t = db.transaction('attempts', 'readwrite');
+        const s = t.objectStore('attempts');
+        s.clear();
+        for (const a of list) {
+          const { id: _drop, ...rest } = a;
+          void _drop;
+          s.add(rest);
+        }
+        t.oncomplete = () => resolve();
+        t.onerror = () => reject(t.error);
+      }),
     clear: async () => {
       await request(store('kv', 'readwrite').clear());
       await request(store('attempts', 'readwrite').clear());
@@ -86,6 +101,9 @@ export function memoryStorage(): Storage {
       log.push({ ...a, id: log.length + 1 });
     },
     attempts: async () => log.slice(),
+    replaceAttempts: async (list) => {
+      log = list.map((a, i) => ({ ...a, id: i + 1 }));
+    },
     clear: async () => {
       kv.clear();
       log = [];

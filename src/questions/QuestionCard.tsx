@@ -5,16 +5,16 @@
  */
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Question } from '@/bank/schema';
+import { prefersReducedMotion } from '@/app/prefs';
 import { dialogOpen, isTypingTarget } from '@/lib/keys';
 import { RetryIcon } from '@/ui/icons';
 import { Feedback, VerdictIcon } from './Feedback';
 import { progressText, verdictText } from './labels';
 import { QuestionBody } from './QuestionBody';
 import { scoreAnswer, verdictOf, type Score } from './scoring';
+import { QuestionTools } from '@/workings/QuestionTools';
 import { useAttempt } from './useAttempt';
 import styles from './QuestionCard.module.css';
-
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /** Render with `key={question.id}`: a new question is a new attempt with fresh state. */
 interface Props {
@@ -95,6 +95,7 @@ export function QuestionCard({
       />
 
       {revealed && score && <Feedback ref={feedbackRef} question={question} score={score} />}
+      {revealed && <QuestionTools questionId={question.id} />}
 
       <p className="sr-only" role="status" aria-live="polite">
         {status}

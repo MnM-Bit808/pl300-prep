@@ -1,37 +1,39 @@
 /**
  * A practice run in focus mode. ?mode= picks the questions:
  * - review: spaced-repetition cards due today (up to REVIEW_CAP)
- * - mistakes: questions whose last answer wasn't fully right (up to REVIEW_CAP)
+ * - mistakes: the mistakes queue (up to REVIEW_CAP)
+ * - flagged: questions you flagged in My workings, newest flag first (up to REVIEW_CAP)
  * - custom: the URL filter, ranked mistakes → unseen → the rest, ?n= long (0 = all)
  * The selection is fixed when the run starts, so answering doesn't reshuffle it.
  */
 import { useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { useBank } from '@/bank/useBank';
-import { useProgress, useProgressStore } from '@/progress/hooks';
+import { useProgress, useProgressStore, useWorkingsStore } from '@/progress/hooks';
 import { localDay } from '@/progress/xp';
 import { FinishCard } from '@/quiz/FinishCard';
 import { QuizRun } from '@/quiz/QuizRun';
 import { firstTryAccuracy, PRACTICE_OPTIONS, type Session } from '@/quiz/session';
 import buttons from '@/ui/buttons.module.css';
 import { parseFilter, parseLength } from './query';
-import { dueIds, filterQuestions, mistakeIds, rankForPractice } from './select';
+import { dueIds, filterQuestions, flaggedIds, mistakeIds, rankForPractice } from './select';
 import styles from './PracticeRun.module.css';
 
 /** Longest review or mistakes run; the rest wait for the next one. */
 const REVIEW_CAP = 20;
-type Mode = 'review' | 'mistakes' | 'custom';
+type Mode = 'review' | 'mistakes' | 'flagged' | 'custom';
 
 const TITLES: Record<Mode, string> = {
   review: 'Review',
   mistakes: 'Fix mistakes',
+  flagged: 'Flagged',
   custom: 'Practice',
 };
 
 export function PracticeRun() {
   const [params] = useSearchParams();
   const raw = params.get('mode');
-  const mode: Mode = raw === 'review' || raw === 'mistakes' ? raw : 'custom';
+  const mode: Mode = raw === 'review' || raw === 'mistakes' || raw === 'flagged' ? raw : 'custom';
   const [run, setRun] = useState(0);
   return (
     <Run
@@ -54,6 +56,7 @@ function Run({
 }) {
   const bank = useBank();
   const store = useProgressStore();
+  const workings = useWorkingsStore();
   const doc = useProgress();
 
   // Chosen once per run, from the progress as it stood when the run started.
@@ -61,6 +64,7 @@ function Run({
     const snapshot = store.getSnapshot();
     if (mode === 'review') return dueIds(bank, snapshot, localDay()).slice(0, REVIEW_CAP);
     if (mode === 'mistakes') return mistakeIds(bank, snapshot).slice(0, REVIEW_CAP);
+    if (mode === 'flagged') return flaggedIds(bank, workings.getSnapshot()).slice(0, REVIEW_CAP);
     const pool = filterQuestions(bank.questions, parseFilter(params)).map((q) => q.id);
     const n = parseLength(params);
     return rankForPractice(pool, snapshot, n === 0 ? pool.length : n);
@@ -76,12 +80,16 @@ function Run({
             ? 'Nothing due'
             : mode === 'mistakes'
               ? 'No mistakes to fix'
-              : 'No questions match'}
+              : mode === 'flagged'
+                ? 'Nothing flagged'
+                : 'No questions match'}
         </h1>
         <p>
           {mode === 'custom'
             ? 'Loosen the filter on the Practice page and try again.'
-            : 'Nice. Come back after your next lesson or practice.'}
+            : mode === 'flagged'
+              ? 'Flag a question after answering it, and it waits for you here.'
+              : 'Nice. Come back after your next lesson or practice.'}
         </p>
         <Link to="/practice" className={buttons.primary}>
           Back to Practice
