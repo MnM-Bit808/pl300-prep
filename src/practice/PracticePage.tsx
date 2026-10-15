@@ -66,9 +66,12 @@ export function PracticePage() {
       <section className={styles.queues} aria-label="Your review queues">
         <article className={styles.queue}>
           <h2>Review</h2>
-          <p className={styles.big}>
-            <strong>{due.length}</strong> due today
-          </p>
+          {/* A count only when there is one: an empty queue explains itself instead of showing 0. */}
+          {due.length > 0 && (
+            <p className={styles.big}>
+              <strong>{due.length}</strong> due today
+            </p>
+          )}
           <p className={styles.note}>
             {due.length
               ? 'Questions you answered before, back on a spaced schedule so they stick.'
@@ -85,13 +88,15 @@ export function PracticePage() {
 
         <article className={styles.queue}>
           <h2>Fix mistakes</h2>
-          <p className={styles.big}>
-            <strong>{mistakes.length}</strong> to fix
-          </p>
+          {mistakes.length > 0 && (
+            <p className={styles.big}>
+              <strong>{mistakes.length}</strong> to fix
+            </p>
+          )}
           <p className={styles.note}>
             {mistakes.length
               ? 'Questions you missed on a first try, newest first. Get one right in a later run and it leaves the list.'
-              : 'No mistakes waiting. Anything you miss lands here.'}
+              : 'Nothing to fix yet. Questions you miss on a first try wait here until you get them right.'}
           </p>
           {mistakes.length > 0 && (
             <Link to="/practice/run?mode=mistakes" className={buttons.primary}>

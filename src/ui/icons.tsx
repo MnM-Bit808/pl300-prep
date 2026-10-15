@@ -199,6 +199,47 @@ export const SearchIcon = (p: IconProps) => (
     <path d="M15.5 15.5 20 20" />
   </Icon>
 );
+// Exam domains, drawn from each domain's work: shaping data, relating tables, building report
+// visuals, securing what's shared, and the case-study brief.
+export const PrepareIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 5h16l-6 7.2V19l-4-1.8v-5z" />
+  </Icon>
+);
+export const ModelIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3" y="3.5" width="7" height="6" rx="1.2" />
+    <rect x="14" y="3.5" width="7" height="6" rx="1.2" />
+    <rect x="8.5" y="14.5" width="7" height="6" rx="1.2" />
+    <path d="M6.5 9.5V12h11V9.5M12 12v2.5" />
+  </Icon>
+);
+export const VisualizeIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3.5" y="4" width="17" height="16" rx="2" />
+    <path d="M7 15.5l3.5-4 3 2.5 4-5" />
+  </Icon>
+);
+export const ManageIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3.5l7 2.8v5.2c0 4.3-3 7.6-7 9-4-1.4-7-4.7-7-9V6.3z" />
+    <path d="M9.3 12.2l1.9 1.9 3.6-3.6" />
+  </Icon>
+);
+export const CaseIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3.5" y="7.5" width="17" height="12" rx="2" />
+    <path d="M9 7.5V5.6A1.6 1.6 0 0 1 10.6 4h2.8A1.6 1.6 0 0 1 15 5.6v1.9M3.5 12.5h17" />
+  </Icon>
+);
+export const SlidersIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M5 6h9M18 6h1M5 12h3M12 12h7M5 18h11M20 18h-1" />
+    <circle cx="16" cy="6" r="2" />
+    <circle cx="10" cy="12" r="2" />
+    <circle cx="18" cy="18" r="2" />
+  </Icon>
+);
 export const PencilIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z" />

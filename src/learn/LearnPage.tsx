@@ -1,19 +1,27 @@
 /**
- * The Learn path. Each unit reads like a query's "Applied steps" pane in Power Query: lessons
- * are steps applied in order, joined by a line, ticked off as they're done.
+ * The Learn page, laid out like Power Query's editor: the exam domains are the queries, and the
+ * selected domain's lessons are its "Applied steps", applied in order, ticked off and highlighted
+ * as they're done. What to do next leads the page.
  */
+import { useRef, useState, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
+import { useDocumentTitle } from '@/app/title';
+import { DOMAIN_SHORT, type Domain } from '@/bank/constants';
 import { dueIds, mistakeIds } from '@/practice/select';
 import { useProgress, useProgressStore } from '@/progress/hooks';
 import { StatsStrip } from '@/progress/StatsStrip';
-import { CheckIcon, ChevronRightIcon, LockIcon } from '@/ui/icons';
-import { lessonTitle, type Lesson, type Unit } from './course';
+import { useMediaQuery } from '@/lib/useMediaQuery';
+import { DomainIcon } from '@/ui/domains';
+import { CheckIcon, ChevronRightIcon, SlidersIcon } from '@/ui/icons';
+import { lessonTitle, type Course, type Lesson, type Unit } from './course';
 import { lessonState, unitDone, upNext, type LessonState } from './rules';
 import { useCourse } from './useCourse';
 import styles from './LearnPage.module.css';
-import { useDocumentTitle } from '@/app/title';
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;
+
+/** About 40 seconds a question, rounded to whole minutes. */
+const minutes = (questions: number) => Math.max(1, Math.round((questions * 40) / 60));
 
 function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state: LessonState }) {
   const doc = useProgress();
@@ -21,26 +29,22 @@ function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state:
   const title = lessonTitle(lesson);
   const count = `${lesson.questionIds.length} questions`;
 
-  const marker = (
-    <span className={styles.marker} aria-hidden="true">
-      {state === 'done' ? <CheckIcon /> : state === 'locked' ? <LockIcon /> : lesson.number}
-    </span>
-  );
-
   const detail =
     state === 'done' && record
       ? `${count}, best first-try score ${pct(record.bestAccuracy)}`
       : state === 'locked'
-        ? `${count}. Finish lesson ${lesson.number - 1} to unlock`
-        : count;
+        ? `${count}. Unlocks after lesson ${lesson.number - 1}`
+        : `${count}, about ${minutes(lesson.questionIds.length)} minutes`;
 
   const body = (
     <>
-      {marker}
+      <span className={styles.marker} aria-hidden="true">
+        {state === 'done' ? <CheckIcon /> : state === 'locked' ? null : lesson.number}
+      </span>
       <span className={styles.rowText}>
         <span className={styles.rowTitle}>
           <span className="sr-only">Lesson {lesson.number}: </span>
-          {title}
+          <span className={state === 'done' ? styles.applied : undefined}>{title}</span>
         </span>
         <span className={styles.rowDetail}>{detail}</span>
       </span>
@@ -70,44 +74,115 @@ function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state:
   );
 }
 
-function UnitSection({ unit, open }: { unit: Unit; open: boolean }) {
+/**
+ * The domains as tabs (a vertical list beside the steps on wide screens, a row above them on
+ * phones) and the chosen domain's lessons. Arrow keys move between domains in either layout.
+ */
+function CourseView({ course, initial }: { course: Course; initial: Domain }) {
   const doc = useProgress();
+  const [selected, setSelected] = useState<Domain>(initial);
+  const wide = useMediaQuery('(min-width: 900px)');
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const units = course.units;
+  const index = Math.max(
+    0,
+    units.findIndex((u) => u.domain === selected),
+  );
+  const unit = units[index]!;
   const done = unitDone(unit, doc);
-  const total = unit.lessons.length;
-  const headingId = `unit-${unit.domain}`;
+
+  const go = (i: number) => {
+    const to = (i + units.length) % units.length;
+    setSelected(units[to]!.domain);
+    tabs.current[to]?.focus();
+  };
+  const onKey = (e: KeyboardEvent) => {
+    const moves: Record<string, number> = {
+      ArrowDown: index + 1,
+      ArrowRight: index + 1,
+      ArrowUp: index - 1,
+      ArrowLeft: index - 1,
+      Home: 0,
+      End: units.length - 1,
+    };
+    const to = moves[e.key];
+    if (to === undefined) return;
+    e.preventDefault();
+    go(to);
+  };
 
   return (
-    <details className={styles.unit} open={open}>
-      <summary className={styles.summary}>
-        <span className={styles.unitHead}>
-          <h2 id={headingId} className={styles.unitTitle}>
-            {unit.title}
-          </h2>
-          <span className={styles.unitMeta}>{unit.weight}</span>
-        </span>
-        <span className={styles.unitProgress}>
-          <span className={styles.unitCount}>
-            {done} of {total}
-            <span className="sr-only"> lessons done</span>
-          </span>
-          <span className={styles.unitBar} aria-hidden="true">
-            <span data-fill style={{ width: `${(done / total) * 100}%` }} />
-          </span>
-        </span>
-      </summary>
-      <div className={styles.steps}>
-        <p className={styles.stepsLabel}>Applied steps</p>
-        <ol className={styles.list} aria-labelledby={headingId}>
+    <section className={styles.course} aria-label="Your course">
+      <div
+        className={styles.tabs}
+        role="tablist"
+        aria-label="Exam domains"
+        aria-orientation={wide ? 'vertical' : 'horizontal'}
+      >
+        {units.map((u, i) => {
+          const d = unitDone(u, doc);
+          const isSelected = u.domain === unit.domain;
+          return (
+            <button
+              key={u.domain}
+              ref={(el) => {
+                tabs.current[i] = el;
+              }}
+              type="button"
+              role="tab"
+              id={`tab-${u.domain}`}
+              aria-selected={isSelected}
+              aria-controls="course-steps"
+              aria-label={`${u.title}, ${d} of ${u.lessons.length} lessons done`}
+              tabIndex={isSelected ? 0 : -1}
+              className={styles.tab}
+              data-domain={u.domain}
+              onClick={() => setSelected(u.domain)}
+              onKeyDown={onKey}
+            >
+              <DomainIcon domain={u.domain} className={styles.tabIcon} />
+              <span className={styles.tabText} aria-hidden="true">
+                <span className={styles.tabLong}>{u.title}</span>
+                <span className={styles.tabShort}>{DOMAIN_SHORT[u.domain]}</span>
+                <span className={styles.tabCount}>
+                  {d} of {u.lessons.length}
+                </span>
+              </span>
+              <span className={styles.tabBar} aria-hidden="true">
+                <span data-fill style={{ width: `${(d / u.lessons.length) * 100}%` }} />
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div
+        className={styles.panel}
+        role="tabpanel"
+        id="course-steps"
+        aria-labelledby={`tab-${unit.domain}`}
+        data-domain={unit.domain}
+      >
+        <div className={styles.panelHead}>
+          <h2 className={styles.panelTitle}>{unit.title}</h2>
+          <p className={styles.panelMeta}>
+            {unit.weight}. {done} of {unit.lessons.length} lessons done.
+          </p>
+        </div>
+        <p className={styles.stepsLabel} id="applied-steps">
+          Applied steps
+        </p>
+        <ol className={styles.list} aria-labelledby="applied-steps">
           {unit.lessons.map((l) => (
             <LessonRow key={l.id} lesson={l} unit={unit} state={lessonState(l, unit, doc)} />
           ))}
         </ol>
       </div>
-    </details>
+    </section>
   );
 }
 
-/** Today's review queues, on the home screen (BUILD_PROMPT 4.4). Hidden until there's history. */
+/** Today's review queues. Hidden until there's history, so a first visit isn't a row of zeros. */
 function ReviewStrip() {
   const { bank } = useCourse();
   const doc = useProgress();
@@ -118,15 +193,25 @@ function ReviewStrip() {
   return (
     <section className={styles.review} aria-label="Reviews">
       <Link to={due ? '/practice/run?mode=review' : '/practice'} className={styles.reviewItem}>
-        <strong>{due}</strong>
-        <span>{due === 1 ? 'review due today' : 'reviews due today'}</span>
+        {due ? (
+          <>
+            <strong>{due}</strong> {due === 1 ? 'review' : 'reviews'} due today
+          </>
+        ) : (
+          'No reviews due today'
+        )}
       </Link>
       <Link
         to={mistakes ? '/practice/run?mode=mistakes' : '/practice'}
         className={styles.reviewItem}
       >
-        <strong>{mistakes}</strong>
-        <span>{mistakes === 1 ? 'mistake to fix' : 'mistakes to fix'}</span>
+        {mistakes ? (
+          <>
+            <strong>{mistakes}</strong> {mistakes === 1 ? 'mistake' : 'mistakes'} to fix
+          </>
+        ) : (
+          'No mistakes to fix'
+        )}
       </Link>
     </section>
   );
@@ -141,19 +226,21 @@ export function LearnPage() {
 
   return (
     <div className={styles.page}>
-      <h1 className={styles.title}>Learn</h1>
+      <h1 className="sr-only">Learn</h1>
       <StatsStrip />
 
       {next ? (
-        <section className={styles.next} aria-labelledby="up-next">
-          <div>
-            <h2 id="up-next" className={styles.nextLabel}>
-              {anyDone ? 'Up next' : 'Start here'}
+        <section className={styles.next} data-domain={next.unit.domain} aria-labelledby="up-next">
+          <DomainIcon domain={next.unit.domain} className={styles.nextIcon} />
+          <div className={styles.nextText}>
+            <h2 id="up-next" className={styles.nextTitle}>
+              {anyDone ? 'Next: ' : 'Start with '}
+              {lessonTitle(next.lesson)}
             </h2>
-            <p className={styles.nextTitle}>{lessonTitle(next.lesson)}</p>
             <p className={styles.nextMeta}>
               {next.unit.title}, lesson {next.lesson.number} of {next.unit.lessons.length}.{' '}
-              {next.lesson.questionIds.length} questions.
+              {next.lesson.questionIds.length} questions, about{' '}
+              {minutes(next.lesson.questionIds.length)} minutes.
             </p>
           </div>
           <Link to={`/learn/${next.lesson.id}`} className={styles.nextBtn}>
@@ -162,8 +249,8 @@ export function LearnPage() {
         </section>
       ) : (
         <section className={styles.next} aria-labelledby="up-next">
-          <div>
-            <h2 id="up-next" className={styles.nextLabel}>
+          <div className={styles.nextText}>
+            <h2 id="up-next" className={styles.nextTitle}>
               Every lesson done
             </h2>
             <p className={styles.nextMeta}>
@@ -175,23 +262,16 @@ export function LearnPage() {
 
       <ReviewStrip />
 
-      <Link to="/concepts" className={styles.concepts}>
-        <span className={styles.conceptsTitle}>Concept simulators</span>
-        <span className={styles.conceptsText}>
-          Join kinds, Append vs Merge, filter context, star vs snowflake: change the inputs and
-          watch what happens.
-        </span>
-      </Link>
+      <CourseView course={course} initial={next?.unit.domain ?? 'prepare'} />
 
-      <div className={styles.units}>
-        {course.units.map((u) => (
-          <UnitSection
-            key={u.domain}
-            unit={u}
-            open={next ? next.unit.domain === u.domain : false}
-          />
-        ))}
-      </div>
+      <Link to="/concepts" className={styles.concepts}>
+        <SlidersIcon className={styles.conceptsIcon} aria-hidden="true" />
+        <span className={styles.conceptsText}>
+          <span className={styles.conceptsTitle}>Concept simulators</span>
+          <span>See joins, filter context and schemas respond as you change them.</span>
+        </span>
+        <ChevronRightIcon className={styles.chevron} aria-hidden="true" />
+      </Link>
     </div>
   );
 }

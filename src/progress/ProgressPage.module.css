@@ -220,6 +220,9 @@
 }
 
 .barLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
   font-weight: 700;
 }
 
@@ -240,7 +243,8 @@
   position: absolute;
   inset: 0 auto 0 0;
   border-radius: 4px;
-  background: var(--indigo);
+  /* Each domain in its own colour; its name and icon sit on the same row. */
+  background: var(--d, var(--indigo));
 }
 
 .passLine {
@@ -341,4 +345,25 @@
 
 .actions {
   display: grid;
+}
+
+/* ---------- First visit ---------- */
+
+.introTitle {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.introActions {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+}
+
+@media (min-width: 560px) {
+  .introActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

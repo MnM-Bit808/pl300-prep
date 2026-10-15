@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { useBank } from '@/bank/useBank';
 import { UNIT_INFO } from '@/learn/course';
+import { DomainIcon } from '@/ui/domains';
 import { EXAM_DOMAINS, PASS_MARK } from '@/mock/build';
 import { CheckIcon, CrossIcon, HalfIcon } from '@/ui/icons';
 import buttons from '@/ui/buttons.module.css';
@@ -53,90 +54,120 @@ export function ProgressPage() {
     <div className={styles.page}>
       <h1 className={styles.title}>Progress</h1>
 
-      <section className={styles.ready} data-band={a.band ?? undefined} aria-labelledby="readiness">
-        <h2 id="readiness" className={styles.readyLabel}>
-          Readiness estimate
-        </h2>
-        {a.readiness === null ? (
-          <>
-            <p className={styles.readyNone}>Not enough to go on yet.</p>
-            <p className={styles.note}>
-              Do a few lessons or a mock exam and an estimate appears here.
-            </p>
-          </>
-        ) : (
-          <>
-            <p className={styles.readyLine}>
-              <span className={styles.readyScore}>{a.readiness}</span>
-              <span className={styles.outOf}>out of 1,000</span>
-            </p>
-            <p className={styles.band}>
-              {a.band === 'on-track' ? (
-                <CheckIcon />
-              ) : a.band === 'close' ? (
-                <HalfIcon />
-              ) : (
-                <CrossIcon />
-              )}
-              {BAND_TEXT[a.band!]}
-            </p>
-            <ul className={styles.sources}>
-              <li>
-                From mocks:{' '}
-                {a.mockScore === null ? (
-                  'none yet'
-                ) : (
-                  <>
-                    <strong>{a.mockScore}</strong>, your last{' '}
-                    {a.mocksUsed === 1 ? 'mock' : `${a.mocksUsed} mocks`}
-                    {a.mocksUsed > 1 ? ', the latest counting most' : ''}
-                  </>
-                )}
-              </li>
-              <li>
-                From practice:{' '}
-                {a.practiceScore === null ? (
-                  'none yet'
-                ) : (
-                  <>
-                    <strong>{a.practiceScore}</strong>, recent accuracy × how much of each domain
-                    you’ve covered
-                  </>
-                )}
-              </li>
-            </ul>
-            <p className={styles.note}>
-              An estimate, not a prediction:{' '}
-              {a.mockScore !== null && a.practiceScore !== null ? '60% mocks, 40% practice. ' : ''}
-              The pass mark is {PASS_MARK}.{' '}
-              {a.mocksUsed < 3 ? 'Take more mocks for a firmer number.' : ''}
-            </p>
-          </>
-        )}
-      </section>
+      {started ? (
+        <>
+          <section
+            className={styles.ready}
+            data-band={a.band ?? undefined}
+            aria-labelledby="readiness"
+          >
+            <h2 id="readiness" className={styles.readyLabel}>
+              Readiness estimate
+            </h2>
+            {a.readiness === null ? (
+              <>
+                <p className={styles.readyNone}>Not enough to go on yet.</p>
+                <p className={styles.note}>
+                  Do a few lessons or a mock exam and an estimate appears here.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className={styles.readyLine}>
+                  <span className={styles.readyScore}>{a.readiness}</span>
+                  <span className={styles.outOf}>out of 1,000</span>
+                </p>
+                <p className={styles.band}>
+                  {a.band === 'on-track' ? (
+                    <CheckIcon />
+                  ) : a.band === 'close' ? (
+                    <HalfIcon />
+                  ) : (
+                    <CrossIcon />
+                  )}
+                  {BAND_TEXT[a.band!]}
+                </p>
+                <ul className={styles.sources}>
+                  <li>
+                    From mocks:{' '}
+                    {a.mockScore === null ? (
+                      'none yet'
+                    ) : (
+                      <>
+                        <strong>{a.mockScore}</strong>, your last{' '}
+                        {a.mocksUsed === 1 ? 'mock' : `${a.mocksUsed} mocks`}
+                        {a.mocksUsed > 1 ? ', the latest counting most' : ''}
+                      </>
+                    )}
+                  </li>
+                  <li>
+                    From practice:{' '}
+                    {a.practiceScore === null ? (
+                      'none yet'
+                    ) : (
+                      <>
+                        <strong>{a.practiceScore}</strong>, recent accuracy × how much of each
+                        domain you’ve covered
+                      </>
+                    )}
+                  </li>
+                </ul>
+                <p className={styles.note}>
+                  An estimate, not a prediction:{' '}
+                  {a.mockScore !== null && a.practiceScore !== null
+                    ? '60% mocks, 40% practice. '
+                    : ''}
+                  The pass mark is {PASS_MARK}.{' '}
+                  {a.mocksUsed < 3 ? 'Take more mocks for a firmer number.' : ''}
+                </p>
+              </>
+            )}
+          </section>
 
-      <section className={styles.tiles} aria-label="Totals">
-        <div className={styles.tile}>
-          <p className={styles.tileValue}>
-            {a.seen}
-            <span> of {a.total}</span>
+          <section className={styles.tiles} aria-label="Totals">
+            <div className={styles.tile}>
+              <p className={styles.tileValue}>
+                {a.seen}
+                <span> of {a.total}</span>
+              </p>
+              <p className={styles.tileLabel}>questions answered at least once</p>
+              <span className={styles.meter} aria-hidden="true">
+                <span data-fill style={{ width: pct(a.seen / a.total) }} />
+              </span>
+            </div>
+            <div className={styles.tile}>
+              <p className={styles.tileValue}>{doc.mocks.length}</p>
+              <p className={styles.tileLabel}>
+                {doc.mocks.length === 1 ? 'mock exam taken' : 'mock exams taken'}
+              </p>
+            </div>
+            <div className={styles.tile}>
+              <p className={styles.tileValue}>{streak}</p>
+              <p className={styles.tileLabel}>day streak</p>
+            </div>
+          </section>
+        </>
+      ) : (
+        // A first visit gets an explanation and two ways in, not a page of zeros.
+        <section className={styles.ready} aria-labelledby="progress-intro">
+          <h2 id="progress-intro" className={styles.introTitle}>
+            Your progress builds up here
+          </h2>
+          <p className={styles.note}>
+            Answer questions in a lesson, practice or a mock exam and this page fills in: an
+            estimated exam score out of 1,000, how well you know each domain, your weakest topics
+            and your mock scores over time.
           </p>
-          <p className={styles.tileLabel}>questions answered at least once</p>
-          <span className={styles.meter} aria-hidden="true">
-            <span data-fill style={{ width: pct(a.seen / a.total) }} />
-          </span>
-        </div>
-        <div className={styles.tile}>
-          <p className={styles.tileValue}>{doc.mocks.length}</p>
-          <p className={styles.tileLabel}>
-            {doc.mocks.length === 1 ? 'mock exam taken' : 'mock exams taken'}
-          </p>
-        </div>
-        <div className={styles.tile}>
-          <p className={styles.tileValue}>{streak}</p>
-          <p className={styles.tileLabel}>day streak</p>
-        </div>
-      </section>
+          <div className={styles.introActions}>
+            <Link to="/" className={buttons.primary}>
+              Start your first lesson
+            </Link>
+            <Link to="/mock" className={buttons.secondary}>
+              Try a mock exam
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className={styles.card} aria-labelledby="mastery">
         <h2 id="mastery" className={styles.h2}>
@@ -151,8 +182,11 @@ export function ProgressPage() {
             const t = a.domains[d];
             const label = UNIT_INFO[d].title;
             return (
-              <li key={d} className={styles.barRow}>
-                <span className={styles.barLabel}>{label}</span>
+              <li key={d} className={styles.barRow} data-domain={d}>
+                <span className={styles.barLabel}>
+                  <DomainIcon domain={d} />
+                  {label}
+                </span>
                 <span className={styles.barValue}>
                   {t.mastery === null ? 'Not started' : pct(t.mastery)}
                 </span>
@@ -185,61 +219,58 @@ export function ProgressPage() {
         </p>
       </section>
 
-      <section className={styles.card} aria-labelledby="weakest">
-        <h2 id="weakest" className={styles.h2}>
-          Weakest subtopics
-        </h2>
-        {a.weakest.length ? (
-          <>
-            <p className={styles.note}>
-              Lowest recent accuracy, among subtopics with at least {MIN_SUBTOPIC_ATTEMPTS} answers.
-            </p>
-            <ol className={styles.weak}>
-              {a.weakest.slice(0, 5).map((s) => (
-                <li key={`${s.topic}/${s.subtopic}`} className={styles.weakRow}>
-                  <span className={styles.weakPct}>{pct(s.mastery!)}</span>
-                  <span className={styles.weakText}>
-                    <strong>{s.subtopic}</strong>
-                    <span>
-                      {UNIT_INFO[s.domain].title}, {s.attempts} answers
-                    </span>
-                  </span>
-                  <Link
-                    className={styles.weakLink}
-                    to={`/practice/run?mode=custom&topic=${encodeURIComponent(s.topic)}&subtopic=${encodeURIComponent(s.subtopic)}&n=10`}
-                    aria-label={`Practise ${s.subtopic}`}
-                  >
-                    Practise
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </>
-        ) : (
-          <p className={styles.note}>
-            Answer at least {MIN_SUBTOPIC_ATTEMPTS} questions in a subtopic and the ones that need
-            work show up here.
-          </p>
-        )}
-      </section>
+      {started && (
+        <>
+          <section className={styles.card} aria-labelledby="weakest">
+            <h2 id="weakest" className={styles.h2}>
+              Weakest subtopics
+            </h2>
+            {a.weakest.length ? (
+              <>
+                <p className={styles.note}>
+                  Lowest recent accuracy, among subtopics with at least {MIN_SUBTOPIC_ATTEMPTS}{' '}
+                  answers.
+                </p>
+                <ol className={styles.weak}>
+                  {a.weakest.slice(0, 5).map((s) => (
+                    <li key={`${s.topic}/${s.subtopic}`} className={styles.weakRow}>
+                      <span className={styles.weakPct}>{pct(s.mastery!)}</span>
+                      <span className={styles.weakText}>
+                        <strong>{s.subtopic}</strong>
+                        <span>
+                          {UNIT_INFO[s.domain].title}, {s.attempts} answers
+                        </span>
+                      </span>
+                      <Link
+                        className={styles.weakLink}
+                        to={`/practice/run?mode=custom&topic=${encodeURIComponent(s.topic)}&subtopic=${encodeURIComponent(s.subtopic)}&n=10`}
+                        aria-label={`Practise ${s.subtopic}`}
+                      >
+                        Practise
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            ) : (
+              <p className={styles.note}>
+                Answer at least {MIN_SUBTOPIC_ATTEMPTS} questions in a subtopic and the ones that
+                need work show up here.
+              </p>
+            )}
+          </section>
 
-      <section className={styles.card} aria-labelledby="trend">
-        <h2 id="trend" className={styles.h2}>
-          Mock scores
-        </h2>
-        {trend.length ? (
-          <ScoreTrend points={trend} />
-        ) : (
-          <p className={styles.note}>Your mock exam scores will chart here.</p>
-        )}
-      </section>
-
-      {!started && (
-        <div className={styles.actions}>
-          <Link to="/" className={buttons.primary}>
-            Start your first lesson
-          </Link>
-        </div>
+          <section className={styles.card} aria-labelledby="trend">
+            <h2 id="trend" className={styles.h2}>
+              Mock scores
+            </h2>
+            {trend.length ? (
+              <ScoreTrend points={trend} />
+            ) : (
+              <p className={styles.note}>Your mock exam scores will chart here.</p>
+            )}
+          </section>
+        </>
       )}
       <p className={styles.fine}>
         Coverage counts in full once you’ve seen {pct(FULL_COVERAGE)} of a domain’s questions.

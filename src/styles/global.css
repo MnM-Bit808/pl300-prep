@@ -42,6 +42,15 @@
   --partial: #8a5300;
   --partial-wash: #fcefd5;
 
+  /* Exam domains: identity, never state, and always shown with the domain's name and icon.
+     Validated as a set for colour-blind separation (all pairs) and 3:1 on the surface, in light
+     and dark. Case studies are a neutral slate: they belong to no single domain. */
+  --d-prepare: #0891b2;
+  --d-model: #7b5bd6;
+  --d-visualize: #d0631c;
+  --d-manage: #c03a83;
+  --d-case: #5b6b82;
+
   /* Streak flame: the one warm accent, lit only on a day you've practised */
   --flame: #c25a06;
   --flame-fill: #f6b44a;
@@ -109,6 +118,11 @@
     --focus: #8fb4ff;
     --flame: #ffa24d;
     --flame-fill: #b8560a;
+    --d-prepare: #20a2c7;
+    --d-model: #927ff0;
+    --d-visualize: #d8732f;
+    --d-manage: #dc5fa2;
+    --d-case: #8b97ad;
   }
 }
 
@@ -137,6 +151,28 @@
   --focus: #8fb4ff;
   --flame: #ffa24d;
   --flame-fill: #b8560a;
+  --d-prepare: #20a2c7;
+  --d-model: #927ff0;
+  --d-visualize: #d8732f;
+  --d-manage: #dc5fa2;
+  --d-case: #8b97ad;
+}
+
+/* Anything inside a domain's scope reads its colour as --d. */
+[data-domain='prepare'] {
+  --d: var(--d-prepare);
+}
+[data-domain='model'] {
+  --d: var(--d-model);
+}
+[data-domain='visualize'] {
+  --d: var(--d-visualize);
+}
+[data-domain='manage'] {
+  --d: var(--d-manage);
+}
+[data-domain='case'] {
+  --d: var(--d-case);
 }
 
 *,

@@ -1,42 +1,52 @@
+/* Wider than the reading column on desktop: the course sits beside its domain list. */
 .page {
+  --stage: min(var(--wide), calc(100vw - 2 * var(--gutter)));
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-5);
+  width: var(--stage);
+  margin-left: calc(50% - var(--stage) / 2);
   padding-bottom: var(--s-7);
 }
 
-.title {
-  margin: 0;
-  font-size: var(--text-xl);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-/* ---------- Up next ---------- */
+/* ---------- Next lesson ---------- */
 
 .next {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--s-4);
-  padding: var(--s-5);
-  border: 2px solid var(--indigo);
+  gap: var(--s-4) var(--s-5);
+  padding: var(--s-5) var(--s-5) var(--s-5) calc(var(--s-5) + 6px);
+  border: 1px solid var(--line);
   border-radius: var(--r-panel);
-  background: var(--indigo-wash);
+  background: var(--surface);
+  /* The domain's colour as a band down the left edge. */
+  box-shadow: inset 6px 0 0 var(--d, var(--indigo));
 }
 
-.nextLabel {
-  margin: 0;
-  color: var(--indigo-strong);
-  font-size: var(--text-sm);
-  font-weight: 800;
+.nextIcon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--r-tile);
+  background: color-mix(in srgb, var(--d) 14%, var(--surface));
+  font-size: 28px;
+}
+
+.nextText {
+  display: grid;
+  gap: var(--s-1);
+  min-width: 0;
 }
 
 .nextTitle {
-  margin: var(--s-1) 0;
-  font-size: var(--text-lg);
+  margin: 0;
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.125rem);
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .nextMeta {
@@ -55,6 +65,7 @@
   font-weight: 800;
   font-size: 1.0625rem;
   text-decoration: none;
+  white-space: nowrap;
   box-shadow: 0 var(--press) 0 var(--indigo-strong);
 }
 
@@ -63,124 +74,223 @@
   box-shadow: none;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .next {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: var(--s-4) var(--s-4) var(--s-4) calc(var(--s-4) + 6px);
+  }
+
+  .nextIcon {
+    align-self: start;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
   .nextBtn {
+    grid-column: 1 / -1;
     width: 100%;
   }
 }
 
-/* ---------- Units ---------- */
+/* ---------- Review queues ---------- */
 
-.units {
-  display: grid;
-  gap: var(--s-3);
-}
-
-.unit {
-  border: 1px solid var(--line);
-  border-radius: var(--r-panel);
-  background: var(--surface);
-  overflow: hidden;
-}
-
-.summary {
+.review {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-4);
-  min-height: 64px;
-  padding: var(--s-4);
-  cursor: pointer;
-  list-style: none;
-}
-
-.summary::-webkit-details-marker {
-  display: none;
-}
-
-.summary:hover .unitTitle {
-  color: var(--indigo-strong);
-}
-
-.summary:focus-visible {
-  outline-offset: -3px;
-}
-
-.unitHead {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-
-/* Disclosure caret drawn in CSS so it turns with the open state. */
-.unitTitle {
-  display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: var(--s-2);
-  margin: 0;
-  font-size: 1.125rem;
-  font-weight: 800;
 }
 
-.unitTitle::before {
-  content: '';
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-right: 2.5px solid currentColor;
-  border-bottom: 2.5px solid currentColor;
-  rotate: -45deg;
-  transition: rotate 160ms var(--ease-out);
-}
-
-.unit[open] .unitTitle::before {
-  rotate: 45deg;
-}
-
-.unitMeta {
-  padding-left: 18px;
+.reviewItem {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  background: var(--surface);
   color: var(--ink-2);
-  font-size: var(--text-sm);
   font-weight: 600;
+  text-decoration: none;
 }
 
-.unitProgress {
-  display: grid;
-  justify-items: end;
-  gap: 6px;
-  flex: none;
-}
-
-.unitCount {
-  color: var(--ink-2);
-  font-size: var(--text-sm);
-  font-weight: 700;
+.reviewItem strong {
+  color: var(--ink);
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
 
-.unitBar {
-  width: 96px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--surface-sunk);
-  overflow: hidden;
+.reviewItem:hover {
+  border-color: var(--indigo);
+  color: var(--indigo-strong);
 }
 
-.unitBar span {
-  display: block;
-  height: 100%;
-  background: var(--ok);
+/* ---------- Course: domains and their applied steps ---------- */
+
+.course {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3);
 }
 
-/* ---------- Applied steps ---------- */
+/* Phones: a row of domain tabs that scrolls sideways, edge to edge. */
+.tabs {
+  display: flex;
+  gap: var(--s-2);
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 2px var(--gutter) var(--s-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
 
-.steps {
-  padding: 0 var(--s-4) var(--s-4);
-  border-top: 1px solid var(--line);
+.tab {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 700;
+  text-align: left;
+}
+
+.tab:hover {
+  border-color: var(--line-strong);
+}
+
+.tab[aria-selected='true'] {
+  border-color: var(--d);
+  background: color-mix(in srgb, var(--d) 11%, var(--surface));
+  box-shadow: inset 0 0 0 1px var(--d);
+}
+
+.tabIcon {
+  font-size: 20px;
+}
+
+.tabText {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.tabLong {
+  display: none;
+}
+
+.tabCount {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabBar {
+  display: none;
+}
+
+/* Wide screens: the domains as a list beside the steps, like Power Query's Queries pane. */
+@media (min-width: 900px) {
+  .course {
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: start;
+    gap: var(--s-5);
+  }
+
+  .tabs {
+    position: sticky;
+    top: var(--s-4);
+    flex-direction: column;
+    gap: var(--s-1);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .tab {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--s-1) var(--s-3);
+    min-height: 0;
+    padding: var(--s-3);
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .tab:hover {
+    border-color: var(--line);
+    background: var(--surface);
+  }
+
+  .tab[aria-selected='true'] {
+    border-color: var(--line);
+    background: var(--surface);
+    box-shadow: inset 4px 0 0 var(--d);
+  }
+
+  .tabIcon {
+    font-size: 22px;
+  }
+
+  .tabText {
+    display: grid;
+    gap: 2px;
+  }
+
+  .tabLong {
+    display: inline;
+  }
+
+  .tabShort {
+    display: none;
+  }
+
+  .tabBar {
+    display: block;
+    grid-column: 2;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--surface-sunk);
+    overflow: hidden;
+  }
+
+  .tabBar span {
+    display: block;
+    height: 100%;
+    background: var(--d);
+  }
+}
+
+.panel {
+  padding: var(--s-5);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--surface);
+  /* The domain's colour as a band across the top. */
+  box-shadow: inset 0 5px 0 var(--d);
+}
+
+.panelHead {
+  display: grid;
+  gap: 2px;
+  padding-top: var(--s-1);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.panelMeta {
+  margin: 0;
+  color: var(--ink-2);
 }
 
 .stepsLabel {
-  margin: var(--s-3) 0 var(--s-2);
+  margin: var(--s-5) 0 var(--s-2);
   color: var(--ink-2);
   font-size: var(--text-sm);
   font-weight: 700;
@@ -196,30 +306,30 @@
   position: relative;
 }
 
-/* The line that joins the steps, from this marker to the next. */
+/* The line that joins each step to the next, coloured once the step is applied. */
 .row:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 25px;
-  top: 44px;
-  bottom: -8px;
+  left: 23px;
+  top: 40px;
+  bottom: -6px;
   width: 2px;
   background: var(--line);
 }
 
 .row[data-state='done']:not(:last-child)::after {
-  background: var(--ok);
+  background: var(--d);
 }
 
 .rowInner {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--s-3);
   min-height: 56px;
-  padding: var(--s-2) var(--s-2) var(--s-2) var(--s-2);
+  padding: var(--s-2);
   border-radius: var(--r-control);
   color: inherit;
   text-decoration: none;
@@ -236,10 +346,10 @@ a.rowInner:hover .rowTitle {
 .marker {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border: 2px solid var(--line-strong);
-  border-radius: 10px;
+  border-radius: 50%;
   background: var(--surface);
   color: var(--ink-2);
   font-size: var(--text-sm);
@@ -248,7 +358,7 @@ a.rowInner:hover .rowTitle {
 }
 
 .marker svg {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .rowText {
@@ -259,6 +369,16 @@ a.rowInner:hover .rowTitle {
 
 .rowTitle {
   font-weight: 700;
+}
+
+/* An applied step wears the highlighter, as a takeaway does. */
+.applied {
+  padding: 0 0.15em;
+  color: var(--mark-ink);
+  background: linear-gradient(transparent 14%, var(--mark) 14%, var(--mark) 86%, transparent 86%)
+    no-repeat 0 0 / 100% 100%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .rowDetail {
@@ -281,25 +401,23 @@ a.rowInner:hover .rowTitle {
 }
 
 .row[data-state='done'] .marker {
-  border-color: var(--ok);
-  background: var(--ok);
+  border-color: var(--d);
+  background: var(--d);
   color: var(--surface);
 }
 
 .row[data-state='current'] .marker {
-  border-color: var(--indigo);
-  background: var(--indigo);
-  color: var(--on-indigo);
-  box-shadow: 0 0 0 4px var(--indigo-wash);
+  border-width: 3px;
+  border-color: var(--d);
+  color: var(--ink);
 }
 
 .row[data-state='current'] .rowInner {
-  background: var(--indigo-wash);
+  background: color-mix(in srgb, var(--d) 10%, var(--surface));
 }
 
 .row[data-state='open'] .marker {
-  border-color: var(--indigo);
-  color: var(--indigo-strong);
+  color: var(--ink);
 }
 
 .row[data-state='locked'] .rowTitle {
@@ -309,67 +427,42 @@ a.rowInner:hover .rowTitle {
 
 .row[data-state='locked'] .marker {
   border-style: dashed;
-  color: var(--ink-3);
 }
 
-/* ---------- Review queues ---------- */
-
-.review {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s-3);
-}
-
-.reviewItem {
-  display: grid;
-  gap: 2px;
-  padding: var(--s-4);
-  border: 1px solid var(--line);
-  border-radius: var(--r-panel);
-  background: var(--surface);
-  color: var(--ink-2);
-  font-weight: 600;
-  line-height: 1.25;
-  text-decoration: none;
-}
-
-.reviewItem strong {
-  color: var(--ink);
-  font-size: 1.75rem;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
-
-.reviewItem:hover {
-  border-color: var(--indigo);
-}
-
-.reviewItem:hover span {
-  color: var(--indigo-strong);
-}
-
-/* ---------- Concept simulators entry ---------- */
+/* ---------- Concept simulators ---------- */
 
 .concepts {
   display: grid;
-  gap: 4px;
-  padding: var(--s-4) var(--s-5);
-  border: 2px dashed var(--indigo);
-  border-radius: var(--r-panel);
-  color: inherit;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-tile);
+  background: var(--surface);
+  color: var(--ink-2);
   text-decoration: none;
 }
 
 .concepts:hover {
-  background: var(--indigo-wash);
+  border-color: var(--indigo);
 }
 
-.conceptsTitle {
-  color: var(--indigo-strong);
-  font-size: 1.125rem;
-  font-weight: 800;
+.conceptsIcon {
+  color: var(--indigo);
+  font-size: 24px;
 }
 
 .conceptsText {
-  color: var(--ink-2);
+  display: grid;
+  gap: 2px;
+}
+
+.conceptsTitle {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.concepts:hover .conceptsTitle {
+  color: var(--indigo-strong);
 }

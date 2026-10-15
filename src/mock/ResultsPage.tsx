@@ -7,6 +7,7 @@ import { useId, useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router';
 import { useBank } from '@/bank/useBank';
 import { UNIT_INFO } from '@/learn/course';
+import { DomainIcon } from '@/ui/domains';
 import { formatDate, formatDuration } from '@/lib/dates';
 import { useProgress } from '@/progress/hooks';
 import type { MockRecord } from '@/progress/store';
@@ -107,8 +108,11 @@ function Results({ record }: { record: MockRecord }) {
             const { marks, total } = score.byDomain[d];
             const pct = total ? marks / total : 0;
             return (
-              <li key={d} className={styles.barRow}>
-                <span className={styles.barLabel}>{UNIT_INFO[d].title}</span>
+              <li key={d} className={styles.barRow} data-domain={d}>
+                <span className={styles.barLabel}>
+                  <DomainIcon domain={d} />
+                  {UNIT_INFO[d].title}
+                </span>
                 <span className={styles.barValue}>
                   {Math.round(pct * 100)}%
                   <span className={styles.barMarks}>

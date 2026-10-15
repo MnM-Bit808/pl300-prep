@@ -9,6 +9,10 @@ const NOTE = 'Remember: dual mode caches dimensions';
 async function answeredCount(page: Page) {
   await openPage(page, '/progress');
   const tile = page.getByText('questions answered at least once').locator('..');
+  const intro = page.getByRole('heading', { name: 'Your progress builds up here' });
+  // Nothing answered yet: the page explains itself instead of showing a 0.
+  await expect(tile.or(intro)).toBeVisible();
+  if (await intro.isVisible()) return 0;
   return Number((await tile.textContent())?.match(/\d+/)?.[0] ?? 0);
 }
 

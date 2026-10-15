@@ -23,7 +23,9 @@ import {
   type BackupSummary,
 } from '@/data/backup';
 import { formatDate } from '@/lib/dates';
-import { useAppData } from '@/progress/hooks';
+import { useAppData, useProgress, useProgressStore } from '@/progress/hooks';
+import { GOALS } from '@/progress/xp';
+import { ChipGroup } from '@/ui/ChipGroup';
 import { promptInstall, useInstallState } from '@/pwa/install';
 import { useSwState } from '@/pwa/state';
 import { MOCK_DRAFT_KEY, PROGRESS_KEY } from '@/progress/store';
@@ -78,6 +80,29 @@ function Choice<P extends PrefName>({
         </p>
       )}
     </fieldset>
+  );
+}
+
+/** How much XP a day counts as a good day: drives the goal bar on Learn. */
+function GoalSection() {
+  const doc = useProgress();
+  const store = useProgressStore();
+  return (
+    <section className={styles.card} aria-labelledby="daily-goal">
+      <h2 id="daily-goal" className={styles.h2}>
+        Daily goal
+      </h2>
+      <ChipGroup
+        legend="XP to earn each day"
+        value={String(doc.xp.goal)}
+        options={GOALS.map((g) => ({ value: String(g), label: `${g} XP` }))}
+        onChange={(v) => store.setGoal(Number(v))}
+      />
+      <p className={styles.hint}>
+        A question right on the first try earns 10 XP, so 50 XP is about five questions. A lesson
+        with no mistakes adds 10 more.
+      </p>
+    </section>
   );
 }
 
@@ -237,6 +262,8 @@ export function SettingsPage() {
           hint="Reduce motion turns off the card flip, highlighter sweep and slide-ins, even if your device allows them."
         />
       </section>
+
+      <GoalSection />
 
       <AppSection say={setStatus} />
 

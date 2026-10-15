@@ -180,6 +180,9 @@
 }
 
 .barLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
   font-weight: 700;
 }
 
@@ -207,7 +210,8 @@
   position: absolute;
   inset: 0 auto 0 0;
   border-radius: 4px;
-  background: var(--indigo);
+  /* Each domain in its own colour; its name and icon sit on the same row. */
+  background: var(--d, var(--indigo));
 }
 
 .passLine {

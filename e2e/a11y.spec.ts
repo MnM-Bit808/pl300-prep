@@ -9,6 +9,12 @@ import { choose, expect, openPage, test, type Page } from './fixtures';
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa', 'best-practice'];
 
 async function audit(page: Page, label: string) {
+  // Judge the settled screen: finish short transitions (a result fading in) so axe doesn't
+  // measure half-transparent text. Endless ones, like the schema's flow dash, are left running.
+  await page.evaluate(() => {
+    for (const a of document.getAnimations())
+      if (a.effect?.getComputedTiming().iterations !== Infinity) a.finish();
+  });
   const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();
   const readable = violations.map(
     (v) =>

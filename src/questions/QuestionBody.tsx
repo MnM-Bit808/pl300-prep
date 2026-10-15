@@ -9,6 +9,8 @@ import { Exhibit } from '@/exhibits/Exhibit';
 import { dialogOpen, isTypingTarget } from '@/lib/keys';
 import { RichText } from '@/ui/RichText';
 import type { Answer, AnswerUpdater, Layout } from './answer';
+import { DOMAIN_SHORT } from '@/bank/constants';
+import { DomainIcon } from '@/ui/domains';
 import { DIFFICULTY_LABEL, FORMAT_LABEL } from './labels';
 import { MultiChoice, SingleChoice } from './renderers/ChoiceList';
 import { Dropdowns } from './renderers/Dropdowns';
@@ -86,6 +88,10 @@ export function QuestionBody({
         </li>
         {meta === 'full' && (
           <>
+            <li className={styles.domain} data-domain={question.domain}>
+              <DomainIcon domain={question.domain} />
+              {DOMAIN_SHORT[question.domain]}
+            </li>
             <li>{question.subtopic}</li>
             <li data-difficulty={question.difficulty}>{DIFFICULTY_LABEL[question.difficulty]}</li>
           </>

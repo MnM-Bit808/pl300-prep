@@ -44,10 +44,20 @@ const mock = (id: string, scaled: number, submittedAt: string) =>
   }) as unknown as MockRecord;
 
 describe('ProgressPage', () => {
-  it('says there is not enough to go on before any practice', async () => {
+  it('explains itself on a first visit instead of showing zeros', async () => {
     await renderWith(() => {});
-    expect(await screen.findByText('Not enough to go on yet.')).toBeInTheDocument();
-    expect(screen.getByText(/questions answered at least once/)).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'Your progress builds up here' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Start your first lesson' })).toHaveAttribute(
+      'href',
+      '/',
+    );
+    expect(screen.getByRole('link', { name: 'Try a mock exam' })).toHaveAttribute('href', '/mock');
+    // No readiness panel, totals or empty trend yet; the domains are listed as not started.
+    expect(screen.queryByRole('region', { name: 'Readiness estimate' })).toBeNull();
+    expect(screen.queryByText(/questions answered at least once/)).toBeNull();
+    expect(screen.getAllByText('Not started')).toHaveLength(4);
   });
 
   it('shows readiness, mastery, weakest subtopics and the mock trend', async () => {

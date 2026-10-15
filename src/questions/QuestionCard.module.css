@@ -29,6 +29,16 @@
   font-weight: 800;
 }
 
+/* The question's exam domain, in its colour (the name says it too). */
+.meta .domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-color: color-mix(in srgb, var(--d) 50%, var(--line));
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .meta li[data-difficulty='3'] {
   border-color: var(--ink);
   color: var(--ink);

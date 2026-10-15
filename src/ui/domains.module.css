@@ -1,0 +1,14 @@
+.icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--d);
+  line-height: 0;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}

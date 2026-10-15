@@ -1,7 +1,10 @@
-/** Streak, total XP and today's goal: the three numbers that keep a daily habit going. */
+/**
+ * Streak, XP and today's goal in one slim line above the next lesson. Nothing reads as a bare
+ * zero: before the first XP the strip says how to start instead. The goal is set in Settings.
+ */
 import { BoltIcon, FlameIcon } from '@/ui/icons';
 import { useProgress, useProgressStore } from './hooks';
-import { GOALS, rollDay, streakActiveToday } from './xp';
+import { rollDay, streakActiveToday } from './xp';
 import styles from './StatsStrip.module.css';
 
 export function StatsStrip() {
@@ -17,34 +20,28 @@ export function StatsStrip() {
     <section className={styles.strip} aria-label="Your progress">
       <p className={styles.stat} data-lit={lit || undefined}>
         <FlameIcon className={styles.icon} />
-        <span>
-          <strong>{days}</strong> day streak
-          {!lit && days > 0 && <span className={styles.hint}>Earn XP today to keep it</span>}
-        </span>
-      </p>
-      <p className={styles.stat}>
-        <BoltIcon className={styles.icon} />
-        <span>
-          <strong>{xp.total}</strong> XP
-        </span>
-      </p>
-      <div className={styles.goal}>
-        <div className={styles.goalHead}>
-          <span id="goal-label">
-            {goalPct >= 1 ? 'Daily goal met: ' : 'Today: '}
-            <strong>{xp.daily.xp}</strong> of {xp.goal} XP
+        {days > 0 ? (
+          <span>
+            <strong>{days}</strong>-day streak
+            {!lit && <span className={styles.hint}>. Earn XP today to keep it</span>}
           </span>
-          <label className={styles.goalPick}>
-            <span className="sr-only">Daily goal</span>
-            <select value={xp.goal} onChange={(e) => store.setGoal(Number(e.target.value))}>
-              {GOALS.map((g) => (
-                <option key={g} value={g}>
-                  Goal {g} XP
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+        ) : (
+          <span>Start a streak today</span>
+        )}
+      </p>
+      {xp.total > 0 && (
+        <p className={styles.stat}>
+          <BoltIcon className={styles.icon} />
+          <span>
+            <strong>{xp.total}</strong> XP
+          </span>
+        </p>
+      )}
+      <div className={styles.goal}>
+        <span id="goal-label" className={styles.goalText}>
+          {goalPct >= 1 ? 'Daily goal met: ' : 'Today: '}
+          <strong>{xp.daily.xp}</strong> of {xp.goal} XP
+        </span>
         <div
           className={styles.bar}
           role="progressbar"

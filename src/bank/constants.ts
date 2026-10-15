@@ -13,3 +13,12 @@ export const ID_PREFIX = {
 
 export type Domain = (typeof DOMAINS)[number];
 export type QuestionType = (typeof QUESTION_TYPES)[number];
+
+/** Short names for tight places (tabs, tags); the full titles live with the course. */
+export const DOMAIN_SHORT: Record<Domain, string> = {
+  prepare: 'Prepare',
+  model: 'Model',
+  visualize: 'Visualize',
+  manage: 'Manage',
+  case: 'Case studies',
+};
