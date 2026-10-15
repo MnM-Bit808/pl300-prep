@@ -2,7 +2,7 @@
  * Streak, XP and today's goal in one slim line above the next lesson. Nothing reads as a bare
  * zero: before the first XP the strip says how to start instead. The goal is set in Settings.
  */
-import { BoltIcon, FlameIcon } from '@/ui/icons';
+import { BoltIcon, FlameIcon, SnowflakeIcon } from '@/ui/icons';
 import { useProgress, useProgressStore } from './hooks';
 import { rollDay, streakActiveToday } from './xp';
 import styles from './StatsStrip.module.css';
@@ -23,12 +23,24 @@ export function StatsStrip() {
         {days > 0 ? (
           <span>
             <strong>{days}</strong>-day streak
-            {!lit && <span className={styles.hint}>. Earn XP today to keep it</span>}
+            {xp.frozeOn === today ? (
+              <span className={styles.hint}>. A streak freeze covered the day you missed</span>
+            ) : (
+              !lit && <span className={styles.hint}>. Earn XP today to keep it</span>
+            )}
           </span>
         ) : (
           <span>Start a streak today</span>
         )}
       </p>
+      {xp.freezes > 0 && (
+        <p className={styles.stat} data-frost>
+          <SnowflakeIcon className={styles.icon} />
+          <span>
+            <strong>{xp.freezes}</strong> streak {xp.freezes === 1 ? 'freeze' : 'freezes'}
+          </span>
+        </p>
+      )}
       {xp.total > 0 && (
         <p className={styles.stat}>
           <BoltIcon className={styles.icon} />

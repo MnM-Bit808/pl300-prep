@@ -3,13 +3,16 @@
  * covered, mastery by exam domain, your weakest subtopics, and mock scores over time.
  * Every number says how it's worked out.
  */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { useBank } from '@/bank/useBank';
 import { UNIT_INFO } from '@/learn/course';
+import { unitDone } from '@/learn/rules';
+import { useCourse } from '@/learn/useCourse';
+import { formatDate } from '@/lib/dates';
 import { DomainIcon } from '@/ui/domains';
 import { EXAM_DOMAINS, PASS_MARK } from '@/mock/build';
-import { CheckIcon, CrossIcon, HalfIcon } from '@/ui/icons';
+import { CheckIcon, CrossIcon, HalfIcon, RibbonIcon } from '@/ui/icons';
 import buttons from '@/ui/buttons.module.css';
 import {
   analyse,
@@ -19,6 +22,7 @@ import {
   type Band,
 } from './analytics';
 import { useAttemptLog, useProgress, useProgressStore } from './hooks';
+import { MILESTONES, reached } from './milestones';
 import { ScoreTrend } from './ScoreTrend';
 import { rollDay } from './xp';
 import styles from './ProgressPage.module.css';
@@ -41,6 +45,24 @@ export function ProgressPage() {
   // Read the clock once per visit: weights don't need to tick while you look.
   const [now] = useState(() => Date.now());
   const a = useMemo(() => (log ? analyse(bank, log, doc, now) : null), [bank, log, doc, now]);
+
+  const { course } = useCourse();
+
+  // Milestones that need the course and the analytics are checked here, then kept for good.
+  useEffect(() => {
+    if (!a) return;
+    store.earnMilestones(
+      reached({
+        lessonsDone: Object.keys(doc.lessons).length,
+        streak: rollDay(doc.xp, store.today()).streak.count,
+        mockScores: doc.mocks.map((m) => m.score.scaled),
+        unitsComplete: course.units
+          .filter((u) => unitDone(u, doc) === u.lessons.length)
+          .map((u) => u.domain),
+        mastery: a.domains,
+      }),
+    );
+  }, [a, doc, course, store]);
 
   if (!a) return <p className="loading">Adding up your answers…</p>;
 
@@ -77,6 +99,28 @@ export function ProgressPage() {
                   <span className={styles.readyScore}>{a.readiness}</span>
                   <span className={styles.outOf}>out of 1,000</span>
                 </p>
+                {/* The exam's own scale, with the pass mark where it sits on it. */}
+                <div
+                  className={styles.scale}
+                  role="img"
+                  aria-label={`${a.readiness} on the exam's scale of 0 to 1,000. The pass mark is ${PASS_MARK}.`}
+                >
+                  <span className={styles.scaleTrack}>
+                    <span
+                      className={styles.scaleFill}
+                      data-fill
+                      style={{ width: `${a.readiness / 10}%` }}
+                    />
+                    <span className={styles.scalePass} style={{ left: `${PASS_MARK / 10}%` }} />
+                  </span>
+                  <span className={styles.scaleTicks} aria-hidden="true">
+                    <span>0</span>
+                    <span className={styles.scalePassLabel} style={{ left: `${PASS_MARK / 10}%` }}>
+                      Pass {PASS_MARK}
+                    </span>
+                    <span>1,000</span>
+                  </span>
+                </div>
                 <p className={styles.band}>
                   {a.band === 'on-track' ? (
                     <CheckIcon />
@@ -124,28 +168,19 @@ export function ProgressPage() {
             )}
           </section>
 
-          <section className={styles.tiles} aria-label="Totals">
-            <div className={styles.tile}>
-              <p className={styles.tileValue}>
-                {a.seen}
-                <span> of {a.total}</span>
-              </p>
-              <p className={styles.tileLabel}>questions answered at least once</p>
-              <span className={styles.meter} aria-hidden="true">
-                <span data-fill style={{ width: pct(a.seen / a.total) }} />
-              </span>
-            </div>
-            <div className={styles.tile}>
-              <p className={styles.tileValue}>{doc.mocks.length}</p>
-              <p className={styles.tileLabel}>
-                {doc.mocks.length === 1 ? 'mock exam taken' : 'mock exams taken'}
-              </p>
-            </div>
-            <div className={styles.tile}>
-              <p className={styles.tileValue}>{streak}</p>
-              <p className={styles.tileLabel}>day streak</p>
-            </div>
-          </section>
+          {/* Plain facts in a line: totals don't need a box each. */}
+          <ul className={styles.facts} aria-label="Totals">
+            <li>
+              <strong>{a.seen}</strong> of {a.total} <span>questions answered at least once</span>
+            </li>
+            <li>
+              <strong>{doc.mocks.length}</strong>{' '}
+              {doc.mocks.length === 1 ? 'mock exam taken' : 'mock exams taken'}
+            </li>
+            <li>
+              <strong>{streak}</strong>-day streak
+            </li>
+          </ul>
         </>
       ) : (
         // A first visit gets an explanation and two ways in, not a page of zeros.
@@ -217,6 +252,46 @@ export function ProgressPage() {
         <p className={styles.key}>
           <span className={styles.keyLine} aria-hidden="true" /> 70%, the pass line
         </p>
+      </section>
+
+      <section className={styles.card} aria-labelledby="milestones">
+        <h2 id="milestones" className={styles.h2}>
+          Milestones
+        </h2>
+        <p className={styles.note}>
+          {Object.keys(doc.milestones).length} of {MILESTONES.length} earned. Once earned, a
+          milestone stays.
+        </p>
+        <ul className={styles.badges}>
+          {/* Earned first, then what's still to aim for, each in the list's own order. */}
+          {[...MILESTONES]
+            .sort((x, y) => Number(!doc.milestones[x.id]) - Number(!doc.milestones[y.id]))
+            .map((m) => {
+              const on = doc.milestones[m.id];
+              return (
+                <li
+                  key={m.id}
+                  className={styles.badge}
+                  data-earned={on ? '' : undefined}
+                  data-domain={m.domain}
+                >
+                  <span className={styles.badgeIcon}>
+                    {m.domain ? (
+                      <DomainIcon domain={m.domain} />
+                    ) : (
+                      <RibbonIcon aria-hidden="true" />
+                    )}
+                  </span>
+                  <span className={styles.badgeText}>
+                    <span className={styles.badgeTitle}>{m.title}</span>
+                    <span className={styles.badgeDetail}>
+                      {on ? `Earned ${formatDate(`${on}T12:00:00`)}` : m.detail}
+                    </span>
+                  </span>
+                </li>
+              );
+            })}
+        </ul>
       </section>
 
       {started && (

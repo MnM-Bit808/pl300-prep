@@ -240,6 +240,17 @@ export const SlidersIcon = (p: IconProps) => (
     <circle cx="18" cy="18" r="2" />
   </Icon>
 );
+export const SnowflakeIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5" />
+  </Icon>
+);
+export const RibbonIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="9" r="5.5" />
+    <path d="M8.6 13.4 7 21l5-2.6 5 2.6-1.6-7.6" />
+  </Icon>
+);
 export const PencilIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M4 20l1-4.5L15.5 5a2.1 2.1 0 0 1 3 3L8 18.5z" />

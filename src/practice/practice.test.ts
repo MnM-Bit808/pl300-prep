@@ -54,7 +54,7 @@ describe('Leitner schedule', () => {
   });
 });
 
-describe('migration v1 → v3', () => {
+describe('migration v1 → v4', () => {
   it('schedules everything already answered for today', () => {
     const v1 = {
       version: 1,
@@ -63,8 +63,12 @@ describe('migration v1 → v3', () => {
       questions: { 'PRE-001': rec(1, 1), 'PRE-002': rec(0, 1) },
     };
     const doc = migrate(v1, '2026-10-14')!;
-    expect(doc.version).toBe(3);
+    expect(doc.version).toBe(4);
     expect(doc.mocks).toEqual([]);
+    // v4: quests, freezes and milestones start from nothing.
+    expect(doc.quests.quests).toEqual([]);
+    expect(doc.milestones).toEqual({});
+    expect(doc.xp).toMatchObject({ total: 40, freezes: 0, goalDays: 0 });
     expect(doc.srs).toEqual({
       'PRE-001': { box: 2, due: '2026-10-14' },
       'PRE-002': { box: 1, due: '2026-10-14' },

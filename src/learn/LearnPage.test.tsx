@@ -38,8 +38,17 @@ describe('LearnPage', () => {
     const strip = screen.getByRole('region', { name: 'Your progress' });
     expect(strip).toHaveTextContent('Start a streak today');
     expect(strip).not.toHaveTextContent(/\b0 XP\b|0 day/);
-    // No review queues before there's anything to review.
-    expect(screen.queryByRole('region', { name: 'Reviews' })).toBeNull();
+    // Quests for a newcomer: the first domain, a lesson, a question count. Each a link.
+    const quests = screen.getByRole('region', { name: 'Today’s quests' });
+    expect(
+      within(quests)
+        .getAllByRole('link')
+        .map((l) => l.getAttribute('href')),
+    ).toEqual([
+      '/practice/run?mode=custom&domain=prepare&n=10',
+      '/learn/prepare-1',
+      '/practice/run?mode=custom&n=15',
+    ]);
   });
 
   it('switches domains like tabs, by click and by arrow keys', async () => {
@@ -84,9 +93,14 @@ describe('LearnPage', () => {
       'href',
       '/learn/prepare-2',
     );
+    // 90 for the lesson, and the lesson quest pays 20 as soon as today's quests are planned.
     expect(screen.getByRole('region', { name: 'Your progress' })).toHaveTextContent(
-      /1-day streak.*90 XP/,
+      /1-day streak.*110 XP/,
     );
+    const quests = screen.getByRole('region', { name: 'Today’s quests' });
+    const finished = within(quests).getByText('Finish a lesson').closest('li')!;
+    expect(finished).toHaveAttribute('data-done');
+    expect(finished).toHaveTextContent('Done, +20 XP');
     const steps = within(screen.getByRole('tabpanel')).getAllByRole('listitem');
     expect(steps[0]).toHaveAttribute('data-state', 'done');
     expect(steps[1]).toHaveAttribute('data-state', 'current');

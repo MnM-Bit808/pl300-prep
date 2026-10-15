@@ -79,7 +79,7 @@ describe('backup', () => {
       questions: file.progress.questions,
     };
     const parsed = parseBackup(JSON.stringify({ ...file, progress: v1 }));
-    expect(parsed.ok && parsed.backup.progress.version).toBe(3);
+    expect(parsed.ok && parsed.backup.progress.version).toBe(4);
   });
 
   it('rejects files it can’t trust, with a plain reason', () => {

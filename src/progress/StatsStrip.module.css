@@ -34,6 +34,10 @@
   fill: var(--flame-fill);
 }
 
+.stat[data-frost] .icon {
+  color: var(--d-prepare);
+}
+
 .hint {
   color: var(--ink-2);
 }

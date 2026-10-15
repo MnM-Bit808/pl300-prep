@@ -139,68 +139,73 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Tiles ---------- */
+/* ---------- Totals: a line of facts ---------- */
 
-.tiles {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--s-3);
-}
-
-@media (max-width: 560px) {
-  .tiles {
-    grid-template-columns: 1fr 1fr;
-  }
-  .tiles > :first-child {
-    grid-column: 1 / -1;
-  }
-}
-
-.tile {
-  display: grid;
-  align-content: start;
-  gap: 4px;
-  padding: var(--s-4);
-  border: 1px solid var(--line);
-  border-radius: var(--r-panel);
-  background: var(--surface);
-}
-
-.tileValue {
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-6);
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-}
-
-.tileValue span {
+  padding: 0 var(--s-1);
+  list-style: none;
   color: var(--ink-2);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.tileLabel {
-  margin: 0;
-  color: var(--ink-2);
-  font-size: var(--text-sm);
   font-weight: 600;
 }
 
-.meter {
-  display: block;
-  height: 8px;
-  margin-top: var(--s-2);
-  border-radius: 999px;
-  background: var(--surface-sunk);
-  overflow: hidden;
+.facts strong {
+  color: var(--ink);
+  font-size: 1.375rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
 }
 
-.meter span {
-  display: block;
-  height: 100%;
+/* ---------- The exam's scale ---------- */
+
+.scale {
+  display: grid;
+  gap: 6px;
+  margin: var(--s-2) 0 var(--s-1);
+}
+
+.scaleTrack {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--surface-sunk);
+}
+
+.scaleFill {
+  position: absolute;
+  inset: 0 auto 0 0;
   border-radius: inherit;
   background: var(--indigo);
+}
+
+.scalePass {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+}
+
+.scaleTicks {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.scalePassLabel {
+  position: absolute;
+  translate: -50% 0;
+  color: var(--ink);
+  white-space: nowrap;
 }
 
 /* ---------- Mastery bars: one hue, labelled directly ---------- */
@@ -366,4 +371,70 @@
   .introActions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* ---------- Milestones ---------- */
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s-2);
+  margin: var(--s-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-tile);
+  color: var(--ink-2);
+}
+
+.badgeIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-sunk);
+  color: var(--ink-3);
+  font-size: 20px;
+}
+
+/* Not yet earned: the domain's colour waits until it is. */
+.badge:not([data-earned]) .badgeIcon > * {
+  color: var(--ink-3);
+}
+
+.badge[data-earned] {
+  border-style: solid;
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.badge[data-earned] .badgeIcon {
+  background: color-mix(in srgb, var(--d, var(--indigo)) 14%, var(--surface));
+  color: var(--d, var(--indigo));
+  box-shadow: 0 0 0 2px var(--mark);
+}
+
+.badgeText {
+  display: grid;
+  gap: 2px;
+  line-height: 1.25;
+}
+
+.badgeTitle {
+  font-weight: 800;
+}
+
+.badgeDetail {
+  color: var(--ink-2);
+  font-size: var(--text-sm);
 }

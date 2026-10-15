@@ -12,6 +12,7 @@ import { firstTryAccuracy, LESSON_OPTIONS, type Session } from '@/quiz/session';
 import buttons from '@/ui/buttons.module.css';
 import { lessonTitle, type Lesson } from './course';
 import { isUnlocked } from './rules';
+import { markJustApplied } from './justApplied';
 import { useCourse } from './useCourse';
 import styles from './LessonScreen.module.css';
 import { useDocumentTitle } from '@/app/title';
@@ -44,12 +45,14 @@ function LessonRun({ lesson, onRestart }: { lesson: Lesson; onRestart: () => voi
   const { course } = useCourse();
 
   const onFinish = useCallback(
-    (s: Session) =>
+    (s: Session) => {
       store.finishLesson(lesson.id, lesson.questionIds, {
         completed: s.status === 'complete',
         accuracy: firstTryAccuracy(s),
         xp: s.xp,
-      }),
+      });
+      if (s.status === 'complete') markJustApplied(lesson.id);
+    },
     [store, lesson],
   );
 

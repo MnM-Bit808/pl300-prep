@@ -67,8 +67,9 @@
   --text-base: 1rem; /* 16 body */
   --text-answer: 1.125rem; /* 18 answers */
   --text-stem: 1.25rem; /* 20 question */
-  --text-lg: 1.5rem;
-  --text-xl: 2rem;
+  /* Section and page titles grow with the screen: 32px on a phone, up to 44px on a desktop. */
+  --text-lg: clamp(1.375rem, 1.2rem + 0.6vw, 1.625rem);
+  --text-xl: clamp(2rem, 1.5rem + 1.8vw, 2.75rem);
 
   /* Shape: radius follows hierarchy — panels > tiles > controls > code */
   --r-panel: 18px;

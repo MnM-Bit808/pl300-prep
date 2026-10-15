@@ -3,17 +3,18 @@
  * selected domain's lessons are its "Applied steps", applied in order, ticked off and highlighted
  * as they're done. What to do next leads the page.
  */
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Link } from 'react-router';
 import { useDocumentTitle } from '@/app/title';
 import { DOMAIN_SHORT, type Domain } from '@/bank/constants';
-import { dueIds, mistakeIds } from '@/practice/select';
-import { useProgress, useProgressStore } from '@/progress/hooks';
+import { useProgress } from '@/progress/hooks';
 import { StatsStrip } from '@/progress/StatsStrip';
 import { useMediaQuery } from '@/lib/useMediaQuery';
 import { DomainIcon } from '@/ui/domains';
 import { CheckIcon, ChevronRightIcon, SlidersIcon } from '@/ui/icons';
 import { lessonTitle, type Course, type Lesson, type Unit } from './course';
+import { clearJustApplied, peekJustApplied } from './justApplied';
+import { QuestList } from './QuestList';
 import { lessonState, unitDone, upNext, type LessonState } from './rules';
 import { useCourse } from './useCourse';
 import styles from './LearnPage.module.css';
@@ -23,7 +24,18 @@ const pct = (n: number) => `${Math.round(n * 100)}%`;
 /** About 40 seconds a question, rounded to whole minutes. */
 const minutes = (questions: number) => Math.max(1, Math.round((questions * 40) / 60));
 
-function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state: LessonState }) {
+function LessonRow({
+  lesson,
+  unit,
+  state,
+  just,
+}: {
+  lesson: Lesson;
+  unit: Unit;
+  state: LessonState;
+  /** Just finished: play the highlighter sweep once. */
+  just: boolean;
+}) {
   const doc = useProgress();
   const record = doc.lessons[lesson.id];
   const title = lessonTitle(lesson);
@@ -56,7 +68,7 @@ function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state:
   );
 
   return (
-    <li className={styles.row} data-state={state}>
+    <li className={styles.row} data-state={state} data-just={just || undefined}>
       {state === 'locked' ? (
         <div className={styles.rowInner} aria-disabled="true">
           {body}
@@ -78,7 +90,15 @@ function LessonRow({ lesson, unit, state }: { lesson: Lesson; unit: Unit; state:
  * The domains as tabs (a vertical list beside the steps on wide screens, a row above them on
  * phones) and the chosen domain's lessons. Arrow keys move between domains in either layout.
  */
-function CourseView({ course, initial }: { course: Course; initial: Domain }) {
+function CourseView({
+  course,
+  initial,
+  just,
+}: {
+  course: Course;
+  initial: Domain;
+  just: string | null;
+}) {
   const doc = useProgress();
   const [selected, setSelected] = useState<Domain>(initial);
   const wide = useMediaQuery('(min-width: 900px)');
@@ -174,45 +194,16 @@ function CourseView({ course, initial }: { course: Course; initial: Domain }) {
         </p>
         <ol className={styles.list} aria-labelledby="applied-steps">
           {unit.lessons.map((l) => (
-            <LessonRow key={l.id} lesson={l} unit={unit} state={lessonState(l, unit, doc)} />
+            <LessonRow
+              key={l.id}
+              lesson={l}
+              unit={unit}
+              state={lessonState(l, unit, doc)}
+              just={l.id === just}
+            />
           ))}
         </ol>
       </div>
-    </section>
-  );
-}
-
-/** Today's review queues. Hidden until there's history, so a first visit isn't a row of zeros. */
-function ReviewStrip() {
-  const { bank } = useCourse();
-  const doc = useProgress();
-  const store = useProgressStore();
-  if (!Object.keys(doc.questions).length) return null;
-  const due = dueIds(bank, doc, store.today()).length;
-  const mistakes = mistakeIds(bank, doc).length;
-  return (
-    <section className={styles.review} aria-label="Reviews">
-      <Link to={due ? '/practice/run?mode=review' : '/practice'} className={styles.reviewItem}>
-        {due ? (
-          <>
-            <strong>{due}</strong> {due === 1 ? 'review' : 'reviews'} due today
-          </>
-        ) : (
-          'No reviews due today'
-        )}
-      </Link>
-      <Link
-        to={mistakes ? '/practice/run?mode=mistakes' : '/practice'}
-        className={styles.reviewItem}
-      >
-        {mistakes ? (
-          <>
-            <strong>{mistakes}</strong> {mistakes === 1 ? 'mistake' : 'mistakes'} to fix
-          </>
-        ) : (
-          'No mistakes to fix'
-        )}
-      </Link>
     </section>
   );
 }
@@ -223,6 +214,10 @@ export function LearnPage() {
   const doc = useProgress();
   const next = upNext(course, doc);
   const anyDone = Object.keys(doc.lessons).length > 0;
+  // The lesson just finished, if we've come straight from it: shown once, then forgotten.
+  const [just] = useState(peekJustApplied);
+  useEffect(() => clearJustApplied(), []);
+  const justUnit = just ? course.lessonById.get(just)?.unit : undefined;
 
   return (
     <div className={styles.page}>
@@ -260,9 +255,13 @@ export function LearnPage() {
         </section>
       )}
 
-      <ReviewStrip />
+      <QuestList next={next} />
 
-      <CourseView course={course} initial={next?.unit.domain ?? 'prepare'} />
+      <CourseView
+        course={course}
+        initial={justUnit ?? next?.unit.domain ?? 'prepare'}
+        just={just}
+      />
 
       <Link to="/concepts" className={styles.concepts}>
         <SlidersIcon className={styles.conceptsIcon} aria-hidden="true" />

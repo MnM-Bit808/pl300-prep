@@ -18,7 +18,8 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
 
 ## What's in it
 
-- **Learn:** a path of lessons per exam domain, laid out like Power Query's Applied steps, with XP, a daily goal and streaks. Missed questions come back at the end of a lesson.
+- **Learn:** laid out like Power Query's editor: the exam domains as queries, each with its lessons as Applied steps, ticked and highlighted as you finish them. Missed questions come back at the end of a lesson.
+- **Daily quests and streaks:** three quests a day chosen from your own reviews, mistakes and weakest domain, each a link into the right run and worth bonus XP; a daily XP goal; streak freezes earned by meeting it, which cover a missed day.
 - **Practice:** filter by domain, topic, subtopic and difficulty; a review queue scheduled by spaced repetition (Leitner boxes), a mistakes queue, flagged questions and flashcards.
 - **Mock exams:** 50 questions weighted like the real exam, a 100-minute timer, mark for review, a question map, and a case-study section that locks the one before it. Results show an estimated score out of 1,000 and a breakdown by domain.
 - **Five question formats** as the exam uses them: single and multiple answers, yes/no statements, drop-down parts, and build-a-sequence (drag, or tap and use buttons). Exhibits zoom and pan; case studies open beside the question on wide screens and as a sheet on phones.
@@ -28,9 +29,9 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
   <img src="docs/screenshots/filter-context-desktop.png" alt="The filter context simulator: a matrix of Red sales by colour and year beside an inspector showing the cell's filters, CALCULATE replacing the Color filter, and the five Sales rows counted" width="680">
 </p>
 
-- **Progress:** a readiness estimate (labelled as one), mastery by domain, weakest subtopics with a one-tap practice run, and the mock score trend.
+- **Progress:** a readiness estimate on the exam's own 0–1,000 scale with the pass mark (labelled as an estimate), mastery by domain, milestones tied to the exam, weakest subtopics with a one-tap practice run, and the mock score trend.
 - **My workings:** notes on questions and topics (Markdown), flags, and problem reports you can export. One-file backup and restore of everything.
-- **Settings:** light, dark or device theme; text size; reduce motion; install and offline status.
+- **Settings:** light, dark or device theme; text size; reduce motion; daily XP goal; install and offline status.
 
 ## Quality
 
@@ -39,7 +40,7 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
 - **Secure by default:** a strict Content-Security-Policy (same-origin only, no inline script or style, no eval), sent in production and in the end-to-end tests.
 - **Fast:** the start-up JavaScript is 112 kB gzipped; every other page, the question bank and the simulators load when first needed.
 - **Private:** everything is stored on your device (IndexedDB), and nothing is sent anywhere.
-- **Tested:** 156 unit and component tests (Vitest, Testing Library) and 176 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
+- **Tested:** 174 unit and component tests (Vitest, Testing Library) and 176 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
 
 ## Tech
 

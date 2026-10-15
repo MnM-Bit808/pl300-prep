@@ -36,10 +36,11 @@
   margin: 0 0 var(--s-4);
 }
 
+/* The exam in three numbers, set large and left open: no box each. */
 .facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-6);
   margin: 0 0 var(--s-4);
   padding: 0;
   list-style: none;
@@ -47,9 +48,6 @@
 
 .facts li {
   display: grid;
-  padding: var(--s-3);
-  border-radius: var(--r-tile);
-  background: var(--surface-sunk);
   color: var(--ink-2);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -58,8 +56,10 @@
 
 .facts strong {
   color: var(--ink);
-  font-size: 1.75rem;
+  font-size: 2.25rem;
   font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 

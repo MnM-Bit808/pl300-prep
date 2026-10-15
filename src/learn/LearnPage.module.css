@@ -93,35 +93,6 @@
   }
 }
 
-/* ---------- Review queues ---------- */
-
-.review {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-2);
-}
-
-.reviewItem {
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-control);
-  background: var(--surface);
-  color: var(--ink-2);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.reviewItem strong {
-  color: var(--ink);
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
-
-.reviewItem:hover {
-  border-color: var(--indigo);
-  color: var(--indigo-strong);
-}
-
 /* ---------- Course: domains and their applied steps ---------- */
 
 .course {
@@ -379,6 +350,37 @@ a.rowInner:hover .rowTitle {
     no-repeat 0 0 / 100% 100%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+/* The one celebratory moment: the step just finished takes its tick and highlight. Reduced
+   motion skips straight to the end state. */
+.row[data-just] .marker {
+  animation: tick-in 420ms var(--ease-out) 150ms both;
+}
+
+.row[data-just] .applied {
+  animation: highlight-in 700ms var(--ease-out) 350ms both;
+}
+
+@keyframes tick-in {
+  0% {
+    transform: scale(0.55);
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes highlight-in {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
 }
 
 .rowDetail {

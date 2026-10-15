@@ -12,12 +12,24 @@ import type { ExamState } from '@/mock/exam';
 import type { MockScore } from '@/mock/score';
 import type { Answer } from '@/questions/answer';
 import type { Storage } from '@/storage/db';
+import { reached as milestonesReached } from './milestones';
+import {
+  domainOfId,
+  emptyActivity,
+  emptyQuestDay,
+  newlyReached,
+  QUEST_XP,
+  rollActivity,
+  type Activity,
+  type Quest,
+  type QuestDay,
+} from './quests';
 import { schedule, type SrsCard } from './srs';
 import { addXp, emptyXp, localDay, rollDay, type XpState } from './xp';
 
 export const PROGRESS_KEY = 'progress';
 export const MOCK_DRAFT_KEY = 'mock.current';
-const VERSION = 3;
+const VERSION = 4;
 /** Mock history kept (oldest dropped first). */
 const MAX_MOCKS = 50;
 
@@ -64,6 +76,12 @@ export interface ProgressDoc {
   mistakes: Record<string, string>;
   /** Finished mock exams, oldest first. */
   mocks: MockRecord[];
+  /** Today's activity, which daily quests are measured against. */
+  activity: Activity;
+  /** Today's quests and which have paid out. */
+  quests: QuestDay;
+  /** Milestones earned: id → the day it was earned. */
+  milestones: Record<string, string>;
 }
 
 export const emptyProgress = (): ProgressDoc => ({
@@ -74,6 +92,9 @@ export const emptyProgress = (): ProgressDoc => ({
   srs: {},
   mistakes: {},
   mocks: [],
+  activity: emptyActivity(),
+  quests: emptyQuestDay(),
+  milestones: {},
 });
 
 function isProgressDoc(v: unknown): v is ProgressDoc {
@@ -86,7 +107,10 @@ function isProgressDoc(v: unknown): v is ProgressDoc {
     typeof d.questions === 'object' &&
     typeof d.srs === 'object' &&
     typeof d.mistakes === 'object' &&
-    Array.isArray(d.mocks)
+    Array.isArray(d.mocks) &&
+    typeof d.activity === 'object' &&
+    Array.isArray(d.quests?.quests) &&
+    typeof d.milestones === 'object'
   );
 }
 
@@ -113,6 +137,18 @@ export function migrate(saved: unknown, today: string): ProgressDoc | undefined 
   if (doc.version === 2) {
     // v3 adds mock exam history.
     doc = { ...doc, version: 3, mocks: [] };
+  }
+  if (doc.version === 3) {
+    // v4 adds daily quests, streak freezes and milestones, all starting from nothing.
+    const xp = doc.xp as XpState;
+    doc = {
+      ...doc,
+      version: 4,
+      xp: { ...xp, freezes: 0, goalDays: 0, frozeOn: '' },
+      activity: emptyActivity(),
+      quests: emptyQuestDay(),
+      milestones: {},
+    };
   }
   return isProgressDoc(doc) ? doc : undefined;
 }
@@ -165,6 +201,35 @@ export class ProgressStore {
    * (and a test's fixed clock) agrees on what day it is. */
   today = () => localDay(this.now());
 
+  /**
+   * Bring a changed document up to date with its own consequences: quests it has now reached
+   * pay their XP (once), and milestones it now meets are recorded with today's date.
+   */
+  private settle(doc: ProgressDoc): ProgressDoc {
+    const today = this.today();
+    let next = doc;
+    const activity = rollActivity(next.activity, today);
+    if (next.quests.date === today) {
+      const paid = newlyReached(next.quests, activity);
+      if (paid.length) {
+        next = {
+          ...next,
+          quests: { ...next.quests, done: [...next.quests.done, ...paid.map((q) => q.id)] },
+          xp: addXp(next.xp, QUEST_XP * paid.length, today),
+        };
+      }
+    }
+    return withMilestones(
+      next,
+      milestonesReached({
+        lessonsDone: Object.keys(next.lessons).length,
+        streak: rollDay(next.xp, today).streak.count,
+        mockScores: next.mocks.map((m) => m.score.scaled),
+      }),
+      today,
+    );
+  }
+
   private commit(next: ProgressDoc) {
     this.doc = next;
     for (const l of this.listeners) l();
@@ -201,7 +266,18 @@ export class ProgressStore {
     const counts = scheduled && !retry;
 
     let { srs, mistakes } = this.doc;
+    let activity = rollActivity(this.doc.activity, this.today());
     if (counts) {
+      const domain = domainOfId(questionId);
+      activity = {
+        ...activity,
+        answered: activity.answered + 1,
+        reviews: activity.reviews + (mode === 'review' ? 1 : 0),
+        fixes: activity.fixes + (fully && mistakes[questionId] ? 1 : 0),
+        byDomain: domain
+          ? { ...activity.byDomain, [domain]: (activity.byDomain[domain] ?? 0) + 1 }
+          : activity.byDomain,
+      };
       srs = { ...srs, [questionId]: schedule(srs[questionId], fully, this.today()) };
       if (fully) {
         if (mistakes[questionId]) {
@@ -213,21 +289,24 @@ export class ProgressStore {
       }
     }
 
-    this.commit({
-      ...this.doc,
-      srs,
-      mistakes,
-      questions: {
-        ...this.doc.questions,
-        [questionId]: {
-          attempts: (prev?.attempts ?? 0) + 1,
-          correct: (prev?.correct ?? 0) + (fully ? 1 : 0),
-          lastEarned: score.earned,
-          lastPossible: score.possible,
-          lastAt: at,
+    this.commit(
+      this.settle({
+        ...this.doc,
+        srs,
+        mistakes,
+        activity,
+        questions: {
+          ...this.doc.questions,
+          [questionId]: {
+            attempts: (prev?.attempts ?? 0) + 1,
+            correct: (prev?.correct ?? 0) + (fully ? 1 : 0),
+            lastEarned: score.earned,
+            lastPossible: score.possible,
+            lastAt: at,
+          },
         },
-      },
-    });
+      }),
+    );
     this.writes = this.writes
       .then(() => this.storage.addAttempt({ questionId, at, mode, ...score }))
       .catch((e) => console.error('[progress] Could not log attempt', e));
@@ -250,17 +329,19 @@ export class ProgressStore {
    */
   submitMock(record: MockRecord, results: readonly { questionId: string; score: ScoreLike }[]) {
     for (const r of results) this.recordAnswer(r.questionId, r.score, 'mock');
-    this.commit({
-      ...this.doc,
-      xp: addXp(this.doc.xp, record.xp, this.today()),
-      mocks: [...this.doc.mocks, record].slice(-MAX_MOCKS),
-    });
+    this.commit(
+      this.settle({
+        ...this.doc,
+        xp: addXp(this.doc.xp, record.xp, this.today()),
+        mocks: [...this.doc.mocks, record].slice(-MAX_MOCKS),
+      }),
+    );
     this.saveMockDraft(null);
   }
 
   /** Bank XP from a practice or review run. */
   bankXp(xp: number) {
-    if (xp > 0) this.commit({ ...this.doc, xp: addXp(this.doc.xp, xp, this.today()) });
+    if (xp > 0) this.commit(this.settle({ ...this.doc, xp: addXp(this.doc.xp, xp, this.today()) }));
   }
 
   /** Bank a lesson run's XP; mark the lesson done when it was finished. */
@@ -273,8 +354,10 @@ export class ProgressStore {
     let next: ProgressDoc = { ...this.doc, xp: addXp(this.doc.xp, result.xp, today) };
     if (result.completed) {
       const prev = this.doc.lessons[lessonId];
+      const activity = rollActivity(next.activity, today);
       next = {
         ...next,
+        activity: { ...activity, lessons: activity.lessons + 1 },
         lessons: {
           ...next.lessons,
           [lessonId]: {
@@ -286,7 +369,20 @@ export class ProgressStore {
         },
       };
     }
-    this.commit(next);
+    this.commit(this.settle(next));
+  }
+
+  /** Fix today's quests (once a day; the plan comes from the page that knows the course). */
+  planQuests(quests: Quest[]) {
+    const today = this.today();
+    if (this.doc.quests.date === today) return;
+    this.commit(this.settle({ ...this.doc, quests: { date: today, quests, done: [] } }));
+  }
+
+  /** Record milestones met (ones the document alone can't tell: course and mastery). */
+  earnMilestones(ids: readonly string[]) {
+    const next = withMilestones(this.doc, ids, this.today());
+    if (next !== this.doc) this.commit(next);
   }
 
   setGoal(goal: number) {
@@ -316,4 +412,14 @@ export class ProgressStore {
     this.commit(doc);
     this.saveMockDraft(draft);
   }
+}
+
+/** The document with any not-yet-earned milestones added, or the same document if none. */
+function withMilestones(doc: ProgressDoc, ids: readonly string[], today: string): ProgressDoc {
+  const fresh = ids.filter((id) => !doc.milestones[id]);
+  if (!fresh.length) return doc;
+  return {
+    ...doc,
+    milestones: { ...doc.milestones, ...Object.fromEntries(fresh.map((id) => [id, today])) },
+  };
 }
