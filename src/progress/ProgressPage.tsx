@@ -17,9 +17,9 @@ import {
   MIN_SUBTOPIC_ATTEMPTS,
   type Band,
 } from './analytics';
-import { useAttemptLog, useProgress } from './hooks';
+import { useAttemptLog, useProgress, useProgressStore } from './hooks';
 import { ScoreTrend } from './ScoreTrend';
-import { localDay, rollDay } from './xp';
+import { rollDay } from './xp';
 import styles from './ProgressPage.module.css';
 import { useDocumentTitle } from '@/app/title';
 
@@ -35,6 +35,7 @@ export function ProgressPage() {
   useDocumentTitle('Progress');
   const bank = useBank();
   const doc = useProgress();
+  const store = useProgressStore();
   const log = useAttemptLog();
   // Read the clock once per visit: weights don't need to tick while you look.
   const [now] = useState(() => Date.now());
@@ -42,7 +43,7 @@ export function ProgressPage() {
 
   if (!a) return <p className="loading">Adding up your answers…</p>;
 
-  const streak = rollDay(doc.xp, localDay()).streak.count;
+  const streak = rollDay(doc.xp, store.today()).streak.count;
   const trend = [...doc.mocks]
     .sort((x, y) => x.submittedAt.localeCompare(y.submittedAt))
     .map((m) => ({ id: m.id, at: m.submittedAt, score: m.score.scaled, passed: m.score.passed }));

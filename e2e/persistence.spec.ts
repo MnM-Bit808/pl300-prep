@@ -32,6 +32,8 @@ test('answers, notes, flags and reports survive a reload and a backup round trip
   await report.getByLabel('The wording is unclear').check();
   await report.getByRole('button', { name: 'Save report' }).click();
   await expect(report).toBeHidden();
+  // Shown on screen and announced in a live region: either means it's written.
+  await expect(page.getByText(/^Report saved/).first()).toBeVisible();
 
   // A reload keeps all of it.
   await page.reload();
@@ -54,6 +56,7 @@ test('answers, notes, flags and reports survive a reload and a backup round trip
   await page.getByRole('button', { name: 'Reset progress' }).click();
   await page.getByLabel('Also delete my notes, flags and reports').check();
   await page.getByRole('button', { name: 'Delete everything' }).click();
+  await expect(page.getByText('Progress, notes, flags and reports deleted.')).toBeVisible();
   expect(await answeredCount(page)).toBe(0);
   await openPage(page, '/workings');
   await expect(page.getByText(NOTE)).toHaveCount(0);

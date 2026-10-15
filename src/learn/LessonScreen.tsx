@@ -5,7 +5,7 @@
 import { useCallback, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useProgress, useProgressStore } from '@/progress/hooks';
-import { localDay, rollDay } from '@/progress/xp';
+import { rollDay } from '@/progress/xp';
 import { FinishCard } from '@/quiz/FinishCard';
 import { QuizRun } from '@/quiz/QuizRun';
 import { firstTryAccuracy, LESSON_OPTIONS, type Session } from '@/quiz/session';
@@ -76,7 +76,7 @@ function LessonRun({ lesson, onRestart }: { lesson: Lesson; onRestart: () => voi
         stats={[
           { label: 'First-try score', value: `${Math.round(accuracy * 100)}%` },
           { label: 'XP earned', value: `+${s.xp}` },
-          { label: 'Day streak', value: String(rollDay(doc.xp, localDay()).streak.count) },
+          { label: 'Day streak', value: String(rollDay(doc.xp, store.today()).streak.count) },
         ]}
         actions={
           <>

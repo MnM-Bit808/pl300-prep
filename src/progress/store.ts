@@ -161,7 +161,9 @@ export class ProgressStore {
     return () => this.listeners.delete(listener);
   };
 
-  private today = () => localDay(this.now());
+  /** Today, by the store's clock. Pages ask here rather than the wall clock, so the whole app
+   * (and a test's fixed clock) agrees on what day it is. */
+  today = () => localDay(this.now());
 
   private commit(next: ProgressDoc) {
     this.doc = next;

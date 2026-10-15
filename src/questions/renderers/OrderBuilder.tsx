@@ -184,9 +184,9 @@ export function OrderBuilder({
   return (
     <div className={styles.zones}>
       <section className={styles.zone} aria-labelledby={poolHeading}>
-        <h3 id={poolHeading} className={styles.zoneTitle}>
+        <h2 id={poolHeading} className={styles.zoneTitle}>
           Actions
-        </h3>
+        </h2>
         {pool.length ? (
           <ul className={styles.pool}>
             {pool.map((id) => (
@@ -214,9 +214,9 @@ export function OrderBuilder({
       </section>
 
       <section className={styles.zone} data-answer aria-labelledby={answerHeading}>
-        <h3 id={answerHeading} className={styles.zoneTitle}>
+        <h2 id={answerHeading} className={styles.zoneTitle}>
           Answer area
-        </h3>
+        </h2>
         {sequence.length ? (
           <DndContext
             sensors={sensors}

@@ -6,8 +6,7 @@ import { Link, useSearchParams } from 'react-router';
 import { DOMAINS } from '@/bank/constants';
 import { useBank } from '@/bank/useBank';
 import { UNIT_INFO } from '@/learn/course';
-import { useProgress } from '@/progress/hooks';
-import { localDay } from '@/progress/xp';
+import { useProgress, useProgressStore } from '@/progress/hooks';
 import { DIFFICULTY_LABEL } from '@/questions/labels';
 import buttons from '@/ui/buttons.module.css';
 import { filterQuery, parseFilter, parseLength } from './query';
@@ -22,7 +21,7 @@ export function PracticePage() {
   const bank = useBank();
   const doc = useProgress();
   const [params, setParams] = useSearchParams();
-  const today = localDay();
+  const today = useProgressStore().today();
 
   const due = dueIds(bank, doc, today);
   const mistakes = mistakeIds(bank, doc);

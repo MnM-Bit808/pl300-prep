@@ -58,6 +58,20 @@ for (const scheme of ['light', 'dark'] as const) {
       await audit(page, `answered question (${scheme})`);
     });
 
+    // Every answer format, chosen on purpose: the exam's first question is random, so it can't be
+    // relied on to cover them (an ordering question's headings once slipped through that way).
+    for (const [format, id] of [
+      ['multiple answers', 'PRE-016'],
+      ['yes/no', 'PRE-007'],
+      ['drop-downs', 'PRE-014'],
+      ['ordering', 'PRE-012'],
+    ] as const) {
+      test(`${format} question`, async ({ page }) => {
+        await openPage(page, `/lab?id=${id}`);
+        await audit(page, `${format} question (${scheme})`);
+      });
+    }
+
     test('exhibit viewer', async ({ page }) => {
       await openPage(page, '/lab?id=PRE-006');
       await page.getByRole('button', { name: /Enlarge/ }).click();

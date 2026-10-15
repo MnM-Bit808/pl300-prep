@@ -69,9 +69,11 @@ function Tools({ questionId }: { questionId: string }) {
         <ReportDialog
           questionId={questionId}
           onClose={() => setReporting(false)}
-          onSubmit={(kind, details) => {
+          onSubmit={async (kind, details) => {
             store.addReport({ questionId, kind, details });
             setReporting(false);
+            // Say "saved" once it is: closing the tab straight after can't lose it.
+            await store.flush();
             setStatus('Report saved. Export your reports from My workings.');
           }}
         />

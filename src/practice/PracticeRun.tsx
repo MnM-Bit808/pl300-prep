@@ -10,7 +10,6 @@ import { useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { useBank } from '@/bank/useBank';
 import { useProgress, useProgressStore, useWorkingsStore } from '@/progress/hooks';
-import { localDay } from '@/progress/xp';
 import { FinishCard } from '@/quiz/FinishCard';
 import { QuizRun } from '@/quiz/QuizRun';
 import { firstTryAccuracy, PRACTICE_OPTIONS, type Session } from '@/quiz/session';
@@ -64,7 +63,7 @@ function Run({
   // Chosen once per run, from the progress as it stood when the run started.
   const [ids] = useState(() => {
     const snapshot = store.getSnapshot();
-    if (mode === 'review') return dueIds(bank, snapshot, localDay()).slice(0, REVIEW_CAP);
+    if (mode === 'review') return dueIds(bank, snapshot, store.today()).slice(0, REVIEW_CAP);
     if (mode === 'mistakes') return mistakeIds(bank, snapshot).slice(0, REVIEW_CAP);
     if (mode === 'flagged') return flaggedIds(bank, workings.getSnapshot()).slice(0, REVIEW_CAP);
     const pool = filterQuestions(bank.questions, parseFilter(params)).map((q) => q.id);

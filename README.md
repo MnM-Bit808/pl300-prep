@@ -39,7 +39,7 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
 - **Secure by default:** a strict Content-Security-Policy (same-origin only, no inline script or style, no eval), sent in production and in the end-to-end tests.
 - **Fast:** the start-up JavaScript is 112 kB gzipped; every other page, the question bank and the simulators load when first needed.
 - **Private:** everything is stored on your device (IndexedDB), and nothing is sent anywhere.
-- **Tested:** 156 unit and component tests (Vitest, Testing Library) and 160 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
+- **Tested:** 156 unit and component tests (Vitest, Testing Library) and 176 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
 
 ## Tech
 

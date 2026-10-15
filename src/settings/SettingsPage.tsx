@@ -198,7 +198,10 @@ export function SettingsPage() {
 
   const confirmReset = async () => {
     await progress.reset();
-    if (alsoWorkings) workings.replace(emptyWorkings());
+    if (alsoWorkings) {
+      workings.replace(emptyWorkings());
+      await workings.flush();
+    }
     setResetting(false);
     setStatus(
       alsoWorkings

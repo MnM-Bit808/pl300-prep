@@ -4,8 +4,7 @@
  */
 import { Link } from 'react-router';
 import { dueIds, mistakeIds } from '@/practice/select';
-import { useProgress } from '@/progress/hooks';
-import { localDay } from '@/progress/xp';
+import { useProgress, useProgressStore } from '@/progress/hooks';
 import { StatsStrip } from '@/progress/StatsStrip';
 import { CheckIcon, ChevronRightIcon, LockIcon } from '@/ui/icons';
 import { lessonTitle, type Lesson, type Unit } from './course';
@@ -112,8 +111,9 @@ function UnitSection({ unit, open }: { unit: Unit; open: boolean }) {
 function ReviewStrip() {
   const { bank } = useCourse();
   const doc = useProgress();
+  const store = useProgressStore();
   if (!Object.keys(doc.questions).length) return null;
-  const due = dueIds(bank, doc, localDay()).length;
+  const due = dueIds(bank, doc, store.today()).length;
   const mistakes = mistakeIds(bank, doc).length;
   return (
     <section className={styles.review} aria-label="Reviews">
