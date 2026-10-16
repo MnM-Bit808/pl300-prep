@@ -80,5 +80,8 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     css: false,
     include: ['src/**/*.test.{ts,tsx}'],
+    // Whole lessons, exams and decks run through jsdom click by click: about a second each alone,
+    // but several at once on a busy machine (or a CI runner) can pass the 5s default.
+    testTimeout: 15_000,
   },
 });

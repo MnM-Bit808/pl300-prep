@@ -1,6 +1,7 @@
 /**
  * Runs a set of questions in focus mode: header (quit, progress, hearts), one question at a
- * time, missed questions returning at the end, then a finish screen. Lessons and every
+ * time, missed questions returning at the end, then a finish screen. Right answers pop their XP
+ * out of the header, and three or more in a row show as a combo. Lessons and every
  * practice mode use it; they differ only in options, where answers are filed and what the
  * finish screen says.
  *
@@ -14,8 +15,9 @@ import { CaseFrame } from '@/case/CaseFrame';
 import { useProgressStore } from '@/progress/hooks';
 import { QuestionCard } from '@/questions/QuestionCard';
 import { ConfirmDialog } from '@/ui/ConfirmDialog';
-import { CloseIcon, HeartIcon } from '@/ui/icons';
+import { BoltIcon, CloseIcon, HeartIcon } from '@/ui/icons';
 import {
+  COMBO_FROM,
   currentQuestion,
   sessionProgress,
   sessionReducer,
@@ -90,6 +92,7 @@ export function QuizRun({
   const caseStudy = question?.caseId ? bank.caseById.get(question.caseId) : undefined;
   const isReturn = Boolean(qid && session.missed.includes(qid) && session.pending === null);
   const progress = sessionProgress(session);
+  const combo = session.combo >= COMBO_FROM;
 
   const card = question && (
     <QuestionCard
@@ -123,19 +126,38 @@ export function QuizRun({
         >
           <CloseIcon />
         </button>
-        <div
-          className={styles.progress}
-          role="progressbar"
-          aria-label={`${noun.charAt(0).toUpperCase()}${noun.slice(1)} progress`}
-          aria-valuemin={0}
-          aria-valuemax={session.total}
-          aria-valuenow={session.cleared.length}
-          aria-valuetext={`${session.cleared.length} of ${session.total} questions done`}
-        >
-          <span data-fill style={{ width: `${progress * 100}%` }} />
+        <div className={styles.track}>
+          <div
+            className={styles.progress}
+            role="progressbar"
+            aria-label={`${noun.charAt(0).toUpperCase()}${noun.slice(1)} progress`}
+            aria-valuemin={0}
+            aria-valuemax={session.total}
+            aria-valuenow={session.cleared.length}
+            aria-valuetext={`${session.cleared.length} of ${session.total} questions done`}
+          >
+            <span data-fill style={{ width: `${progress * 100}%` }} />
+          </div>
+          {/* Decoration: the XP is in the finish screen's totals. It rises from the fill's tip. */}
+          {session.pending === 'right' && (
+            <span
+              key={session.pos}
+              className={styles.xpPop}
+              style={{ left: `${progress * 100}%` }}
+              aria-hidden="true"
+            >
+              +{session.lastGain} XP
+            </span>
+          )}
         </div>
         {session.hearts !== null ? (
-          <p className={styles.hearts} data-low={session.hearts <= 1 || undefined}>
+          // Keyed by the count, so losing one replays the drop.
+          <p
+            key={session.hearts}
+            className={styles.hearts}
+            data-low={session.hearts <= 1 || undefined}
+            data-lost={(options.hearts !== null && session.hearts < options.hearts) || undefined}
+          >
             <HeartIcon aria-hidden="true" />
             <span aria-hidden="true">{session.hearts}</span>
             <span className="sr-only">
@@ -158,7 +180,16 @@ export function QuizRun({
           {isReturn && (
             <span className={styles.second}>Second go: you missed this one earlier</span>
           )}
+          {combo && (
+            <span key={session.combo} className={styles.combo} aria-hidden="true">
+              <BoltIcon />
+              {session.combo} in a row
+            </span>
+          )}
         </div>
+        <p className="sr-only" role="status">
+          {combo ? `${session.combo} in a row` : ''}
+        </p>
         {caseStudy ? (
           <CaseFrame key={caseStudy.id} caseStudy={caseStudy}>
             {card}

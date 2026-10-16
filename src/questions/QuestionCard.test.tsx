@@ -25,7 +25,9 @@ describe('QuestionCard', () => {
     fireEvent.click(optionByText('DirectQuery'));
     fireEvent.click(checkButton());
 
+    // Googly winces in the check bar, as decoration: the verdict is still in words.
     expect(screen.getByRole('heading', { name: 'Not quite' })).toBeInTheDocument();
+    expect(document.querySelector('[data-mood="oops"]')).toHaveAttribute('aria-hidden', 'true');
     expect(screen.getByText('Correct answer')).toBeInTheDocument();
     expect(screen.getByText('Your answer, incorrect')).toBeInTheDocument();
     expect(screen.getByText(/Fast visuals \+ periodic freshness/)).toBeInTheDocument();
@@ -49,6 +51,7 @@ describe('QuestionCard', () => {
 
     fireEvent.click(checkButton());
     expect(screen.getByRole('heading', { name: 'Partly correct: 1 of 2' })).toBeInTheDocument();
+    expect(document.querySelector('[data-mood="wow"]')).toBeInTheDocument();
   });
 
   it('yesno: scores each statement', () => {

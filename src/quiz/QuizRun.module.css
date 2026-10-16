@@ -35,8 +35,13 @@
   color: var(--ink);
 }
 
-.progress {
+/* The bar, and the XP that pops out of it. */
+.track {
+  position: relative;
   flex: 1;
+}
+
+.progress {
   height: 14px;
   border-radius: 999px;
   background: var(--surface-sunk);
@@ -125,4 +130,100 @@
 .of {
   color: var(--ink-2);
   font-weight: 600;
+}
+
+/* Losing a heart: it drops and comes back. */
+.hearts[data-lost] svg {
+  animation: drop 520ms var(--ease-out);
+}
+
+@keyframes drop {
+  0% {
+    scale: 1;
+  }
+  30% {
+    scale: 0.6;
+    translate: 0 4px;
+  }
+  65% {
+    scale: 1.18;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+/* A right answer's XP pops out of the fill's tip and floats up over the bar. */
+.xpPop {
+  position: absolute;
+  top: -5px;
+  z-index: 1;
+  transform: translateX(-50%);
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--mark);
+  color: var(--mark-ink);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: xp-pop 1200ms var(--ease-out) both;
+}
+
+@keyframes xp-pop {
+  0% {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.6;
+  }
+  18% {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1.12;
+  }
+  30% {
+    scale: 1;
+  }
+  70% {
+    opacity: 1;
+    translate: 0 -2px;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+
+/* Three or more right in a row. The flame's colours: the streak and the combo are one family. */
+.combo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 2px 10px 2px 8px;
+  border: 1px solid var(--flame);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--flame);
+  font-variant-numeric: tabular-nums;
+  animation: combo-in 420ms var(--ease-out);
+}
+
+.combo svg {
+  font-size: 16px;
+  fill: var(--flame-fill);
+}
+
+@keyframes combo-in {
+  0% {
+    scale: 0.6;
+  }
+  60% {
+    scale: 1.15;
+  }
+  100% {
+    scale: 1;
+  }
 }

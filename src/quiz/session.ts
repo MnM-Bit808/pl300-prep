@@ -7,11 +7,14 @@
  *   a run with no mistakes. XP is banked when the run ends; quitting forfeits it.
  * - Lessons have 5 hearts (a miss costs one; at zero the run ends). Practice has none.
  * - The run ends when every question has been answered correctly once, or hearts run out.
+ * - A combo counts answers fully right in a row (returned questions too); a miss resets it.
  */
 export const MAX_HEARTS = 5;
 export const XP_FIRST_TRY = 10;
 export const XP_RETRY = 5;
 export const XP_PERFECT_BONUS = 10;
+/** Answers right in a row before the run shows a combo. */
+export const COMBO_FROM = 3;
 
 export interface SessionOptions {
   /** Hearts for the run, or null for none (practice). */
@@ -31,6 +34,11 @@ export interface Session {
   hearts: number | null;
   perfectBonus: boolean;
   xp: number;
+  /** XP the last check earned: what the header pops up. 0 after a miss. */
+  lastGain: number;
+  /** Answers fully right in a row, and the run's best. */
+  combo: number;
+  bestCombo: number;
   cleared: string[];
   /** Ids answered wrong at least once. */
   missed: string[];
@@ -53,6 +61,9 @@ export function startSession(
     hearts: options.hearts,
     perfectBonus: options.perfectBonus,
     xp: 0,
+    lastGain: 0,
+    combo: 0,
+    bestCombo: 0,
     cleared: [],
     missed: [],
     pending: null,
@@ -68,17 +79,23 @@ export function sessionReducer(s: Session, action: SessionAction): Session {
   if (action.type === 'checked') {
     if (s.pending || action.questionId !== s.queue[s.pos]) return s;
     if (action.fullyCorrect) {
-      const retry = s.missed.includes(action.questionId);
+      const gain = s.missed.includes(action.questionId) ? XP_RETRY : XP_FIRST_TRY;
+      const combo = s.combo + 1;
       return {
         ...s,
         pending: 'right',
-        xp: s.xp + (retry ? XP_RETRY : XP_FIRST_TRY),
+        xp: s.xp + gain,
+        lastGain: gain,
+        combo,
+        bestCombo: Math.max(s.bestCombo, combo),
         cleared: [...s.cleared, action.questionId],
       };
     }
     return {
       ...s,
       pending: 'wrong',
+      lastGain: 0,
+      combo: 0,
       hearts: s.hearts === null ? null : s.hearts - 1,
       missed: s.missed.includes(action.questionId) ? s.missed : [...s.missed, action.questionId],
       queue: [...s.queue, action.questionId],

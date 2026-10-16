@@ -6,6 +6,7 @@
 import { Suspense, type ComponentType, type SVGProps } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { UpdatePrompt } from '@/pwa/UpdatePrompt';
+import { Googly } from '@/ui/Googly';
 import { ChartIcon, ClockIcon, GearIcon, NoteIcon, StepsIcon, TargetIcon } from '@/ui/icons';
 import styles from './Layout.module.css';
 
@@ -44,6 +45,7 @@ export function Layout() {
       <header className={styles.header}>
         <div className={styles.headerInner}>
           <NavLink to="/" className={styles.brand ?? ''}>
+            <Googly className={styles.logo} follow blink />
             PL-300 Prep
           </NavLink>
           <nav aria-label="Main" className={styles.nav}>

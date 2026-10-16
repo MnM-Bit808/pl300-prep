@@ -1,21 +1,30 @@
 /**
  * One question with instant feedback: the question body, a sticky check bar, and after
- * checking the verdict, explanation and takeaway. Used by the lab, lessons and practice. The
+ * checking the verdict, explanation and takeaway. Googly reacts in the check bar, where your
+ * eyes are after pressing Check. Used by the lab, lessons and practice. The
  * mock exam uses QuestionBody on its own (no feedback until the end).
  */
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Question } from '@/bank/schema';
 import { prefersReducedMotion } from '@/app/prefs';
 import { dialogOpen, isTypingTarget } from '@/lib/keys';
+import { Googly, type Mood, type Move } from '@/ui/Googly';
 import { RetryIcon } from '@/ui/icons';
 import { Feedback, VerdictIcon } from './Feedback';
 import { progressText, verdictText } from './labels';
 import { QuestionBody } from './QuestionBody';
-import { scoreAnswer, verdictOf, type Score } from './scoring';
+import { scoreAnswer, verdictOf, type Score, type Verdict } from './scoring';
 import { QuestionTools } from '@/workings/QuestionTools';
 import { ConceptLink } from '@/concepts/ConceptLink';
 import { useAttempt } from './useAttempt';
 import styles from './QuestionCard.module.css';
+
+/** How Googly takes each verdict, in the check bar. */
+const REACTION: Record<Verdict, { mood: Mood; move: Move }> = {
+  correct: { mood: 'happy', move: 'hop' },
+  partial: { mood: 'wow', move: 'pop' },
+  wrong: { mood: 'oops', move: 'wobble' },
+};
 
 /** Render with `key={question.id}`: a new question is a new attempt with fresh state. */
 interface Props {
@@ -84,7 +93,7 @@ export function QuestionCard({
   }, []);
 
   return (
-    <article className={styles.card} aria-labelledby={`${uid}-stem`}>
+    <article className={styles.card} data-lively aria-labelledby={`${uid}-stem`}>
       <QuestionBody
         question={question}
         answer={answer}
@@ -111,6 +120,7 @@ export function QuestionCard({
         <div className={styles.barInner}>
           {revealed && score ? (
             <p className={styles.barVerdict}>
+              <Googly {...REACTION[verdictOf(score)]} className={styles.barGoogly} />
               <span className={styles.barIcon}>
                 <VerdictIcon score={score} />
               </span>

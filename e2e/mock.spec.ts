@@ -9,6 +9,8 @@ test('a mock exam runs, locks section 1 behind you, and scores by domain', async
   await page.getByRole('button', { name: 'Start a mock exam' }).click();
   await expect(page).toHaveURL(/\/mock\/exam$/);
   await expect(page.getByText(/^Section 1 of 2/)).toBeVisible();
+  // The exam is the serious part: no Googly, no reactions.
+  await expect(page.locator('[data-mood]')).toHaveCount(0);
   await expect(page.getByRole('timer')).toHaveAccessibleName(/^Time left 1:(40:00|39:5\d)$/);
 
   // Answer the first question (if it's a choice: the order is shuffled), mark it, move on.

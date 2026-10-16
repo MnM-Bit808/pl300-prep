@@ -16,7 +16,8 @@ export interface Score {
 }
 
 export const isFullyCorrect = (s: Score) => s.earned === s.possible;
-export const verdictOf = (s: Score): 'correct' | 'partial' | 'wrong' =>
+export type Verdict = 'correct' | 'partial' | 'wrong';
+export const verdictOf = (s: Score): Verdict =>
   isFullyCorrect(s) ? 'correct' : s.earned > 0 ? 'partial' : 'wrong';
 
 export function scoreAnswer(q: Question, a: Answer): Score {

@@ -51,6 +51,8 @@ export const test = base.extend<Fixtures>({
 interface RawQuestion {
   id: string;
   type: 'single' | 'multi' | 'yesno' | 'order' | 'dropdown';
+  stem: string;
+  subtopic: string;
   caseId?: string;
   image?: { src: string; alt: string } | null;
   options?: { id: string; text: string }[];

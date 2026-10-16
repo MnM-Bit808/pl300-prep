@@ -30,13 +30,22 @@
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   flex: none;
+  min-height: 44px;
   color: var(--ink);
   font-size: 1.125rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* Googly, the app's mark: the icon on the home screen, here at the size of a capital. */
+.logo {
+  font-size: 34px;
 }
 
 /* ---------- Wide: navigation in the header ---------- */
@@ -160,8 +169,10 @@
     font-size: 22px;
   }
 
-  /* Room for the bar under the last content. */
+  /* Room for the bar under the last content, and the height a sticky footer (a question's
+     check bar, in the lab) sits above so the tab bar doesn't cover it. */
   .main {
+    --tab-bar: calc(61px + max(4px, env(safe-area-inset-bottom)));
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
 

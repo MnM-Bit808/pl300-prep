@@ -18,6 +18,7 @@ import {
 import { FREEZE_EVERY, MAX_FREEZES } from '@/progress/xp';
 import { DomainIcon } from '@/ui/domains';
 import { BoltIcon, CheckIcon, RetryIcon, StepsIcon, TargetIcon } from '@/ui/icons';
+import { Googly } from '@/ui/Googly';
 import { UNIT_INFO, type Lesson, type Unit } from './course';
 import { useCourse } from './useCourse';
 import styles from './QuestList.module.css';
@@ -90,6 +91,7 @@ export function QuestList({ next }: { next: { unit: Unit; lesson: Lesson } | nul
   if (!planned) return null;
   const activity = rollActivity(doc.activity, today);
   const { quests, done } = doc.quests;
+  const allDone = quests.length > 0 && done.length === quests.length;
   const freezeNote =
     doc.xp.freezes >= MAX_FREEZES
       ? `You hold ${MAX_FREEZES} streak freezes, the most you can keep.`
@@ -102,7 +104,8 @@ export function QuestList({ next }: { next: { unit: Unit; lesson: Lesson } | nul
           Today’s quests
         </h2>
         <p className={styles.count}>
-          {done.length} of {quests.length} done
+          {allDone && <Googly mood="happy" className={styles.cheer} />}
+          {allDone ? 'All done for today' : `${done.length} of ${quests.length} done`}
         </p>
       </div>
       <ul className={styles.list}>

@@ -5,7 +5,7 @@
 
 .head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s-3);
 }
@@ -17,11 +17,18 @@
 }
 
 .count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin: 0;
   color: var(--ink-2);
   font-size: var(--text-sm);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+.cheer {
+  font-size: 26px;
 }
 
 /* One quest per row: three on a wide screen, stacked on a phone. */

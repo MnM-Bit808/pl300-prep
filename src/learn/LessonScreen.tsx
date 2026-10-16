@@ -68,6 +68,7 @@ function LessonRun({ lesson, onRestart }: { lesson: Lesson; onRestart: () => voi
       <FinishCard
         context={lessonTitle(lesson)}
         tone={complete ? 'good' : 'bad'}
+        celebrate={complete}
         title={complete ? (accuracy === 1 ? 'Perfect lesson' : 'Lesson complete') : 'Out of hearts'}
         text={
           complete

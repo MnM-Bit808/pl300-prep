@@ -7,8 +7,8 @@ A study app for the Microsoft PL-300 (Power BI Data Analyst) exam: short lessons
 Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. All 440 questions and 94 exhibits are original.
 
 <p>
-  <img src="docs/screenshots/learn-phone.png" alt="The Learn page on a phone: streak, today's XP goal, and the first lesson to start" width="220">
-  <img src="docs/screenshots/feedback-phone.png" alt="A multiple-answer question after checking: each option marked correct or incorrect in words and colour, with a partly correct verdict and the explanation" width="220">
+  <img src="docs/screenshots/learn-phone.png" alt="The Learn page on a phone: Googly, the app's mark, in the header, then the streak, today's XP goal, the first lesson to start and today's quests" width="220">
+  <img src="docs/screenshots/feedback-phone.png" alt="A multiple-answer question after checking: each option marked correct or incorrect in words and colour, a partly correct verdict and the explanation, and Googly looking surprised in the check bar" width="220">
   <img src="docs/screenshots/mock-phone-dark.png" alt="A mock exam question in dark mode, with section, question count, a countdown timer and Mark for review" width="220">
 </p>
 
@@ -18,6 +18,7 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
 
 ## What's in it
 
+- **Googly:** the app's mark and its one character, "300" with the zeros drawn as eyes. Its eyes follow your pointer in the header; in lessons and practice it cheers a right answer, winces at a wrong one, and throws highlighter-stroke confetti when you finish a lesson. Right answers pop their XP, and three or more in a row show as a combo. The mock exam stays serious, and Reduce motion stills all of it.
 - **Learn:** laid out like Power Query's editor: the exam domains as queries, each with its lessons as Applied steps, ticked and highlighted as you finish them. Missed questions come back at the end of a lesson.
 - **Daily quests and streaks:** three quests a day chosen from your own reviews, mistakes and weakest domain, each a link into the right run and worth bonus XP; a daily XP goal; streak freezes earned by meeting it, which cover a missed day.
 - **Practice:** filter by domain, topic, subtopic and difficulty; a review queue scheduled by spaced repetition (Leitner boxes), a mistakes queue, flagged questions and flashcards.
@@ -38,9 +39,9 @@ Not affiliated with or endorsed by Microsoft. "PL-300" is used descriptively. Al
 - **Accessible:** keyboard throughout, a visible focus ring on every control, focus moved to each new page's heading, text alternatives for every exhibit, at least 4.5:1 contrast, and right or wrong is never shown by colour alone. Checked with axe-core (WCAG 2.2 AA plus best practices) in light and dark, by keyboard specs, and in Windows High Contrast.
 - **Offline and installable:** a service worker precaches the app and every exhibit (2.3 MB), so a mock exam works with no connection. Updates wait for you to choose Reload, and never interrupt a lesson or exam.
 - **Secure by default:** a strict Content-Security-Policy (same-origin only, no inline script or style, no eval), sent in production and in the end-to-end tests.
-- **Fast:** the start-up JavaScript is 112 kB gzipped; every other page, the question bank and the simulators load when first needed.
+- **Fast:** the start-up JavaScript is 117 kB gzipped; every other page, the question bank and the simulators load when first needed.
 - **Private:** everything is stored on your device (IndexedDB), and nothing is sent anywhere.
-- **Tested:** 174 unit and component tests (Vitest, Testing Library) and 176 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
+- **Tested:** 180 unit and component tests (Vitest, Testing Library) and 180 end-to-end tests (Playwright) on a 375px phone and a desktop, against the production build. They cover the acceptance checks: every question and exhibit loads, each format scores, a full mock times out and locks its case section, and progress survives a reload and a backup round trip. Every end-to-end test also fails on any console error, failed request or CSP violation.
 
 ## Tech
 

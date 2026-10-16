@@ -1,6 +1,7 @@
 /** The pages for a link that goes nowhere and for a page that failed to load. */
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router';
 import buttons from '@/ui/buttons.module.css';
+import { Googly } from '@/ui/Googly';
 import { useDocumentTitle } from './title';
 import styles from './Fallbacks.module.css';
 
@@ -12,6 +13,7 @@ export function NotFound() {
   useDocumentTitle('Page not found');
   return (
     <div className={styles.page}>
+      <Googly mood="puzzled" move="pop" blink className={styles.mark} />
       <h1 className={styles.title}>Page not found</h1>
       <p className={styles.text}>
         There’s nothing at this address. The link may be old, or mistyped.
@@ -41,6 +43,7 @@ export function RouteError() {
 
   return (
     <main id="main" className={`${styles.page} ${styles.standalone}`}>
+      <Googly mood="oops" move="wobble" className={styles.mark} />
       <h1 className={styles.title}>Something went wrong</h1>
       <p className={styles.text}>
         {isChunkError(error)

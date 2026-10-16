@@ -2,7 +2,7 @@
   display: grid;
   place-items: center;
   min-height: 100dvh;
-  padding: var(--gutter);
+  padding: calc(var(--gutter) + 48px) var(--gutter) var(--gutter);
 }
 
 .card {
@@ -14,6 +14,13 @@
   border-radius: var(--r-panel);
   background: var(--surface);
   text-align: center;
+}
+
+/* Googly sits on the card's top edge, half out, like a sticker. */
+.mark {
+  justify-self: center;
+  margin: calc(-1 * var(--s-6) - 44px) 0 0;
+  font-size: 96px;
 }
 
 .context {

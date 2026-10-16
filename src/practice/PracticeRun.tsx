@@ -106,6 +106,7 @@ function Run({
       <FinishCard
         context={TITLES[mode]}
         tone={accuracy === 1 ? 'good' : 'neutral'}
+        celebrate={accuracy === 1}
         title={accuracy === 1 ? 'All right first time' : 'Run complete'}
         text={
           mode === 'review'

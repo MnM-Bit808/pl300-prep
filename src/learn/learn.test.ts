@@ -147,6 +147,23 @@ describe('lesson session', () => {
     expect(run(startSession(['a'], PRACTICE_OPTIONS), true).xp).toBe(XP_FIRST_TRY);
   });
 
+  it('counts answers right in a row, resets on a miss and keeps the best', () => {
+    let s = run(startSession(['a', 'b', 'c', 'd'], PRACTICE_OPTIONS), true, true);
+    expect(s.combo).toBe(2);
+    expect(s.lastGain).toBe(XP_FIRST_TRY);
+    s = run(s, false);
+    expect(s.combo).toBe(0);
+    expect(s.lastGain).toBe(0);
+    s = run(s, true);
+    expect(s.combo).toBe(1);
+    // The missed question back again counts toward the combo, at retry XP.
+    s = run(s, true);
+    expect(s.status).toBe('complete');
+    expect(s.combo).toBe(2);
+    expect(s.lastGain).toBe(XP_RETRY);
+    expect(s.bestCombo).toBe(2);
+  });
+
   it('ignores a check for a question that is not on screen, or a double check', () => {
     const s = startSession(['a', 'b']);
     expect(sessionReducer(s, { type: 'checked', questionId: 'b', fullyCorrect: true })).toBe(s);

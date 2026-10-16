@@ -34,6 +34,11 @@
   font-size: 28px;
 }
 
+/* Every lesson done: Googly instead of a domain. */
+.nextMark {
+  font-size: 56px;
+}
+
 .nextText {
   display: grid;
   gap: var(--s-1);

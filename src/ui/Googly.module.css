@@ -1,0 +1,93 @@
+.googly {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  overflow: visible;
+  /* A logo keeps its own colours in Windows High Contrast. */
+  forced-color-adjust: none;
+}
+
+/* Pupils move in the eye's own units: 24 across, 40 down at full reach. */
+.pupil {
+  translate: calc(var(--lx, 0) * 24px) calc(var(--ly, 0) * 40px);
+  transition: translate 180ms var(--ease-out);
+}
+
+.eye {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+[data-blink] .eye {
+  animation: blink 5.5s 1.2s infinite;
+}
+
+@keyframes blink {
+  0%,
+  94%,
+  100% {
+    scale: 1 1;
+  }
+  97% {
+    scale: 1 0.1;
+  }
+}
+
+/* One-off moves as it appears. */
+[data-move='hop'] {
+  animation: hop 760ms var(--ease-out) both;
+}
+
+[data-move='pop'] {
+  animation: pop 420ms var(--ease-out) both;
+}
+
+[data-move='wobble'] {
+  animation: wobble 560ms ease-in-out both;
+}
+
+@keyframes hop {
+  0% {
+    translate: 0 0;
+  }
+  30% {
+    translate: 0 -18%;
+  }
+  52% {
+    translate: 0 0;
+  }
+  72% {
+    translate: 0 -7%;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes pop {
+  0% {
+    scale: 0.6;
+  }
+  60% {
+    scale: 1.12;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -9deg;
+  }
+  55% {
+    rotate: 7deg;
+  }
+  80% {
+    rotate: -3deg;
+  }
+}

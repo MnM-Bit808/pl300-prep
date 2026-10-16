@@ -1,13 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <title>PL-300 Prep</title>
-  <!-- Three applied steps rising to a check: the Learn path, as a mark. Kept inside the
-       maskable safe zone (a 205px circle around the centre). -->
-  <rect width="512" height="512" rx="112" fill="#3a3fb0"/>
-  <path d="M160 352 L352 160" stroke="#ffffff" stroke-opacity="0.5" stroke-width="28"
-        stroke-linecap="round" fill="none"/>
-  <circle cx="160" cy="352" r="42" fill="#ffffff"/>
-  <circle cx="256" cy="256" r="42" fill="#ffffff"/>
-  <circle cx="352" cy="160" r="66" fill="#e6f36b"/>
-  <path d="M322 162 L343 183 L382 140" stroke="#2b2f8c" stroke-width="22"
-        stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Googly: "300" with the zeros for eyes (src/ui/Googly.tsx draws the same face). The face
+       sits inside the maskable safe zone, a 205px circle around the centre. -->
+  <rect width="512" height="512" rx="112" fill="#e6f36b"/>
+  <g transform="translate(256 256) scale(0.8) translate(-269 -274)">
+    <path d="M54 200 A40 40 0 1 1 94 240 A44 44 0 1 1 50 284" stroke="#1a1d2e" stroke-width="36"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <ellipse cx="280" cy="242" rx="70" ry="92" fill="#fff" stroke="#1a1d2e" stroke-width="32"/>
+    <ellipse cx="420" cy="242" rx="70" ry="92" fill="#fff" stroke="#1a1d2e" stroke-width="32"/>
+    <circle cx="294.4" cy="262" r="30" fill="#1a1d2e"/>
+    <circle cx="434.4" cy="262" r="30" fill="#1a1d2e"/>
+    <circle cx="304.4" cy="252" r="9" fill="#fff"/>
+    <circle cx="444.4" cy="252" r="9" fill="#fff"/>
+    <path d="M280 384 Q350 420 420 384" stroke="#1a1d2e" stroke-width="22" stroke-linecap="round"
+          fill="none"/>
+  </g>
 </svg>

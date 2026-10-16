@@ -11,6 +11,10 @@
   padding-inline: var(--gutter);
 }
 
+.mark {
+  font-size: 88px;
+}
+
 .title {
   margin: 0;
   font-size: var(--text-xl);

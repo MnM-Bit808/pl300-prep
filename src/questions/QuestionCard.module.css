@@ -59,10 +59,46 @@
   min-width: 0;
 }
 
+/* Once checked, the answers you got right pop and the ones you got wrong shake. Only here, in
+   lessons and practice: the mock exam doesn't use this card. */
+.card[data-lively] [data-mark='correct'] {
+  animation: right-pop 380ms var(--ease-out);
+}
+
+.card[data-lively] [data-mark='wrong'] {
+  animation: wrong-shake 420ms ease-in-out;
+}
+
+@keyframes right-pop {
+  0%,
+  100% {
+    scale: 1;
+  }
+  45% {
+    scale: 1.035;
+  }
+}
+
+@keyframes wrong-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  20%,
+  60% {
+    translate: -6px 0;
+  }
+  40%,
+  80% {
+    translate: 6px 0;
+  }
+}
+
 /* Sticky check bar: always reachable with a thumb, never covers the last answer. */
 .bar {
   position: sticky;
-  bottom: 0;
+  /* Above the site's tab bar on a phone (the lab); focus-mode screens have none. */
+  bottom: var(--tab-bar, 0px);
   z-index: 5;
   margin: 0 calc(-1 * var(--gutter));
   padding: var(--s-3) var(--gutter);
@@ -133,6 +169,12 @@
 }
 [data-verdict='wrong'] .barVerdict {
   color: var(--bad);
+}
+
+/* Googly, a little taller than the verdict line so it pokes out of the bar. */
+.barGoogly {
+  margin: -8px 2px -8px 0;
+  font-size: 44px;
 }
 
 .barIcon {

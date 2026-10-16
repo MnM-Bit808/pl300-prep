@@ -1,0 +1,56 @@
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Each piece rises out of the origin, slows, then falls and fades: two eased legs make the arc. */
+.piece {
+  position: absolute;
+  left: var(--ox, 50%);
+  top: var(--oy, 33%);
+  width: var(--w);
+  height: var(--h);
+  margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+  border-radius: 999px;
+  background: var(--c);
+  opacity: 0;
+  animation: burst var(--dur) var(--delay) both;
+}
+
+/* A tick, like an applied step's. */
+.piece[data-shape='tick'] {
+  height: calc(var(--w) * 0.55);
+  border: solid var(--c);
+  border-width: 0 0 4px 4px;
+  border-radius: 2px;
+  background: none;
+}
+
+@keyframes burst {
+  0% {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 0.4;
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+  }
+  28% {
+    opacity: 1;
+    /* Up to 300px, never past the top of the screen (a phone's card sits near it). */
+    translate: calc(var(--dx) * 0.6) calc(-1 * var(--f) * min(300px, var(--oy, 33vh) - 24px));
+    scale: 1;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.6);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: var(--dx) var(--fall);
+    rotate: var(--rot);
+    scale: 1;
+  }
+}

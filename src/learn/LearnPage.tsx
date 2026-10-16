@@ -11,6 +11,7 @@ import { useProgress } from '@/progress/hooks';
 import { StatsStrip } from '@/progress/StatsStrip';
 import { useMediaQuery } from '@/lib/useMediaQuery';
 import { DomainIcon } from '@/ui/domains';
+import { Googly } from '@/ui/Googly';
 import { CheckIcon, ChevronRightIcon, SlidersIcon } from '@/ui/icons';
 import { lessonTitle, type Course, type Lesson, type Unit } from './course';
 import { clearJustApplied, peekJustApplied } from './justApplied';
@@ -244,6 +245,7 @@ export function LearnPage() {
         </section>
       ) : (
         <section className={styles.next} aria-labelledby="up-next">
+          <Googly mood="happy" blink className={styles.nextMark} />
           <div className={styles.nextText}>
             <h2 id="up-next" className={styles.nextTitle}>
               Every lesson done
